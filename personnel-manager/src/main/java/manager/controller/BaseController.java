@@ -13,15 +13,27 @@ import util.Result;
 import java.util.List;
 
 /**
- * @author xiaohuo
- * @data 2019/7/15 18:51
- * @description
- */
+* @Description:    字典表信息的管理
+* @Author:         473225193    yuanyou
+* @CreateDate:     2019/8/1 14:36
+* @UpdateUser:
+* @UpdateDate:     2019/8/1 14:36
+* @UpdateRemark:   修改内容
+* @Version:        1.0
+*/
 @RestController
 @RequestMapping("base")
 public class BaseController {
     @Autowired
     private BaseService baseService;
+    /**
+     *@author      473225193    yuanyou
+     * @param       type
+     * @return      util.Result<java.util.List<manager.vo.SelectDataList>>
+     * @exception
+     * @date        2019/8/1 14:45
+     * @description 根据字典类型查询相应的字典值
+     */
     @GetMapping("/list/{type}")
     public Result<List<SelectDataList>> findByListAndType(@PathVariable("type") String type){
         List<SelectDataList> listAndType = baseService.findByListAndType(type);

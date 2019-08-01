@@ -11,10 +11,14 @@ import util.Result;
 import java.util.List;
 
 /**
- * @author xiaohuo
- * @data 2019/7/15 13:13
- * @description
- */
+* @Description:    入职表单的管理
+* @Author:         473225193    yuanyou
+* @CreateDate:     2019/8/1 14:34
+* @UpdateUser:     
+* @UpdateDate:     2019/8/1 14:34
+* @UpdateRemark:   修改内容
+* @Version:        1.0
+*/
 @RestController
 @RequestMapping("/entry")
 public class EntryCertificateController {

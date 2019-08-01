@@ -8,17 +8,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author xiaohuo
- * @data 2019/7/15 20:00
- * @description
- */
+* @Description:    部门服务层管理
+* @Author:         473225193    yuanyou
+* @CreateDate:     2019/8/1 15:01
+* @UpdateUser:
+* @UpdateDate:     2019/8/1 15:01
+* @UpdateRemark:   修改内容
+* @Version:        1.0
+*/
 @Service
 public class CollegeService {
     @Autowired
     private CollegeMapper collegeMapper;
-    /**
-     * @return 查询所有的部门
-     */
+
     public List<College> findByList(){
         return collegeMapper.selectAll();
     }

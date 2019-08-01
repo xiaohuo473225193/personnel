@@ -11,15 +11,27 @@ import util.Result;
 import java.util.List;
 
 /**
- * @author xiaohuo
- * @data 2019/7/15 20:02
- * @description
- */
+* @Description:    部门基本信息的管理
+* @Author:         473225193    yuanyou
+* @CreateDate:     2019/8/1 14:36
+* @UpdateUser:
+* @UpdateDate:     2019/8/1 14:36
+* @UpdateRemark:   修改内容
+* @Version:        1.0
+*/
 @RestController
 @RequestMapping("college")
 public class CollegeController {
     @Autowired
     private CollegeService collegeService;
+    /**
+     *@author      473225193    yuanyou
+     * @param
+     * @return      util.Result<java.util.List<manager.pojo.College>>
+     * @exception
+     * @date        2019/8/1 14:47
+     * @description 查询所有部门信息
+     */
     @GetMapping("list")
     public Result<List<College>> findByList(){
         List<College> collegeServiceByList = collegeService.findByList();
