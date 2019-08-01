@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/myAlert.css" />
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/dialog.css">
 
     <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 
@@ -101,14 +103,13 @@
 				 </div>
             </div>
             <div class="form-actions">
-              <button  class="btn btn-success" ng-click="save();">保 存</button>
-			  <button  style="margin-left: 20px;" class="btn btn-danger" ng-click="reset();">重 置</button>
+              <div  class="btn btn-success" ng-click="save();">保 存</div>
+			  <div  style="margin-left: 20px;" class="btn btn-danger" ng-click="reset();">重 置</div>
             </div>
           </form>
         </div>
       </div>  
 	</div>
-	
 	<div class="span6">
       <div class="widget-box">
         <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
@@ -174,7 +175,7 @@
               <div class="controls">
                 <input type="text" id="form_graduateTime" data-date="2019-01" data-date-format="yyyy-mm" value="{{user.graduateTime | date:'yyyy-MM'}}" class="datepicker span11">
             </div>
-			<div class="form-actions" style="height: 30px;">
+			<div class="form-actions" style="height: 71px;">
             </div>
           </form>
         </div>
@@ -187,6 +188,7 @@
 <!--end-Footer-part-->
 <script src="js/jquery.ui.custom.js"></script>
 
+<script type="text/javascript" src="js/dialog.js"></script>
 <script src="js/bootstrap-colorpicker.js"></script>
 <script src="js/bootstrap-datepicker.js"></script>
 

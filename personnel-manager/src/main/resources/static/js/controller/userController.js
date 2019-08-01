@@ -76,11 +76,16 @@ app.controller('userController' ,function($scope, $controller, userService){
 		var graduateTime = $('#form_graduateTime').val();
         //console.log(birthday + " - " + startTime + " - " + graduateTime);
         //确定提交
-        /*if(confirm('确定要提交并数据吗?') == true){
-            $.myToast('保存成功');
-        	console.log(birthday + " - " + startTime + " - " + graduateTime);
-		}else{
-        	return;
-		}*/
+        $('body').dailog({
+            type:'danger',
+            title:'错误.',
+            discription:'听说昨晚WE战胜了SKT!!!你知道晚WE战胜了SKT!!!你知道吗?',
+            isInput:true
+        },function(ret) {
+            if(ret.index===0) {
+                $.myToast('保存成功');
+                console.log(birthday + " - " + startTime + " - " + graduateTime);
+            };
+        });
     }
 });	
