@@ -73,7 +73,12 @@ app.controller('userController' ,function($scope, $controller, userService){
 		//获取3个无法双向绑定的时间
 		var birthday = $('#form_birthday').val();
         var startTime = $('#form_startTime').val();
-		var graduateTime = $('#form_graduateTime').val();
+        //拼接字符日期
+		var graduateTime = $('#form_graduateTime').val() + "-01";
+
+        $scope.user.birthday = birthday;
+        $scope.user.startTime = startTime;
+        $scope.user.graduateTime = graduateTime;
         //console.log(birthday + " - " + startTime + " - " + graduateTime);
         //确定提交
         $('body').dailog({
@@ -83,6 +88,7 @@ app.controller('userController' ,function($scope, $controller, userService){
             isInput:true
         },function(ret) {
             if(ret.index===0) {
+                userService.save($scope.user);
                 $.myToast('保存成功');
                 console.log(birthday + " - " + startTime + " - " + graduateTime);
             };

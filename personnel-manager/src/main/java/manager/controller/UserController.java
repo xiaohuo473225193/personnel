@@ -3,9 +3,10 @@ package manager.controller;
 import manager.pojo.User;
 import manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import tk.mybatis.mapper.genid.GenId;
+import util.PException;
+import util.PExceptionHandler;
 import util.Result;
 
 /**
@@ -22,6 +23,8 @@ import util.Result;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private PExceptionHandler handler;
     /**
      *@author      473225193    yuanyou
      * @param
@@ -34,5 +37,13 @@ public class UserController {
     public Result<User> findOne(){
         User user = userService.findOne();
         return new Result<>(user);
+    }
+
+    @PutMapping("save")
+    public Result save(@RequestBody User user) {
+        System.out.println(user);
+        System.out.println(handler);
+        userService.save(user);
+        return new Result<>();
     }
 }

@@ -10,4 +10,8 @@ app.service('userService',function($http){
 	this.findCollegeList = function () {
         return $http.get('/college/list');
     }
+
+    this.save = function (user) {
+        return $http.put('/user/save',user);
+    }
 });
