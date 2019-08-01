@@ -18,7 +18,7 @@ public class Result<T> {
     private T data;
 
     public Result(T data) {
-        this.code = Code.success;
+        this.code = Code.SUCCESS;
         this.flag = true;
         this.data = data;
     }
