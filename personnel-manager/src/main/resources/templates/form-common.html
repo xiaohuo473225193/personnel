@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>个人信息页面</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="css/colorpicker.css" />
+    <link rel="stylesheet" href="css/datepicker.css" />
+    <link rel="stylesheet" href="css/uniform.css" />
+    <link rel="stylesheet" href="css/select2.css" />
+    <link rel="stylesheet" href="css/matrix-style.css" />
+    <link rel="stylesheet" href="css/matrix-media.css" />
+    <link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/myAlert.css" />
+
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/myAlert.js" ></script>
+
+    <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+    <script src="js/controller/base.js"></script>
+    <script src="js/service/userService.js"></script>
+    <script src="js/controller/finalController.js"></script>
+    <script src="js/controller/userController.js"></script>
+
+</head>
+<body ng-app="personnel" ng-controller="userController" ng-init="init();">
+<!--close-left-menu-stats-sidebar-->
+<div id="content"  style="margin-left: 0px;">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
+  <h1>个人基本信息</h1>
+</div>
+<div class="container-fluid">
+  <hr>
+  <div class="row-fluid">
+    <div class="span6">
+      <div class="widget-box">
+        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+          <h5>个人信息</h5>
+        </div>
+        <div class="widget-content nopadding">
+          <form action="#" method="get" class="form-horizontal">
+            <div class="control-group">
+			  <label class="control-label">工	号 :</label>
+			  <div class="controls">
+				<input type="text" class="span11" placeholder="工	号" ng-model="user.jobNumber"/>
+			  </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">真 实 姓 名 :</label>
+              <div class="controls">
+                <input type="text" class="span11" placeholder="真 实 姓 名" ng-model="user.name"/>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">身 份 证 号 :</label>
+              <div class="controls">
+                <input type="text"  class="span11" placeholder="身 份 证 号"  ng-model="user.identityCard"/>
+              </div>
+            </div>
+			
+			<div class="control-group">
+              <label class="control-label">出 身 年 月 :</label>
+              <div class="controls">
+                <input type="text" id="form_birthday" data-date="2019-01-01" data-date-format="yyyy-mm-dd" value="{{user.birthday | date:'yyyy-MM-dd'}}" class="datepicker span11">
+				</div>
+			</div>
+			
+			<div class="control-group"  style="height: 50px;">
+              <label class="control-label">性 别 :</label>
+              <div class="controls">
+                <select class="span11" ng-model="user.sex" ng-options="gender.id as gender.name for gender in genders">
+                </select>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label class="control-label">手 机 号 码 :</label>
+              <div class="controls">
+                 <input type="text" class="span11" placeholder="手 机 号 码" ng-model="user.telephone" />
+				 </div>
+            </div>
+			<div class="control-group">
+              <label class="control-label">家 庭 住 址 :</label>
+              <div class="controls">
+                 <input type="text" class="span11" placeholder="家 庭 住 址" ng-model="user.address"/>
+				 </div>
+            </div>
+			<div class="control-group">
+              <label class="control-label">入 职 状 态 :</label>
+              <div class="controls">
+                  <select class="span11" ng-model="user.entryStatusId" ng-options="jobStatus.id as jobStatus.name for jobStatus in jobStatusList">
+                  </select>
+				 </div>
+            </div>
+            <div class="form-actions">
+              <button  class="btn btn-success" ng-click="save();">保 存</button>
+			  <button  style="margin-left: 20px;" class="btn btn-danger" ng-click="reset();">重 置</button>
+            </div>
+          </form>
+        </div>
+      </div>  
+	</div>
+	
+	<div class="span6">
+      <div class="widget-box">
+        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+          <h5>个人信息</h5>
+        </div>
+        <div class="widget-content nopadding">
+          <form action="#" method="get" class="form-horizontal">
+
+			<div class="control-group" style="height: 50px;">
+              <label class="control-label">最 高 学 历 :</label>
+              <div class="controls">
+                <select class="span11" ng-model="user.degreeId" ng-options="degree.id as degree.name for degree in degreeList">
+                </select>
+              </div>
+            </div>
+			
+            <div class="control-group">
+              <label class="control-label">最 高 职 称 :</label>
+              <div class="controls">
+                  <select class="span11" ng-model="user.jobTitle" ng-options="title.id as title.name for title in titleList">
+                  </select>
+              </div>
+            </div>
+			
+			<div class="control-group">
+              <label class="control-label">入 职 日 期 :</label>
+              <div class="controls">
+                <input type="text" id="form_startTime" data-date="2019-01-01" data-date-format="yyyy-mm-dd" value="{{user.startTime | date:'yyyy-MM-dd'}}" class="datepicker span11">
+				</div>
+			</div>
+			
+			<div class="control-group" style="height: 50px;">
+              <label class="control-label">所 属 部 门 :</label>
+              <div class="controls">
+                  <select class="span11" ng-model="user.cid" ng-options="college.cid as college.name for college in collegeList">
+                  </select>
+              </div>
+            </div>
+			
+            <div class="control-group">
+              <label class="control-label">全 部 职 位 :</label>
+              <div class="controls">
+                <input type="text" class="span11" placeholder="全 部 职 位" ng-model="user.position"/>
+              </div>
+            </div>
+			<div class="control-group">
+              <label class="control-label">人 员 类 型 :</label>
+              <div class="controls">
+                  <select class="span11" ng-model="user.typeId" ng-options="level.id as level.name for level in levelList">
+                  </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">最 高 学 位 :</label>
+              <div class="controls">
+                  <select class="span11" ng-model="user.educationId" ng-options="education.id as education.name for education in educationList">
+                  </select>
+              </div>
+            </div>
+			
+			<div class="control-group">
+              <label class="control-label">毕 业 时 间 :</label>
+              <div class="controls">
+                <input type="text" id="form_graduateTime" data-date="2019-01" data-date-format="yyyy-mm" value="{{user.graduateTime | date:'yyyy-MM'}}" class="datepicker span11">
+            </div>
+			<div class="form-actions" style="height: 30px;">
+            </div>
+          </form>
+        </div>
+      </div>  
+	</div>
+
+</div>
+</div>
+</div>
+<!--end-Footer-part-->
+<script src="js/jquery.ui.custom.js"></script>
+
+<script src="js/bootstrap-colorpicker.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+
+<script src="js/jquery.uniform.js"></script>
+<script src="js/select2.min.js"></script>
+
+<script src="js/wysihtml5-0.3.0.js"></script>
+<script src="js/jquery.peity.min.js"></script>
+<script src="js/bootstrap-wysihtml5.js"></script>
+<script>
+	$('.textarea_editor').wysihtml5();
+</script>
+</body>
+</html>

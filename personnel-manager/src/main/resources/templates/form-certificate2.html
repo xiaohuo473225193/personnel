@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>通用表单页面</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+	<link rel="stylesheet" href="css/colorpicker.css" />
+	<link rel="stylesheet" href="css/datepicker.css" />
+	<link rel="stylesheet" href="css/uniform.css" />
+	<link rel="stylesheet" href="css/select2.css" />
+	<link rel="stylesheet" href="css/matrix-style.css" />
+	<link rel="stylesheet" href="css/matrix-media.css" />
+	<link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
+	<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+	<!--upload start-->
+	<link rel="stylesheet" type="text/css" href="upload/css/globle.css" />
+	<script type="text/javascript" src="upload/js/jquery.min.js"></script>
+</head>
+<body>
+
+<!--close-left-menu-stats-sidebar-->
+
+<div id="content"  style="margin-left: 0px;">
+<div id="content-header">
+  <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
+  <h1>证件信息</h1>
+</div>
+<div class="container-fluid">
+  <hr>
+  <div class="row-fluid">
+    
+	
+	<div class="span12">
+      <div class="widget-box">
+        <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+          <h5>入职表单</h5>
+        </div>
+        <div class="widget-content nopadding">
+          <form action="#" method="get" class="form-horizontal">
+
+			<div class="control-group">
+              <label class="control-label">新员工入职须知 :</label>
+              <div class="controls">
+                <ul class="upload-ul clearfix">
+					<li class="upload-pick">
+						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+					</li>
+				</ul>
+              </div>
+            </div>
+			
+            <div class="control-group">
+              <label class="control-label">入职承诺、保密协议 :</label>
+              <div class="controls">
+                <ul class="upload-ul clearfix">
+					<li class="upload-pick">
+						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+					</li>
+				</ul>
+              </div>
+            </div>
+			
+			<div class="control-group">
+              <label class="control-label">中原华信入职同意书 :</label>
+              <div class="controls">
+                <ul class="upload-ul clearfix">
+					<li class="upload-pick">
+						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+					</li>
+				</ul>
+				</div>
+			</div>
+			
+			<div class="control-group">
+              <label class="control-label">报到手续单/聘用通知书 :</label>
+              <div class="controls">
+                <ul class="upload-ul clearfix">
+					<li class="upload-pick">
+						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+					</li>
+				</ul>
+              </div>
+            </div>
+			
+			<div class="form-actions">
+              <button type="submit" class="btn btn-success">提 交</button>
+			  <button type="submit" class="btn btn-success">下 载</button>
+            </div>
+          </form>
+        </div>
+      </div>  
+	</div>
+	
+	
+</div>
+</div>
+</div>
+<!--Footer-part-->
+<div class="row-fluid">
+  <div id="footer" class="span12">Copyright &copy; 2018.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></div>
+</div>
+<!--end-Footer-part--> 
+<script src="upload/js/webuploader.min.js"></script>
+<script src="upload/js/diyUpload.js"></script>
+<script>
+$(function(){
+	//上传图片
+	var $tgaUpload = $('#goodsUpload').diyUpload({
+		url:'uploadFilePath',
+		success:function( data ) { },
+		error:function( err ) { },
+		buttonText : '',
+		accept: {
+			title: "Images",
+			extensions: 'gif,jpg,jpeg,bmp,png'
+		},
+		thumb:{
+			width:120,
+			height:90,
+			quality:100,
+			allowMagnify:true,
+			crop:true,
+			type:"image/jpeg"
+		}
+	});
+});
+</script>
+</body>
+</html>
