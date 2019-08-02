@@ -38,12 +38,12 @@ public class UserService {
      */
     public void save(User user){
         if(user.getUid() == null) {
-            throw new PException(Code.success,"非法操作");
+            throw new PException(Code.ID_NOT_EXIST,"非法操作");
         }
         User findUser = userMapper.selectByPrimaryKey(user.getUid());
         System.out.println(findUser);
         if(findUser == null){
-            throw new PException(Code.success,"非法操作");
+            throw new PException(Code.USER_NOT_EXIST,"非法操作");
         }
         userMapper.updateByPrimaryKeySelective(user);
     }
