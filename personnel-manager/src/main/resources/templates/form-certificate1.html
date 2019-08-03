@@ -3,6 +3,10 @@
 <head>
 	<title>通用表单页面</title>
 	<meta charset="UTF-8" />
+	<meta http-equiv ="proma" content = "no-cache"/>
+	<meta http-equiv="cache-control" content="no cache" />
+	<meta http-equiv="expires" content="0" />
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
@@ -124,9 +128,13 @@
 $(function(){
 	//上传图片
 	var $tgaUpload = $('#goodsUpload').diyUpload({
-		url:'uploadFilePath',
-		success:function( data ) { },
-		error:function( err ) { },
+		url:'/common/upload',
+		success:function(data) {
+		    alert("yes");
+		},
+		error:function(err) {
+		    alert("no");
+		},
 		buttonText : '',
 		accept: {
 			title: "Images",

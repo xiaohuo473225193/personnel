@@ -4,11 +4,8 @@ import manager.mapper.UserMapper;
 import manager.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import util.Code;
 import util.PException;
-import util.PExceptionHandler;
-import util.Result;
 
 /**
 * @Description:    用户服务层管理
@@ -41,7 +38,6 @@ public class UserService {
             throw new PException(Code.ID_NOT_EXIST,"非法操作");
         }
         User findUser = userMapper.selectByPrimaryKey(user.getUid());
-        System.out.println(findUser);
         if(findUser == null){
             throw new PException(Code.USER_NOT_EXIST,"非法操作");
         }

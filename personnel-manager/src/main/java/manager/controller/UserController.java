@@ -23,8 +23,6 @@ import util.Result;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private PExceptionHandler handler;
     /**
      *@author      473225193    yuanyou
      * @param
@@ -41,8 +39,6 @@ public class UserController {
 
     @PutMapping("save")
     public Result save(@RequestBody User user) {
-        System.out.println(user);
-        System.out.println(handler);
         userService.save(user);
         return new Result<>();
     }

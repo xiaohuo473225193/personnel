@@ -18,3 +18,7 @@ spring:
       additional-paths: src/main/java # 设置重启的目录
   thymeleaf:
     cache: false # 禁止浏览器缓存
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
