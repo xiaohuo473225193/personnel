@@ -2,8 +2,11 @@ package manager.service;
 
 import manager.mapper.EntryCertificateMapper;
 import manager.pojo.EntryCertificate;
+import manager.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import util.Code;
+import util.PException;
 
 import java.util.List;
 
@@ -24,6 +27,19 @@ public class EntryCertificateService {
     public List<EntryCertificate> findByList(){
         List<EntryCertificate> entryCertificateList = entryCertificateMapper.selectAll();
         return entryCertificateList;
+    }
+
+    public EntryCertificate findByUser(User user){
+        return entryCertificateMapper.selectByPrimaryKey(user);
+    }
+
+    public void addEntryCertificate(User user){
+        EntryCertificate entryCertificate = new EntryCertificate();
+        if(user.getUid() == null){
+            throw new PException(Code.ID_NOT_EXIST,"id不存在");
+        }
+        entryCertificate.setUid(user.getUid());
+        entryCertificateMapper.insert(entryCertificate);
     }
 }
 

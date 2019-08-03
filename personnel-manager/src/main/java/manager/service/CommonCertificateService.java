@@ -2,6 +2,7 @@ package manager.service;
 
 import manager.mapper.CommonCertificateMapper;
 import manager.pojo.CommonCertificate;
+import manager.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import util.Code;
@@ -37,5 +38,19 @@ public class CommonCertificateService {
             throw new PException(Code.USER_NOT_EXIST,"该用户用户不存在");
         }
         commonCertificateMapper.updateByPrimaryKey(commonCertificate); //更新操作
+    }
+
+    public CommonCertificate findByUser(User user){
+        return commonCertificateMapper.selectByPrimaryKey(user);
+    }
+
+    public void addCommonCertificate(User user){
+
+        CommonCertificate commonCertificate = new CommonCertificate();
+        if(user.getUid() == null){
+            throw new PException(Code.ID_NOT_EXIST,"id不存在");
+        }
+        commonCertificate.setUid(user.getUid());
+        commonCertificateMapper.insert(commonCertificate);
     }
 }

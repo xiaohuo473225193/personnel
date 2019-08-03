@@ -1,6 +1,7 @@
 package manager.mapper;
 
 import manager.pojo.College;
+import manager.pojo.User;
 import tk.mybatis.mapper.additional.idlist.IdListMapper;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -10,4 +11,5 @@ import tk.mybatis.mapper.common.Mapper;
  * @description
  */
 public interface CollegeMapper extends Mapper<College>, IdListMapper<College,Long> {
+
 }
