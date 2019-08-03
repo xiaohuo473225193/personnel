@@ -13,4 +13,7 @@ public class Code {
     public static final int ID_NOT_EXIST = 4404; //ID不存在
     /***********     用户信息相关的状态码为5开头    **********/
     public static final int USER_NOT_EXIST = 5404; //用户名不存在
+
+    /***********     用户信息相关的状态码为5开头    **********/
+    public static final int USER_EXIST = 6404; //用户名不存在
 }
