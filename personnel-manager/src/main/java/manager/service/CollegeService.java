@@ -9,6 +9,8 @@ import manager.vo.CollegeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
+import util.Code;
+import util.PException;
 import util.PageResult;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class CollegeService {
     public List<College> findByList(){
         return collegeMapper.selectAll();
     }
-    
+
     public PageResult<CollegeUser> findCollegeUserListByCid(Long cid,int rows,int size){
         PageHelper.startPage(rows,size);
         //根据cid找到user集合
@@ -90,5 +92,37 @@ public class CollegeService {
         collegeUser.setEntryComplete(entryCertificate.getComplete());
         collegeUser.setStageComplete(stageCertificate.getComplete());
         return  collegeUser;
+    }
+
+    public void addCollege(College college){
+
+        if(collegeMapper.selectByPrimaryKey(college) != null){
+            throw new PException(Code.COLLEGE_EXIST,"部门信息已存在");
+        }
+        college.setStatus("1");
+        collegeMapper.insert(college);
+    }
+
+    public void deleteCollege(Long cid){
+        College college = collegeMapper.selectByPrimaryKey(cid);
+        if(college == null){
+            throw new PException(Code.COLLEGE_NOT_EXIST,"部门信息不存在");
+        }
+        college.setStatus("0");
+        collegeMapper.updateByPrimaryKey(college);
+    }
+
+    public void updateCollege(College college){
+
+        if(collegeMapper.selectByPrimaryKey(college) == null){
+            throw new PException(Code.COLLEGE_NOT_EXIST,"部门信息不存在");
+        }
+        collegeMapper.updateByPrimaryKey(college);
+    }
+
+    public List<College> findCollege(){
+
+        return collegeMapper.selectAll();
+
     }
 }

@@ -61,6 +61,9 @@ public class UserService {
 
     public List<User> findByCid(Long cid){
 
+        if(cid == null){
+            throw new PException(Code.ID_NOT_EXIST,"ID不存在");
+        }
         Example example = new Example(User.class);
         example.setOrderByClause("sort desc");//降序
         Example.Criteria criteria = example.createCriteria();
@@ -79,8 +82,12 @@ public class UserService {
      */
     public void addUser(User user,String author){
 
-        if(userMapper.selectByPrimaryKey(user) != null ){
+        if(userMapper.selectByPrimaryKey(user.getName()) != null ){
             throw new PException(Code.USER_EXIST,"用户已存在");
+        }
+        if("0".equals(user.getStatus())){
+            user.setStatus("1");
+            userMapper.updateByPrimaryKey(user);
         }
         user.setAuthor(author);
         user.setPassword(user.getJobNumber());
@@ -98,10 +105,11 @@ public class UserService {
      * @description 根据uid删除数据
      */
     public void deleteByUid(Long uid){
-        if(uid == null){
+        User user =  userMapper.selectByPrimaryKey(uid);
+        if(user == null){
             throw new PException(Code.ID_NOT_EXIST,"ID不存在");
         }
-        User user =  userMapper.selectByPrimaryKey(uid);
+
         user.setStatus("0");
         updateByUser(user);
     }
@@ -114,6 +122,10 @@ public class UserService {
      * @description 根据user更新数据
      */
     public void updateByUser(User user){
+
+        if(userMapper.selectByPrimaryKey(user) == null ){
+            throw new PException(Code.USER_NOT_EXIST,"用户不存在");
+        }
         userMapper.updateByPrimaryKey(user);
     }
     /**

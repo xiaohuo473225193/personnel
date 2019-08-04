@@ -51,7 +51,7 @@ public class UserController {
     @PutMapping("save")
     public Result save(@RequestBody User user) {
         userService.save(user);
-        return new Result<>();
+        return new Result<>(null);
     }
 
     @PostMapping("addUser/{author}")
@@ -60,13 +60,13 @@ public class UserController {
         commonCertificateService.addCommonCertificate(user);
         entryCertificateService.addEntryCertificate(user);
         stageCertificateService.addStageCertificate(user);
-        return new Result<>();
+        return new Result<>(null);
     }
 
     @DeleteMapping("deleteByUid")
     public Result deleteByUid(@RequestBody User user) {
         userService.deleteByUid(user.getUid());
-        return new Result<>();
+        return new Result<>(null);
     }
 
     @PutMapping("updateByUser")

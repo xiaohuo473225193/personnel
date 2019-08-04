@@ -10,5 +10,10 @@
         <module name="personnel-manager" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="personnel-common" target="1.8" />
+      <module name="personnel-manager" target="1.8" />
+      <module name="personnel-parent" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

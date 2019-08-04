@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long uid;
+    private Long id;
     private String text;
     private String status;
     private String url;
