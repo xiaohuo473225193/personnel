@@ -7,10 +7,7 @@ import manager.service.CollegeService;
 import manager.service.UserService;
 import manager.vo.CollegeUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sun.security.rsa.RSAPrivateKeyImpl;
 import util.Code;
 import util.PException;
@@ -63,5 +60,30 @@ public class CollegeController {
         User user = userService.findByUid(userId);
         Long cid = user.getCid();
         return collegeService.findCollegeUserListByCid(cid, rows, size);
+    }
+
+    @PostMapping("addCollege")
+    public Result addCollege(@RequestBody College college){
+        collegeService.addCollege(college);
+        return new Result(null);
+    }
+
+    @DeleteMapping("deleteCollege/{id}")
+    public Result deleteCollege(@PathVariable(value = "id")long id ){
+        collegeService.deleteCollege(id);
+        return new Result(null);
+    }
+
+    @PutMapping("updateCollege")
+    public Result updateCollege(@RequestBody College College){
+        collegeService.updateCollege(College);
+        return new Result(null);
+    }
+
+
+    @PutMapping("findCollege")
+    public Result<List<College>> findCollege(){
+        List<College> collegeList = collegeService.findCollege();
+        return new Result(collegeList);
     }
 }
