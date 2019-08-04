@@ -15,6 +15,8 @@ public class Code {
     public static final int USER_NOT_EXIST = 5404; //用户不存在
 
     public static final int USER_EXIST = 5405; //用户已存在
+    public static final int USER_NOT_FILE = 5406;//用户不拥有该文件
+    public static final int USER_EXIST_FILE = 5407;//该文件用户已存在
     /***********     新闻信息相关的状态码为6开头    **********/
     public static final int NEWS_EXIST = 6404; //新闻信息已存在
     public static final int NEWS_NOT_EXIST = 6405; //新闻信息已存在

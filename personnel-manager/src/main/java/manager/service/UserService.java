@@ -180,6 +180,15 @@ public class UserService {
 
 
         return new PageResult<User>(userList.getTotal(),userList.getResult());
-}
+    }
 
+    public User findByJobNumber(String jobNumber) {
+        User user = new User();
+        user.setJobNumber(jobNumber);
+        User targetUser = userMapper.selectOne(user);
+        if(targetUser == null){
+            throw new PException(Code.USER_NOT_EXIST,"用户不存在");
+        }
+        return targetUser;
+    }
 }

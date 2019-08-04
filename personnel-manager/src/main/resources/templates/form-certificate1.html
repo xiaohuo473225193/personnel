@@ -21,7 +21,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 	<!--upload start-->
 	<link rel="stylesheet" type="text/css" href="upload/css/globle.css" />
-	<script type="text/javascript" src="upload/js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
 </head>
 <body>
 
@@ -47,7 +47,7 @@
 			  <div class="controls">
 				<ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload1"></div>
 					</li>
 				</ul>
 			  </div>
@@ -57,7 +57,7 @@
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload2"></div>
 					</li>
 				</ul>
               </div>
@@ -67,7 +67,7 @@
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload3"></div>
 					</li>
 				</ul>
               </div>
@@ -78,7 +78,7 @@
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload4"></div>
 					</li>
 				</ul>
 				</div>
@@ -89,7 +89,7 @@
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload5"></div>
 					</li>
 				</ul>
               </div>
@@ -100,14 +100,14 @@
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload6"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn btn-success">提 交</button>
-			  <button type="submit" class="btn btn-success">下 载</button>
+              <div ng-click="save()" class="btn btn-success">提 交</div>
+			  <div ng-click="download()" class="btn btn-success">下 载</div>
             </div>
           </form>
         </div>
@@ -124,32 +124,6 @@
 <!--end-Footer-part--> 
 <script src="upload/js/webuploader.min.js"></script>
 <script src="upload/js/diyUpload.js"></script>
-<script>
-$(function(){
-	//上传图片
-	var $tgaUpload = $('#goodsUpload').diyUpload({
-		url:'/common/upload',
-		success:function(data) {
-		    alert("yes");
-		},
-		error:function(err) {
-		    alert("no");
-		},
-		buttonText : '',
-		accept: {
-			title: "Images",
-			extensions: 'gif,jpg,jpeg,bmp,png'
-		},
-		thumb:{
-			width:120,
-			height:90,
-			quality:100,
-			allowMagnify:true,
-			crop:true,
-			type:"image/jpeg"
-		}
-	});
-});
-</script>
+<script src="js/upload.js"></script>
 </body>
 </html>
