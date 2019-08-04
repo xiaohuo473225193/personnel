@@ -50,13 +50,10 @@
                 alert( ' 上传组件不支持您的浏览器！');
                 return false;
             }
-
             //绑定文件加入队列事件;
             webUploader.on('fileQueued', function( file ) {
                 createBox( $fileInput, file ,webUploader);
-
             });
-
             //进度条事件
             webUploader.on('uploadProgress',function( file, percentage  ){
                 var $fileBox = $('#fileBox_'+file.id);
@@ -80,7 +77,7 @@
             webUploader.on('uploadSuccess',function( file, response ){
                 var $fileBox = $('#fileBox_'+file.id);
                 var $diyBar = $fileBox.find('.diyBar');
-                $fileBox.removeClass('diyUploadHover');
+                // $fileBox.removeClass('diyUploadHover');
                 $diyBar.fadeOut( 1000 ,function(){
                     $fileBox.children('.diySuccess').show();
                 });
@@ -158,7 +155,7 @@
             //文件上传方式
             method:"POST",
             //服务器地址;
-            server:"/common/upload",
+            server:"http://localhost:8085/common/upload",
             //是否已二进制的流的方式发送文件，这样整个上传内容php://input都为文件内容
             sendAsBinary:false,
             // 开起分片上传。 thinkphp的上传类测试分片无效,图片丢失;
@@ -174,7 +171,6 @@
 
     //实例化Web Uploader
     function getUploader( opt ) {
-
         return new WebUploader.Uploader( opt );
     }
 
@@ -194,9 +190,15 @@
     }
 
     //取消事件;
-    function removeLi ( $li ,file_id ,webUploader) {
-        webUploader.removeFile( file_id );
+    function removeLi ( $li ,file ,webUploader) {
+        webUploader.removeFile( file.id );
         $li.remove();
+        //删除图片
+        $.ajax({
+            url:"/common/delete/upload/"+file.name,
+            type:'DELETE',
+            data:{}
+        });
     }
 
     //左移事件;
@@ -216,7 +218,7 @@
         var file_len=$parentFileBox.children(".diyUploadHover").length;
 
         //添加子容器;
-        var li = '<li id="fileBox_'+file_id+'" class="diyUploadHover"> \
+        var li = '<li class="diyUploadHover" id="fileBox_'+file_id+'"> \
 					<div class="viewThumb">\
 					    <input type="hidden">\
 					    <div class="diyBar"> \
@@ -231,17 +233,17 @@
         var $fileBox = $parentFileBox.find('#fileBox_'+file_id);
 
         //绑定取消事件;
-        var $diyCancel = $fileBox.find('.diyCancel').one('click',function(){
-            removeLi( $(this).parents('.diyUploadHover'), file_id, webUploader );
+        var $diyCancel = $fileBox.find('.diyCancel').on('click',function(){
+            removeLi( $(this).parents('.diyUploadHover'), file, webUploader );
         });
 
         //绑定左移事件;
-        $fileBox.find('.diyLeft').one('click',function(){
+        $fileBox.find('.diyLeft').on('click',function(){
             leftLi($(this).parents('.diyUploadHover').prev(), $(this).parents('.diyUploadHover'));
         });
 
         //绑定右移事件;
-        $fileBox.find('.diyRight').one('click',function(){
+        $fileBox.find('.diyRight').on('click',function(){
             rightLi($(this).parents('.diyUploadHover').next(), $(this).parents('.diyUploadHover') );
         });
 
@@ -257,6 +259,7 @@
                 $fileBox.find('.viewThumb').append('<img src="'+dataSrc+'" >');
             }
         });
+        webUploader.upload();
     }
 
     //获取文件类型;

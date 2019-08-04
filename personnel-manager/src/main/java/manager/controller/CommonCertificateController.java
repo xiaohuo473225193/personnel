@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import util.Result;
-
-import java.io.IOException;
-
 /**
 * @Description:    常规证书信息管理
 * @Author:         473225193    yuanyou
@@ -39,17 +36,35 @@ public class CommonCertificateController {
         commonCertificateService.updateCommonCertificate(certificate);
         return new Result(null);
     }
-    @PostMapping("upload")
-    public Result uploadCommonCertificate(@RequestBody MultipartFile files[]){
-        for (MultipartFile file : files) {
-            System.out.println(file.getName());
-            try {
-                System.out.println(file.getBytes());
-                System.out.println(file.getResource());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    /**
+     *@author      473225193    yuanyou
+     * @param file
+     * @return      util.Result
+     * @exception
+     * @date        2019/8/3 13:02
+     * @description 上传文件到磁盘,并同步到数据库
+     */
+    @PostMapping("/upload/{type}")
+    public Result uploadCommonCertificate(@RequestBody MultipartFile file,@PathVariable(value = "type") String type) throws Exception{
+        commonCertificateService.uploadLocalDisk(file.getOriginalFilename(),file.getInputStream());
+        commonCertificateService.addUploadCommonCertificate(file.getOriginalFilename(),type);
+        return new Result("上传成功");
+    }
+    /**
+     *@author      473225193    yuanyou
+     * @param fileName
+     * @return      util.Result
+     * @exception
+     * @date        2019/8/3 17:51
+     * @description 删除磁盘文件
+     */
+    @DeleteMapping("/delete/upload/{fileName}")
+    public Result deleteUploadCommonCertificate(@PathVariable(value = "fileName") String fileName){
+        try {
+            commonCertificateService.deleteUploadLocalDisk(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return null;
+        return new Result("删除成功");
     }
 }

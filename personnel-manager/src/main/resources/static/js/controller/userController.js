@@ -90,7 +90,6 @@ app.controller('userController' ,function($scope, $controller, userService){
             if(ret.index===0) {
                 userService.save($scope.user);
                 $.myToast('保存成功');
-                console.log(birthday + " - " + startTime + " - " + graduateTime);
             };
         });
     }
