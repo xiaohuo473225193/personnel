@@ -14,6 +14,7 @@ import util.PException;
 import util.PageResult;
 import util.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public class CollegeController {
     private CollegeService collegeService;
     @Autowired
     private UserService userService;
+
     /**
      *@author      473225193    yuanyou
      * @param
@@ -53,7 +55,7 @@ public class CollegeController {
      * @exception
      * @date        2019/8/2 0002 上午 10:18
      * @description 根据该用户id获取该部门下的员工数据     */
-    @GetMapping("find/{userId}/{rows}/{size}")
+    @GetMapping("findCollegeUserListByUid/{userId}/{rows}/{size}")
     public PageResult<CollegeUser> findCollegeUserListByUid(@PathVariable(value = "userId")Long userId,
          @PathVariable(value = "size")int size,@PathVariable(value = "rows")int rows){
 
@@ -86,4 +88,10 @@ public class CollegeController {
         List<College> collegeList = collegeService.findCollege();
         return new Result(collegeList);
     }
+
+    @PutMapping("excel")
+    public void expot(@RequestBody List<CollegeUser> list){
+        collegeService.export("filename",list,"E:\\x.xls");
+    }
+
 }

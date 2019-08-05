@@ -49,6 +49,20 @@
             <artifactId>personnel-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!--poi-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

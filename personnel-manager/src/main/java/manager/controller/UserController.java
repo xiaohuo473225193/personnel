@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import manager.bo.SelectOptionData;
 import manager.pojo.User;
 import manager.service.*;
+import manager.vo.CollegeUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.genid.GenId;
@@ -12,6 +13,7 @@ import util.PExceptionHandler;
 import util.PageResult;
 import util.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,9 +65,9 @@ public class UserController {
         return new Result<>(null);
     }
 
-    @DeleteMapping("deleteByUid")
-    public Result deleteByUid(@RequestBody User user) {
-        userService.deleteByUid(user.getUid());
+    @DeleteMapping("deleteByUid/{uid}")
+    public Result deleteByUid(@PathVariable(value = "uid") Long uid) {
+        userService.deleteUser(uid);
         return new Result<>(null);
     }
 
@@ -87,6 +89,7 @@ public class UserController {
         PageResult<User> userPageResult = userService.fingByExampie(rows, size, selectOptionData.
                 getJobNumber(),selectOptionData.getName(),selectOptionData.getIdentityCard());
         return userPageResult;
-}
+    }
+
 
 }

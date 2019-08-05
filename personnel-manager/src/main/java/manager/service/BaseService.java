@@ -59,4 +59,8 @@ public class BaseService {
         }
         return list;
     }
+
+    public Base findByBid(long bid){
+        return baseMapper.selectByPrimaryKey(bid);
+    }
 }

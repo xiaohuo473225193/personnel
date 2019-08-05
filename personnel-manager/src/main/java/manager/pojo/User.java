@@ -25,9 +25,9 @@ public class User {
     private String author;//权限
     private String password;
     private Long typeId;//人员类型
-    private String position;
+    private String position;//全部职位
     private String sex;//性别,1为男，2为女
-    private Long degreeId;
+    private Long degreeId;//最高学位
     private Long jobTitle;
     private Long educationId;//最高学历
     private String identityCard;
