@@ -81,13 +81,10 @@ public class UserService {
      * @description 根据增加数据
      */
     public void addUser(User user,String author){
-
-        if(userMapper.selectByPrimaryKey(user.getName()) != null ){
+        User user1 = new User();
+        user1.setJobNumber(user.getJobNumber());
+        if(userMapper.select(user1) != null ){
             throw new PException(Code.USER_EXIST,"用户已存在");
-        }
-        if("0".equals(user.getStatus())){
-            user.setStatus("1");
-            userMapper.updateByPrimaryKey(user);
         }
         user.setAuthor(author);
         user.setPassword(user.getJobNumber());
@@ -96,6 +93,8 @@ public class UserService {
         user.setStatus("1");
         userMapper.insert(user);
     }
+
+
     /**
      * @author      2571169797   yang meng bo
      * @param uid
@@ -104,7 +103,7 @@ public class UserService {
      * @date        2019/8/2 0002 下午 14:00
      * @description 根据uid删除数据
      */
-    public void deleteByUid(Long uid){
+    public void deleteUser(Long uid){
         User user =  userMapper.selectByPrimaryKey(uid);
         if(user == null){
             throw new PException(Code.ID_NOT_EXIST,"ID不存在");
@@ -146,9 +145,9 @@ public class UserService {
             throw new PException(Code.USER_NOT_EXIST,"用户不存在");
         }
 
-        if(user.getAuthor() == "1"){
+        /*if(user.getAuthor() == "1"){
             throw new PException(Code.ID_NOT_EXIST,"非法操作");
-        }
+        }*/
         return user;
     }
     /**

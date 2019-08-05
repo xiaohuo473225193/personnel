@@ -93,4 +93,41 @@ app.controller('userController' ,function($scope, $controller, userService){
             };
         });
     }
+
+    $scope.addUser = function () {
+        userService.addUser($scope.user).success(
+            function (response) {
+              $scope.user = response.data
+        })
+    }
+
+    $scope.deleteUser = function () {
+        userService.deleteUser($scope.uid).success(
+            function (response) {
+                $scope.user = response.data
+            })
+    }
+
+    $scope.updeteByUser = function () {
+        userService.updeteByUser($scope.user).success(
+            function (response) {
+                $scope.user = response.data
+            })
+    }
+
+    $scope.findByUid = function () {
+        userService.findByUid($scope.uid).success(
+            function (response) {
+               $scope.user = response.data
+            }
+        )
+    }
+
+    $scope.findByExample = function () {
+        userService.findByExample($scope.rows,$scope.size,$scope.selectOptionData).success(
+            function (response) {
+                $scope.userList = response.data
+            }
+        )
+    }
 });	

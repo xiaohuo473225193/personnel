@@ -5,6 +5,7 @@ import manager.pojo.CommonCertificate;
 import manager.pojo.User;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
@@ -29,7 +30,7 @@ public class CommonCertificateService {
     private CommonCertificateMapper  commonCertificateMapper;
     @Autowired
     private UserService userService;
-    @Autowired
+    @Value("${IMAGE_SERVER_URL}")
     private String IMAGE_SERVER_URL;
     /**
      *@author      473225193    yuanyou

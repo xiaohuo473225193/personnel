@@ -5,7 +5,7 @@ app.service('newsService',function($http){
 		return $http.post('/news/addNews',news);
     }
     this.deleteNews = function (id) {
-        return $http.delete('/news/deleteNews'+id);
+        return $http.delete('/news/deleteNews'+ id);
     }
     this.updateNews = function (news) {
         return $http.put('/news/updateNews',news);
