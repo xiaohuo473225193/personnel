@@ -27,7 +27,7 @@ a:hover { text-decoration: none; }
 
 
 /*上传图片通用样式*/
-.upload-ul{ position: relative;  display: inline-block; *display: inline; *zoom:1; max-width: 520px; }
+.upload-ul{ position: relative;  display: inline-block; *display: inline; *zoom:1; max-width: 720px; }
 .upload-ul li{ position: relative; float: left; display: inline-block; width: 120px; height: 90px; margin: 0 10px 10px 0; padding: 0; border: none; cursor: pointer; -moz-border-radius: 2px; -webkit-border-radius: 2px; border-radius: 2px; overflow: hidden; }
 .upload-pick{ background: url(../images/upload-bj.png) no-repeat 0 0; }
 .upload-pick:hover{ background: url(../images/upload-bj.png) no-repeat 0 -90px; }

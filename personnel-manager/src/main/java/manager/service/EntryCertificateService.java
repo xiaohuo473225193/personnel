@@ -41,5 +41,18 @@ public class EntryCertificateService {
         entryCertificate.setUid(user.getUid());
         entryCertificateMapper.insert(entryCertificate);
     }
+
+    public EntryCertificate findByUid(Long uid) {
+        EntryCertificate entryCertificate = entryCertificateMapper.selectByPrimaryKey(uid);
+        if(entryCertificate == null){
+            throw new PException(Code.USER_NOT_EXIST,"用户不存在");
+        }
+        return entryCertificate;
+    }
+
+    public void updateUploadEntryCertificate(EntryCertificate entryCertificate) {
+        findByUid(entryCertificate.getUid());//查询该用户是否存在
+        entryCertificateMapper.updateByPrimaryKeySelective(entryCertificate);
+    }
 }
 

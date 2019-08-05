@@ -34,4 +34,20 @@ public class StageCertificateService {
         stageCertificate.setUid(user.getUid());
         stageCertificateMapper.insert(stageCertificate);
     }
+
+    public StageCertificate findByUid(Long uid) {
+        StageCertificate stageCertificate = stageCertificateMapper.selectByPrimaryKey(uid);
+        if(stageCertificate == null){
+            throw new PException(Code.USER_NOT_EXIST,"用户不存在");
+        }
+        return stageCertificate;
+    }
+
+    public void updateUploadStageCertificate(StageCertificate stageCertificate) {
+        findByUid(stageCertificate.getUid());
+        int update = stageCertificateMapper.updateByPrimaryKeySelective(stageCertificate);
+        if(update != 1){
+            throw new PException(Code.FAIL_HANDLER,"操作失败");
+        }
+    }
 }

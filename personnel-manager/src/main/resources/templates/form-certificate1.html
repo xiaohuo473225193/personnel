@@ -15,15 +15,27 @@
 	<link rel="stylesheet" href="css/uniform.css" />
 	<link rel="stylesheet" href="css/select2.css" />
 	<link rel="stylesheet" href="css/matrix-style.css" />
+    <link rel="stylesheet" href="css/style.css" />
 	<link rel="stylesheet" href="css/matrix-media.css" />
 	<link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
 	<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+
 	<!--upload start-->
 	<link rel="stylesheet" type="text/css" href="upload/css/globle.css" />
 	<script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+    <script src="js/controller/base.js"></script>
+    <script src="js/controller/finalController.js"></script>
+    <script src="js/service/commonCertificateService.js"></script>
+    <script src="js/controller/commonCertificateController.js"></script>
 </head>
-<body>
+<body ng-app="personnel" ng-controller="commonCertificateController" ng-init="initShow();">
 
 <!--close-left-menu-stats-sidebar-->
 
@@ -42,7 +54,7 @@
         </div>
         <div class="widget-content nopadding">
           <form action="#" method="get" class="form-horizontal">
-            <div class="control-group">
+            <div id="employ" class="control-group">
 			  <label class="control-label">个人履历表(含简历) :</label>
 			  <div class="controls">
 				<ul class="upload-ul clearfix">
@@ -52,7 +64,7 @@
 				</ul>
 			  </div>
             </div>
-            <div class="control-group">
+            <div id="identity" class="control-group">
               <label class="control-label">身份证复印件 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
@@ -62,7 +74,7 @@
 				</ul>
               </div>
             </div>
-            <div class="control-group">
+            <div id="degree" class="control-group">
               <label class="control-label">学历学位证件 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
@@ -73,7 +85,7 @@
               </div>
             </div>
 			
-			<div class="control-group">
+			<div id="education" class="control-group">
               <label class="control-label">学历认证表 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
@@ -84,7 +96,7 @@
 				</div>
 			</div>
 			
-			<div class="control-group">
+			<div id="post" class="control-group">
               <label class="control-label">相关岗位资格证件 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
@@ -95,7 +107,7 @@
               </div>
             </div>
 			
-            <div class="control-group">
+            <div id="background" class="control-group">
               <label class="control-label">背景调查 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
@@ -117,13 +129,9 @@
 </div>
 </div>
 </div>
-<!--Footer-part-->
-<div class="row-fluid">
-  <div id="footer" class="span12">Copyright &copy; 2018.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></div>
-</div>
 <!--end-Footer-part--> 
 <script src="upload/js/webuploader.min.js"></script>
 <script src="upload/js/diyUpload.js"></script>
-<script src="js/upload.js"></script>
+<script src="js/commonUpload.js"></script>
 </body>
 </html>

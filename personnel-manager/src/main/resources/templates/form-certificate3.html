@@ -3,26 +3,41 @@
 <head>
 	<title>通用表单页面</title>
 	<meta charset="UTF-8" />
+	<meta http-equiv ="proma" content = "no-cache"/>
+	<meta http-equiv="cache-control" content="no cache" />
+	<meta http-equiv="expires" content="0" />
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
 	<link rel="stylesheet" href="css/colorpicker.css" />
 	<link rel="stylesheet" href="css/datepicker.css" />
 	<link rel="stylesheet" href="css/uniform.css" />
+	<link rel="stylesheet" href="css/style.css" />
 	<link rel="stylesheet" href="css/select2.css" />
 	<link rel="stylesheet" href="css/matrix-style.css" />
 	<link rel="stylesheet" href="css/matrix-media.css" />
 	<link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
 	<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+	<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 	<!--upload start-->
 	<link rel="stylesheet" type="text/css" href="upload/css/globle.css" />
 	<script type="text/javascript" src="upload/js/jquery.min.js"></script>
+
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+	<script src="js/controller/base.js"></script>
+	<script src="js/controller/finalController.js"></script>
+	<script src="js/service/stageCertificateService.js"></script>
+	<script src="js/controller/stageCertificateController.js"></script>
 </head>
-<body>
+<body ng-app="personnel" ng-controller="stageCertificateController" ng-init="initShow();">
 
 <!--close-left-menu-stats-sidebar-->
-
 <div id="content"  style="margin-left: 0px;">
 <div id="content-header">
   <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Form elements</a> <a href="#" class="current">Common elements</a> </div>
@@ -38,212 +53,183 @@
         </div>
         <div class="widget-content nopadding">
           <form action="#" method="get" class="form-horizontal">
-            <div class="control-group">
+            <div id="honor" class="control-group">
 			  <label class="control-label">个人荣誉 :</label>
 			  <div class="controls">
 				<ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload1"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
-            <div class="control-group">
+            <div id="postEvaluate" class="control-group">
               <label class="control-label">员工试岗评价表 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload2"></div>
 					</li>
 				</ul>
               </div>
             </div>
-            <div class="control-group">
+            <div id="apply" class="control-group">
               <label class="control-label">员工转正申请表 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload3"></div>
 					</li>
 				</ul>
               </div>
             </div>
 			
-			<div class="control-group">
+			<div id="stageEvaluate" class="control-group">
               <label class="control-label">第一(二、三)阶段评价表(试用期的) :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload4"></div>
 					</li>
 				</ul>
 				</div>
 			</div>
 			
-			<div class="control-group">
+			<div id="workSummary" class="control-group">
               <label class="control-label">试用期工作总结 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload5"></div>
 					</li>
 				</ul>
               </div>
             </div>
 			
-            <div class="control-group">
+            <div id="synthesizeEvalute" class="control-group">
               <label class="control-label">转正综合评定表 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload6"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
             
-			<div class="control-group">
+			<div id="assess" class="control-group">
               <label class="control-label">员工转正考核表 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload7"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
 			
-			<div class="control-group">
+			<div id="tarnsferApprover" class="control-group">
               <label class="control-label">员工内部岗位调动审批表 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload8"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
 			
-			<div class="control-group">
+			<div id="changeApprover" class="control-group">
               <label class="control-label">岗位(薪酬)变动审批表 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload9"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
 			
-			<div class="control-group">
+			<div id="appoint" class="control-group">
               <label class="control-label">职务任命书 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload10"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
 			
-			<div class="control-group">
+			<div id="leaveReport" class="control-group">
               <label class="control-label">离职审计报告 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload11"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
 			
-			<div class="control-group">
+			<div id="trainApply" class="control-group">
               <label class="control-label">培训申请表 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload12"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
 			
-			<div class="control-group">
+			<div id="trainService" class="control-group">
               <label class="control-label">培训服务协议 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload13"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
 			
-			<div class="control-group">
+			<div id="yearInterview" class="control-group">
               <label class="control-label">年度年终绩效表 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload14"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
 			
-			<div class="control-group">
+			<div id="awardDisposition" class="control-group">
               <label class="control-label">奖励、处罚记录 :</label>
               <div class="controls">
                  <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload15"></div>
 					</li>
 				</ul>
 			  </div>
             </div>
 			
 			<div class="form-actions">
-              <button type="submit" class="btn btn-success">提 交</button>
-			  <button type="submit" class="btn btn-success">下 载</button>
+              <div ng-click="save();" class="btn btn-success">提 交</div>
+			  <div ng-click="download();" class="btn btn-success">下 载</div>
             </div>
-			
           </form>
         </div>
       </div>  
 	</div>
-	
-	
+
 </div>
 </div>
 </div>
-<!--Footer-part-->
-<div class="row-fluid">
-  <div id="footer" class="span12">Copyright &copy; 2018.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></div>
-</div>
-<!--end-Footer-part--> 
 <script src="upload/js/webuploader.min.js"></script>
 <script src="upload/js/diyUpload.js"></script>
-<script>
-$(function(){
-	//上传图片
-	var $tgaUpload = $('#goodsUpload').diyUpload({
-		url:'uploadFilePath',
-		success:function( data ) { },
-		error:function( err ) { },
-		buttonText : '',
-		accept: {
-			title: "Images",
-			extensions: 'gif,jpg,jpeg,bmp,png'
-		},
-		thumb:{
-			width:120,
-			height:90,
-			quality:100,
-			allowMagnify:true,
-			crop:true,
-			type:"image/jpeg"
-		}
-	});
-});
-</script>
+<script src="js/stageUpload.js"></script>
 </body>
 </html>

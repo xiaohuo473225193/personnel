@@ -31,10 +31,9 @@ public class CommonCertificateController {
      */
     @PutMapping("update")
     public Result updateCommonCertificate(@RequestBody CommonCertificate certificate){
-        //保存图片到服务器
         //保存图片的地址到数据库
         commonCertificateService.updateCommonCertificate(certificate);
-        return new Result(null);
+        return new Result("提交成功");
     }
     /**
      *@author      473225193    yuanyou
@@ -42,13 +41,12 @@ public class CommonCertificateController {
      * @return      util.Result
      * @exception
      * @date        2019/8/3 13:02
-     * @description 上传文件到磁盘,并同步到数据库
+     * @description 上传文件到磁盘
      */
-    @PostMapping("/upload/{type}")
-    public Result uploadCommonCertificate(@RequestBody MultipartFile file,@PathVariable(value = "type") String type) throws Exception{
-        commonCertificateService.uploadLocalDisk(file.getOriginalFilename(),file.getInputStream());
-        commonCertificateService.addUploadCommonCertificate(file.getOriginalFilename(),type);
-        return new Result("上传成功");
+    @PostMapping("/upload")
+    public Result uploadCommonCertificate(@RequestBody MultipartFile file) throws Exception{
+        String localDiskPath = commonCertificateService.uploadLocalDisk(file.getOriginalFilename(), file.getInputStream());
+        return new Result(localDiskPath);
     }
     /**
      *@author      473225193    yuanyou
@@ -66,5 +64,18 @@ public class CommonCertificateController {
             e.printStackTrace();
         }
         return new Result("删除成功");
+    }
+    /**
+     *@author      473225193    yuanyou
+     * @param uid
+     * @return      util.Result
+     * @exception
+     * @date        2019/8/5 16:12
+     * @description 回显图片地址
+     */
+    @GetMapping("show/{uid}")
+    public Result showUploadCommonCertificate(@PathVariable(value = "uid")Long uid){
+        CommonCertificate certificate = commonCertificateService.findByUid(uid);
+        return new Result(certificate);
     }
 }

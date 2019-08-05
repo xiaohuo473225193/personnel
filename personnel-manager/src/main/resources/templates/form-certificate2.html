@@ -3,23 +3,39 @@
 <head>
 	<title>通用表单页面</title>
 	<meta charset="UTF-8" />
+	<meta http-equiv ="proma" content = "no-cache"/>
+	<meta http-equiv="cache-control" content="no cache" />
+	<meta http-equiv="expires" content="0" />
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="css/bootstrap.min.css" />
 	<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
 	<link rel="stylesheet" href="css/colorpicker.css" />
 	<link rel="stylesheet" href="css/datepicker.css" />
 	<link rel="stylesheet" href="css/uniform.css" />
+	<link rel="stylesheet" href="css/style.css" />
 	<link rel="stylesheet" href="css/select2.css" />
 	<link rel="stylesheet" href="css/matrix-style.css" />
 	<link rel="stylesheet" href="css/matrix-media.css" />
 	<link rel="stylesheet" href="css/bootstrap-wysihtml5.css" />
 	<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+	<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+
 	<!--upload start-->
 	<link rel="stylesheet" type="text/css" href="upload/css/globle.css" />
 	<script type="text/javascript" src="upload/js/jquery.min.js"></script>
+
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+	<script src="js/controller/base.js"></script>
+	<script src="js/controller/finalController.js"></script>
+	<script src="js/service/entryCertificateService.js"></script>
+	<script src="js/controller/entryCertificateController.js"></script>
 </head>
-<body>
+<body  ng-app="personnel" ng-controller="entryCertificateController" ng-init="initShow();">
 
 <!--close-left-menu-stats-sidebar-->
 
@@ -40,93 +56,65 @@
         </div>
         <div class="widget-content nopadding">
           <form action="#" method="get" class="form-horizontal">
-
-			<div class="control-group">
+			<div id="entryNotice" class="control-group">
               <label class="control-label">新员工入职须知 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload1"></div>
 					</li>
 				</ul>
               </div>
             </div>
 			
-            <div class="control-group">
+            <div id="entryAgree" class="control-group">
               <label class="control-label">入职承诺、保密协议 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload2"></div>
 					</li>
 				</ul>
               </div>
             </div>
 			
-			<div class="control-group">
+			<div id="secrecy" class="control-group">
               <label class="control-label">中原华信入职同意书 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload3"></div>
 					</li>
 				</ul>
 				</div>
 			</div>
 			
-			<div class="control-group">
+			<div id="hire" class="control-group">
               <label class="control-label">报到手续单/聘用通知书 :</label>
               <div class="controls">
                 <ul class="upload-ul clearfix">
 					<li class="upload-pick">
-						<div class="webuploader-container clearfix" id="goodsUpload"></div>
+						<div class="webuploader-container clearfix" id="goodsUpload4"></div>
 					</li>
 				</ul>
               </div>
             </div>
 			
 			<div class="form-actions">
-              <button type="submit" class="btn btn-success">提 交</button>
-			  <button type="submit" class="btn btn-success">下 载</button>
+              <div ng-click="save();" class="btn btn-success">提 交</div>
+			  <div ng-click="download();" class="btn btn-success">下 载</div>
             </div>
           </form>
         </div>
       </div>  
 	</div>
-	
-	
+
 </div>
 </div>
-</div>
-<!--Footer-part-->
-<div class="row-fluid">
-  <div id="footer" class="span12">Copyright &copy; 2018.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></div>
 </div>
 <!--end-Footer-part--> 
 <script src="upload/js/webuploader.min.js"></script>
 <script src="upload/js/diyUpload.js"></script>
-<script>
-$(function(){
-	//上传图片
-	var $tgaUpload = $('#goodsUpload').diyUpload({
-		url:'uploadFilePath',
-		success:function( data ) { },
-		error:function( err ) { },
-		buttonText : '',
-		accept: {
-			title: "Images",
-			extensions: 'gif,jpg,jpeg,bmp,png'
-		},
-		thumb:{
-			width:120,
-			height:90,
-			quality:100,
-			allowMagnify:true,
-			crop:true,
-			type:"image/jpeg"
-		}
-	});
-});
-</script>
+<script src="js/entryUpload.js"></script>
 </body>
 </html>

@@ -11,6 +11,7 @@ public class Code {
     public static final int PARAM_ERROR = 3404;
     /***********     不合法的操作4开头    **********/
     public static final int ID_NOT_EXIST = 4404; //ID不存在
+    public static final int FAIL_HANDLER = 4405; //失败操作
     /***********     用户信息相关的状态码为5开头    **********/
     public static final int USER_NOT_EXIST = 5404; //用户不存在
 

@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* CSS Document */
+
+.diysViewThumb{ position:relative;width: 100%;height: 100%;overflow:hidden;border-radius: .3rem;}
+.diysViewThumb img{ width: 100%;height: 100%}
+.diysBar{ position: absolute; display:none; top: 0;left: 0;width: 100%;height: 100%;background: url(../upload/images/bgblack.png);z-index: 3;}
+.diysProgress{ position: absolute; left: 0;top: 33px;width: 100%;height: 24px;line-height:24px;font-size: 14px;text-align: center;color: #FFF;background:rgba(10,168,241,.7); z-index: 3;}
+.diysControl{ position: absolute; display:none; left: 0;bottom: 0;width: 100%;height: 24px;line-height:24px;font-size: 14px;background: url(../upload/images/bgblack.png); z-index: 3; }
+.diysViewThumb:hover .diysControl{ display: block; }
+.diysControl span{ display: inline-block; padding: 6.5px 13px; width: 12px; height: 11px; }
+.diysControl span i{ display: block; width: 12px; height: 11px; opacity: .7; }
+.diysControl span i:hover{ opacity: 1; cursor: pointer; }
+.diysLeft{ margin-left: 3px; }
+.diysLeft{ margin-right: 3px; }
+.diysLeft i{ margin-left: 3px; background: url(../upload/images/upload-icon1.png) no-repeat 0 0; }
+.diysCancel i{ background: url(../upload/images/upload-icon1.png) no-repeat 0 -11px; }
+.diysRight i{ margin-right: 3px; background: url(../upload/images/upload-icon1.png) no-repeat 0 -22px; }

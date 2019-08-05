@@ -82,6 +82,7 @@
                     $fileBox.children('.diySuccess').show();
                 });
                 if ( successCallBack ) {
+                    response.file_id = $fileBox.attr("id");
                     successCallBack( response );
                 }
             });

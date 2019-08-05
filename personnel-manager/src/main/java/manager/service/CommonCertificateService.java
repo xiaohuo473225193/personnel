@@ -5,6 +5,7 @@ import manager.pojo.CommonCertificate;
 import manager.pojo.User;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
@@ -29,8 +30,10 @@ public class CommonCertificateService {
     private CommonCertificateMapper  commonCertificateMapper;
     @Autowired
     private UserService userService;
-    @Autowired
-    private String IMAGE_SERVER_URL;
+    @Value("${IMAGE_SERVER_URL_PREFIX}")
+    private String IMAGE_SERVER_URL_PREFIX;
+    @Value("${LOCAL_DISK_LOCATION}")
+    private String LOCAL_DISK_LOCATION;
     /**
      *@author      473225193    yuanyou
      * @param commonCertificate
@@ -47,7 +50,7 @@ public class CommonCertificateService {
         if(certificate == null){ //用户信息要存在
             throw new PException(Code.USER_NOT_EXIST,"该用户用户不存在");
         }
-        commonCertificateMapper.updateByPrimaryKey(commonCertificate); //更新操作
+        commonCertificateMapper.updateByPrimaryKeySelective(commonCertificate);//选择性更新操作
     }
 
     public CommonCertificate findByUser(User user){
@@ -71,22 +74,23 @@ public class CommonCertificateService {
      * @date        2019/8/3 14:55
      * @description 图片上传到本地磁盘
      */
-    public void uploadLocalDisk(String originalFilename, InputStream inputStream){
+    public String uploadLocalDisk(String originalFilename, InputStream inputStream){
         User user = userService.findByJobNumber("002751");
         FileOutputStream fileOutputStream = null;
+        String suffix = null;
         try {
-            String path = ResourceUtils.getFile("classpath:templates").getPath();
-            String suffix = "/upload" + "/"+user.getJobNumber() + " " + user.getName();
+            String path = ResourceUtils.getFile(LOCAL_DISK_LOCATION).getPath();
+            suffix = "/upload" + "/"+user.getJobNumber()+user.getName();
             File uploadPath = new File(path + suffix);
             if(!uploadPath.exists()){
                 uploadPath.mkdirs();
             }
-            File[] files = uploadPath.listFiles();
+            /*File[] files = uploadPath.listFiles();
             for (File file : files) {
                 if(originalFilename.equals(file.getName())){
                     throw new PException(Code.USER_EXIST_FILE,"该文件已存在");
                 }
-            }
+            }*/
             String uploadFullName = uploadPath.getPath() + "/" + originalFilename;
             fileOutputStream = new FileOutputStream(uploadFullName);
             //流的拷贝
@@ -111,6 +115,9 @@ public class CommonCertificateService {
                 }
             }
         }
+        //返回目标文件存放的路径
+        String targetFilePath = IMAGE_SERVER_URL_PREFIX + suffix + "/" + originalFilename;
+        return targetFilePath;
     }
 
     public void deleteUploadLocalDisk(String fileName) throws Exception {
@@ -125,28 +132,11 @@ public class CommonCertificateService {
         uploadPath.delete();
     }
 
-    public void addUploadCommonCertificate(String originalFilename, String type) {
-        CommonCertificate commonCertificate = commonCertificateMapper.selectByPrimaryKey(1);
-        //反射动态封装对象
-        Class<? extends CommonCertificate> cClass = commonCertificate.getClass();
-        String propeties = type + "Image";
-        try {
-            Field commonField = cClass.getDeclaredField(propeties);
-            commonField.setAccessible(true);
-            //根据拼接字段，查数据库中是否有该字段
-            String attr = (String) commonField.get(propeties);
-            if(StringUtils.isEmpty(attr)){
-                commonField.set(commonCertificate,IMAGE_SERVER_URL + originalFilename);
-            }else{
-                //如果有，多个图片之间用该符号[,]，进行隔开
-                commonField.set(commonCertificate,attr + "[,]" + IMAGE_SERVER_URL + originalFilename);
-            }
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+    public CommonCertificate findByUid(Long uid) {
+        CommonCertificate certificate = commonCertificateMapper.selectByPrimaryKey(uid);
+        if(certificate == null){
+            throw new PException(Code.USER_NOT_EXIST,"用户不存在");
         }
-        commonCertificateMapper.insertSelective(commonCertificate);
-        //如果不存在。进行添加
+        return certificate;
     }
 }
