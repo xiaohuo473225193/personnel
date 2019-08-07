@@ -220,15 +220,15 @@ public class CollegeService {
         cell1.setCellStyle(styleTitle);
         cell1.setCellValue("人员信息");//表头
 
-        HSSFRow row2= sheet.createRow(1);   ////创建第二列 标题
+        HSSFRow row3= sheet.createRow(2);   ////创建第二列 标题
         String[] S = {"工号","真实姓名","身份证号","出生日期","性别","联系方式","最高学历","最高职称","所属部门",
                 "全部职位","人员类型","最高学位","家庭住址","毕业时间","入职时间","离职日期"};
         for(int i = 0;i<S.length;i++){
-            row2.createCell(i).setCellValue(S[i]);
+            row3.createCell(i).setCellValue(S[i]);
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 0; i <list .size(); i++) {
-            HSSFRow rows= sheet.createRow(1+i+1);//创建第二列 标题
+            HSSFRow rows= sheet.createRow(1+i+2);//创建第二列 标题
             rows.createCell((short)0).setCellValue(list.get(i).getJobNumber());
             rows.createCell((short)1).setCellValue(list.get(i).getCollegeUserName());
             rows.createCell((short)2).setCellValue(list.get(i).getIdentityCard());
