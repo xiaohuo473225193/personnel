@@ -1,12 +1,12 @@
 * {
 	outline:none !important;
 	-moz-outline: none !important;
+	box-sizing: border-box;
 }
 html, body{height:100%}
 /* Main */
 
 /*Bootstrap-overlay*/
-
 body {
 	overflow-x: hidden;
 	margin-top: -10px; font-family: 'Open Sans', sans-serif; font-size:12px; color:#666;

@@ -32,7 +32,7 @@ public class CollegeUser{
     private String type;//人员类型
     private String degree;//最高学位
     private String address;
-    private Date graduateTime;//毕业时间
+    private String graduateTime;//毕业时间
     private Date startTime;
     private Date endTime;
     private String commonComplete;//常规证书状态

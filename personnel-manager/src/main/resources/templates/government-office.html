@@ -9,8 +9,23 @@
 	<link rel="stylesheet" href="css/uniform.css" />
 	<link rel="stylesheet" href="css/matrix-style.css" />
 	<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+	<link rel="stylesheet" href="plugins/angularjs/pagination.css">
+
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+	<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+
+	<!--upload start-->
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+	<script src="plugins/angularjs/pagination.js"></script>
+	<script src="js/controller/base_pageination.js"></script>
+	<script src="js/controller/pageController.js"></script>
+	<script src="js/controller/finalController.js"></script>
+	<script src="js/service/commonCollegeService.js"></script>
+	<script src="js/controller/commonCollegeController.js"></script>
 </head>
-<body>
+<body ng-app="personnel" ng-controller="commonCollegeController" ng-init="initAttr(college.partyOrganization.policy)">
 
 <div id="content" style="margin-left: 0px;">
   <div id="content-header">
@@ -26,12 +41,12 @@
             <h5>政党办公室</h5>
           </div>
 		  <div style="height:50px;">
-			<button style="margin:10px 10px 0 20px;;" class="btn btn-success icon icon-plus"> 添加</button> <span class=""></span>
-			<button style="margin:10px 10px 0 0px;;" class="btn btn-danger icon icon-minus"> 删除</button> <span class=""></span>
-			<button style="margin:10px 10px 0 0px;;" class="btn btn-info icon icon-pencil"> 删除</button> <span class=""></span>
-			<button style="margin:10px 10px 0 0px;;" class="btn btn-success icon icon-chevron-down"> 导入</button> <span class=""></span>
-			<button style="margin:10px 10px 0 0px;;" class="btn btn-success icon icon-chevron-up"> 导出</button> <span class=""></span>
-			<button style="margin:10px 10px 0 0px;;" class="btn btn-info icon icon-repeat"> 刷新</button> <span class=""></span>
+		    <a href="add-person.html"><div style="margin:10px 10px 0 20px;"  class="btn btn-success icon icon-plus"> 添加</div></a> <span class=""></span>
+			<button style="margin:10px 10px 0 0px;" class="btn btn-danger icon icon-minus"> 删除</button> <span class=""></span>
+			<button style="margin:10px 10px 0 0px;" class="btn btn-info icon icon-pencil"> 删除</button> <span class=""></span>
+			<button style="margin:10px 10px 0 0px;" class="btn btn-success icon icon-chevron-down"> 导入</button> <span class=""></span>
+			<button style="margin:10px 10px 0 0px;" class="btn btn-success icon icon-chevron-up"> 导出</button> <span class=""></span>
+			<button style="margin:10px 10px 0 0px;" class="btn btn-info icon icon-repeat"> 刷新</button> <span class=""></span>
 		  </div>
           <div class="widget-content nopadding" style="width:100%;overflow:auto;">
             <table class="table table-bordered table-striped with-check" style="width:2100px;">
@@ -65,130 +80,61 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>002584</td>
-                  <td>张强鹏</td>
-                  <td>411282198910275513</td>
-                  <td>1989-10-27</td>
-				  <td>男</td>
-				  <td>15093675098</td>
-				  <td>大学本科 </td>
-				  <td>助教</td>
-				  <td>党政办公室</td>
-				  <td>秘书科工作人员</td>
-				  <td>普通员工</td>
-				  <td>学士</td>
-				  <td>河南省灵宝市</td>
+                <tr ng-repeat="collegeUser in collegeUsers">
+                  <td><input type="checkbox"/></td>
+                  <td style="text-align: center">{{collegeUser.collegeUserId}}</td>
+                  <td style="text-align: center">{{collegeUser.collegeUserName}}</td>
+                  <td style="text-align: center">{{collegeUser.identityCard}}</td>
+                  <td style="text-align: center">{{collegeUser.birthday | date:'yyyy-MM-dd'}}</td>
+				  <td style="text-align: center">{{collegeUser.sex}}</td>
+				  <td style="text-align: center">{{collegeUser.telephone}}</td>
+				  <td style="text-align: center">{{collegeUser.education}}</td>
+				  <td style="text-align: center">{{collegeUser.type}}</td>
+				  <td style="text-align: center">{{collegeUser.college}}</td>
+				  <td style="text-align: center">{{collegeUser.position}}</td>
+				  <td style="text-align: center">{{collegeUser.type}}</td>
+				  <td style="text-align: center">{{collegeUser.degree}}</td>
+				  <td style="text-align: center">{{collegeUser.address}}</td>
+
+				  <td style="text-align: center"><a style="color:#1909ef;" href="#">查看证书</a></td>
+				  <td style="text-align: center">
+					  <span style="color:#62c462">
+						  {{collegeUser.commonComplete != 1 ? '证书未全部上传' : '证书已全部上传'}}
+					  </span>
+				  </td>
+				  <td style="text-align: center"><a style="color:#1909ef;" href="#">查看证书</a></td>
+				  <td style="text-align: center">
+					  <span style="color:#62c462">
+					  	{{collegeUser.entryComplete != 1 ? '证书未全部上传' : '证书已全部上传'}}
+					  </span>
+				  </td>
+				  <td style="text-align: center"><a style="color:#1909ef;" href="#">查看证书</a></td>
+				  <td style="text-align: center">
+						<span style="color:#62c462">
+							{{collegeUser.stageComplete != 1 ? '证书未全部上传' : '证书已全部上传'}}
+						</span>
+				  </td>
 				  
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  
-				  <td>未填写</td>
-				  <td>2010-08-01</td>
-				  <td>未填写</td>
-                </tr>
-                <tr>
-                  <td><input type="checkbox" /></td>
-                  <td>002584</td>
-                  <td>张强鹏</td>
-                  <td>411282198910275513</td>
-                  <td>1989-10-27</td>
-				  <td>男</td>
-				  <td>15093675098</td>
-				  <td>大学本科 </td>
-				  <td>助教</td>
-				  <td>党政办公室</td>
-				  <td>秘书科工作人员</td>
-				  <td>普通员工</td>
-				  <td>学士</td>
-				  <td>河南省灵宝市</td>
-				  
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  
-				  <td>未填写</td>
-				  <td>2010-08-01</td>
-				  <td>未填写</td>
-                </tr>
-				<tr>
-                  <td><input type="checkbox" /></td>
-                  <td>002584</td>
-                  <td>张强鹏</td>
-                  <td>411282198910275513</td>
-                  <td>1989-10-27</td>
-				  <td>男</td>
-				  <td>15093675098</td>
-				  <td>大学本科 </td>
-				  <td>助教</td>
-				  <td>党政办公室</td>
-				  <td>秘书科工作人员</td>
-				  <td>普通员工</td>
-				  <td>学士</td>
-				  <td>河南省灵宝市</td>
-				  
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  
-				  <td>未填写</td>
-				  <td>2010-08-01</td>
-				  <td>未填写</td>
-                </tr>
-				<tr>
-                  <td><input type="checkbox" /></td>
-                  <td>002584</td>
-                  <td>张强鹏</td>
-                  <td>411282198910275513</td>
-                  <td>1989-10-27</td>
-				  <td>男</td>
-				  <td>15093675098</td>
-				  <td>大学本科 </td>
-				  <td>助教</td>
-				  <td>党委、工会办公室工作人员</td>
-				  <td>秘书科工作人员</td>
-				  <td>普通员工</td>
-				  <td>学士</td>
-				  <td>河南省新乡市园林局家属院</td>
-				  
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  <td>查看证书</td>
-				  <td>证书未全部上传</td>
-				  
-				  <td>未填写</td>
-				  <td>2010-08-01</td>
-				  <td>未填写</td>
+				  <td style="text-align: center">{{collegeUser.graduateTime != '' ?  collegeUser.graduateTime : "未填写"}}</td>
+				  <td style="text-align: center">{{collegeUser.startTime | date:'yyyy-MM-dd'}}</td>
+				  <td style="text-align: center">{{collegeUser.endTime | date:'yyyy-MM-dd'}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
+			<tm-pagination conf="paginationConf"></tm-pagination>
         </div>
         </div>
       </div>
     </div>
 </div>
 
-<script src="js/jquery.min.js"></script> 
-<script src="js/jquery.ui.custom.js"></script> 
+<!--<script src="js/jquery.ui.custom.js"></script>
 <script src="js/bootstrap.min.js"></script> 
 <script src="js/jquery.uniform.js"></script> 
 <script src="js/select2.min.js"></script> 
 <script src="js/jquery.dataTables.min.js"></script> 
 <script src="js/matrix.js"></script> 
-<script src="js/matrix.tables.js"></script>
+<script src="js/matrix.tables.js"></script>-->
 </body>
 </html>

@@ -33,7 +33,7 @@ public class User {
     private String identityCard;
     private String telephone;
     private String address;
-    private Date graduateTime;
+    private String graduateTime;
     private Date startTime;
     private Date endTime;
     private String audit;//审核是否通过，0为不通过，1为通过

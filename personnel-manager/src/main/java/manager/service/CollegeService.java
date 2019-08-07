@@ -117,30 +117,21 @@ public class CollegeService {
         if(commonCertificate == null){
             throw  new PException(Code.USER_NOT_EXIST,"CommonCertificate 不存在");
         }
-        collegeUser.setCommonComplete(ifComplete(commonCertificate.getComplete()));
+        collegeUser.setCommonComplete(commonCertificate.getComplete());
 
         EntryCertificate entryCertificate = entryCertificateService.findByUser(user);
         if(entryCertificate == null){
             throw  new PException(Code.USER_NOT_EXIST,"entryCertificate 不存在");
         }
-        collegeUser.setEntryComplete(ifComplete(entryCertificate.getComplete()));
+        collegeUser.setEntryComplete(entryCertificate.getComplete());
 
         StageCertificate stageCertificate = stageCertificateService.findByUser(user);
         if(stageCertificate == null){
             throw  new PException(Code.USER_NOT_EXIST,"stageCertificate 不存在");
         }
-        collegeUser.setStageComplete(ifComplete(stageCertificate.getComplete()));
+        collegeUser.setStageComplete(stageCertificate.getComplete());
 
         return  collegeUser;
-    }
-    private String ifComplete(String status){
-        if("0".equals(status)){
-            return "证书未全部上传";
-        }
-        if("1".equals(status)){
-            return "证书已全部上传";
-        }
-        return null;
     }
 
     private void iftrue(Base base){
@@ -150,7 +141,6 @@ public class CollegeService {
     }
 
     public void addCollege(College college){
-
         if(collegeMapper.selectByPrimaryKey(college) != null){
             throw new PException(Code.COLLEGE_EXIST,"部门信息已存在");
         }
@@ -176,9 +166,7 @@ public class CollegeService {
     }
 
     public List<College> findCollege(){
-
         return collegeMapper.selectAll();
-
     }
 
 
@@ -330,8 +318,5 @@ public class CollegeService {
                     }
                 return cellvalue;
             }
-
-
-
 
 }

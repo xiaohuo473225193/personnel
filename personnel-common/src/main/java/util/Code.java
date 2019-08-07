@@ -8,7 +8,8 @@ package util;
 public class Code {
     public static final int SUCCESS = 200;
     /***********     参数异常的操作3开头    **********/
-    public static final int PARAM_ERROR = 3404;
+    public static final int PARAM_ERROR = 3404;//参数异常
+    public static final int FILE_NOT_EXIST = 3405;//你所访问的文件不存在
     /***********     不合法的操作4开头    **********/
     public static final int ID_NOT_EXIST = 4404; //ID不存在
     public static final int FAIL_HANDLER = 4405; //失败操作

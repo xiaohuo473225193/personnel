@@ -167,4 +167,12 @@ app.controller('commonCertificateController' ,function($scope,commonCertificateS
             }
         )
     }
+    $scope.download = function () {
+        window.location = 'http://localhost:8085/download/upload/'+$scope.commonCertificate.uid;
+        /*commonCertificateService.download($scope.commonCertificate.uid).success(
+            function (response) {
+                alert(response.data)
+            }
+        )*/
+    }
 });	

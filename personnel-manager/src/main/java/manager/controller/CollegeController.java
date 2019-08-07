@@ -47,23 +47,27 @@ public class CollegeController {
         List<College> collegeServiceByList = collegeService.findByList();
         return new Result<>(collegeServiceByList);
     }
-
     /**
      * @author      2571169797   yang meng bo
      * @param
      * @return      util.Result<java.util.List<manager.pojo.User>>
      * @exception
      * @date        2019/8/2 0002 上午 10:18
-     * @description 根据该用户id获取该部门下的员工数据     */
+     * @description 提供给二级权限用户使用的 -----> 根据该用户id获取该部门下的员工数据     */
     @GetMapping("findCollegeUserListByUid/{userId}/{rows}/{size}")
     public PageResult<CollegeUser> findCollegeUserListByUid(@PathVariable(value = "userId")Long userId,
          @PathVariable(value = "size")int size,@PathVariable(value = "rows")int rows){
-
         User user = userService.findByUid(userId);
         Long cid = user.getCid();
         return collegeService.findCollegeUserListByCid(cid, rows, size);
     }
 
+    @GetMapping("findCollegeUserListByCid/{cid}/{rows}/{size}")
+    public PageResult<CollegeUser> findCollegeUserListByCid(@PathVariable(value = "cid")Long cid,
+                                                            @PathVariable(value = "size")int size,
+                                                            @PathVariable(value = "rows")int rows){
+        return collegeService.findCollegeUserListByCid(cid, rows, size);
+    }
     @PostMapping("addCollege")
     public Result addCollege(@RequestBody College college){
         collegeService.addCollege(college);

@@ -144,7 +144,6 @@ public class UserService {
         if("0".equals(user.getStatus())){
             throw new PException(Code.USER_NOT_EXIST,"用户不存在");
         }
-
         /*if(user.getAuthor() == "1"){
             throw new PException(Code.ID_NOT_EXIST,"非法操作");
         }*/
