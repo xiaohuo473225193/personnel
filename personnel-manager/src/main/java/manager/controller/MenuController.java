@@ -2,6 +2,7 @@ package manager.controller;
 
 import manager.pojo.Menu;
 import manager.service.MenuService;
+import manager.vo.MenuList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import util.Result;
@@ -35,9 +36,9 @@ public class MenuController {
         return new Result(null);
     }
 
-    @GetMapping("findMenu/{author}")
-    public Result<Menu> findMenu(@PathVariable(value = "author")String author){
-        List<Menu> menus = menuService.findMenu(author);
+    @GetMapping("findMenu/{uid}")
+    public Result<MenuList> findMenu(@PathVariable(value = "uid") Long uid){
+        List<MenuList> menus = menuService.findMenu(uid);
         return new Result(menus);
     }
 

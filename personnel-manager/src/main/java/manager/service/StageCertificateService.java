@@ -32,6 +32,7 @@ public class StageCertificateService {
             throw new PException(Code.ID_NOT_EXIST,"id不存在");
         }
         stageCertificate.setUid(user.getUid());
+        stageCertificate.setComplete("0");
         stageCertificateMapper.insert(stageCertificate);
     }
 

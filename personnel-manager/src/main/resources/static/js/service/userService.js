@@ -15,20 +15,17 @@ app.service('userService',function($http){
         return $http.put('/user/save',user);
     }
 
-    this.addUser=function(author){
-		return $http.post('/user/addUser'+ author);
+    this.addUser=function(author,user){
+		return $http.post('/user/addUser/'+author,user);
 	}
 
-	this.deleteUser = function (uid) {
-		return $http.delete('/user/deleteUser' + uid)
-    }
 
     this.updeteByUser=function(user){
-        return $http.put('/user/addUser',user);
+        return $http.put('/user/updateByUser',user);
     }
 
     this.findByUid = function (uid) {
-        return $http.get('/user/findByUid' + uid)
+        return $http.get('/user/findByUid/' + uid)
     }
 
     this.findByExample = function (rows,size,selectOptionData) {

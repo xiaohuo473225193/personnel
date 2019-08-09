@@ -10,6 +10,12 @@ public class Code {
     /***********     参数异常的操作3开头    **********/
     public static final int PARAM_ERROR = 3404;//参数异常
     public static final int FILE_NOT_EXIST = 3405;//你所访问的文件不存在
+    public static final int AUTHOR_ERROR = 3406;//权限不足
+    public static final int JOBNUMER_NOT_EXIST = 3407;//工号不存在
+    public static final int NAME_NOT_EXIST = 3408;//名字不存在
+    public static final int IDCART_NOT_EXIST = 3409;//身份证号不存在
+    public static final int BASE_VALUE_NOT_EXIST = 3410;//该字典值不存在
+    public static final int PASSWORD_ERROR = 3411;//密码不正确
     /***********     不合法的操作4开头    **********/
     public static final int ID_NOT_EXIST = 4404; //ID不存在
     public static final int FAIL_HANDLER = 4405; //失败操作

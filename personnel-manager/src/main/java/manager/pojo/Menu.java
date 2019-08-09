@@ -20,6 +20,8 @@ public class Menu {
     private String text;
     private String status;
     private String url;
-    private Long pid;
+    private String pid;
     private String author;
+    private Long cid;
+    private Integer sort;
 }

@@ -5,14 +5,18 @@ import manager.bo.SelectOptionData;
 import manager.pojo.User;
 import manager.service.*;
 import manager.vo.CollegeUser;
+import manager.vo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.genid.GenId;
 import util.PException;
 import util.PExceptionHandler;
 import util.PageResult;
 import util.Result;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +53,12 @@ public class UserController {
         User user = userService.findOne();
         return new Result<>(user);
     }
-
+    @GetMapping("get")
+    public Result<User> getUserInfo(){
+        UserInfo userInfo = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByJobNumber(userInfo.getUsername());
+        return new Result<>(user);
+    }
     @PutMapping("save")
     public Result save(@RequestBody User user) {
         userService.save(user);
@@ -58,16 +67,16 @@ public class UserController {
 
     @PostMapping("addUser/{author}")
     public Result addUser(@RequestBody User user,@PathVariable(value = "author")String author) {
-       userService.addUser(user,author);
+        userService.addUser(user,author);
         commonCertificateService.addCommonCertificate(user);
         entryCertificateService.addEntryCertificate(user);
         stageCertificateService.addStageCertificate(user);
         return new Result<>(null);
     }
 
-    @DeleteMapping("deleteByUid/{uid}")
-    public Result deleteByUid(@PathVariable(value = "uid") Long uid) {
-        userService.deleteUser(uid);
+    @DeleteMapping("deleteByUids/{uids}")
+    public Result deleteByUid(@PathVariable(value = "uids") List<Long> uids) {
+        userService.deleteUser(uids);
         return new Result<>(null);
     }
 
@@ -90,6 +99,4 @@ public class UserController {
                 getJobNumber(),selectOptionData.getName(),selectOptionData.getIdentityCard());
         return userPageResult;
     }
-
-
 }

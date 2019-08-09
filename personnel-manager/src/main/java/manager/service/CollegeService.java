@@ -2,33 +2,28 @@ package manager.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import manager.bo.ExcelHender;
+import manager.bo.SelectOptionData;
 import manager.mapper.CollegeMapper;
 import manager.pojo.*;
 import manager.vo.CollegeUser;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
-import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import util.Code;
+import util.MD5Util;
 import util.PException;
 import util.PageResult;
 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static util.Code.USER_NOT_EXIST;
 
 /**
 * @Description:    部门服务层管理
@@ -61,10 +56,10 @@ public class CollegeService {
         return collegeMapper.selectAll();
     }
 
-    public PageResult<CollegeUser> findCollegeUserListByCid(Long cid,int rows,int size){
+    public PageResult<CollegeUser> findCollegeUserListByCid(Long cid, SelectOptionData data,int rows,int size){
         PageHelper.startPage(rows,size);
         //根据cid找到user集合
-        Page<User> users = (Page<User>)userService.findByCid(cid);
+        Page<User> users = (Page<User>)userService.findByCid(cid,data);
         List<User> userList = users.getResult();
 
         List<CollegeUser> collegeUsers = new ArrayList<CollegeUser>();
@@ -171,9 +166,12 @@ public class CollegeService {
 
 
 
-    public void export(String fileName,List<CollegeUser> list,String path){
+    //public void export(String fileName,List<CollegeUser> list,String path){
+    public HSSFWorkbook export(Long cid, String author, SelectOptionData data){
+        if(author.equals("1")){
+            throw new PException(Code.AUTHOR_ERROR,"权限不足");
+        }
         HSSFWorkbook wb = new HSSFWorkbook();//创建一个excel文件
-
         HSSFCellStyle styleTitle = wb.createCellStyle(); // 标题样式
         styleTitle.setAlignment(HorizontalAlignment.CENTER);
         styleTitle.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -186,8 +184,8 @@ public class CollegeService {
 
         HSSFSheet sheet=wb.createSheet("信息表");//创建一个工作薄
         //合并单元格 四个参数分别是：起始行，结束行，起始列，结束列 (单个单元格)
-        CellRangeAddress rangeAddress = new CellRangeAddress(0, 1, 0,15 );
-        sheet.addMergedRegion(rangeAddress);
+        /*CellRangeAddress rangeAddress = new CellRangeAddress(0, 1, 0,15 );
+        sheet.addMergedRegion(rangeAddress);*/
 
        sheet.setColumnWidth((short)2, 20* 280);    //---》设置单元格宽度，因为一个单元格宽度定了那么下面多有的单元格高度都确定了所以这个方法是sheet的
         sheet.setColumnWidth((short)3, 20* 200);
@@ -203,120 +201,196 @@ public class CollegeService {
         sheet.setColumnWidth((short)14, 20* 200);
         sheet.setColumnWidth((short)15, 20* 200);
         sheet.setDefaultRowHeight((short)320);    // ---->有得时候你想设置统一单元格的高度，就用这个方法
-        HSSFRow row1 = sheet.createRow(0);   //--->创建一行
+        /*HSSFRow row1 = sheet.createRow(0);   //--->创建一行
         HSSFCell cell1 = row1.createCell((short)0);   //--->创建一个单元格
         cell1.setCellStyle(styleTitle);
-        cell1.setCellValue("人员信息");//表头
+        cell1.setCellValue("人员信息");//表头*/
 
-        HSSFRow row3= sheet.createRow(2);   ////创建第二列 标题
+        HSSFRow row3= sheet.createRow(0);   ////创建第二列 标题
         String[] S = {"工号","真实姓名","身份证号","出生日期","性别","联系方式","最高学历","最高职称","所属部门",
                 "全部职位","人员类型","最高学位","家庭住址","毕业时间","入职时间","离职日期"};
         for(int i = 0;i<S.length;i++){
             row3.createCell(i).setCellValue(S[i]);
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        List<User> list = userService.findByCidOrSelectOptionData(cid, data);
+
         for (int i = 0; i <list .size(); i++) {
-            HSSFRow rows= sheet.createRow(1+i+2);//创建第二列 标题
-            rows.createCell((short)0).setCellValue(list.get(i).getJobNumber());
-            rows.createCell((short)1).setCellValue(list.get(i).getCollegeUserName());
-            rows.createCell((short)2).setCellValue(list.get(i).getIdentityCard());
-            rows.createCell((short)3).setCellValue(simpleDateFormat.format(list.get(i).getBirthday()));
-            rows.createCell((short)4).setCellValue(list.get(i).getSex());
-            rows.createCell((short)5).setCellValue(list.get(i).getTelephone());
-            rows.createCell((short)6).setCellValue(list.get(i).getEducation());
-            rows.createCell((short)7).setCellValue(list.get(i).getJobTitle());
-            rows.createCell((short)8).setCellValue(list.get(i).getCollege());
-            rows.createCell((short)9).setCellValue(list.get(i).getPosition());
-            rows.createCell((short)10).setCellValue(list.get(i).getType());
-            rows.createCell((short)11).setCellValue(list.get(i).getDegree());
-            rows.createCell((short)12).setCellValue(list.get(i).getAddress());
-            rows.createCell((short)13).setCellValue(simpleDateFormat.format(list.get(i).getGraduateTime()));
-            rows.createCell((short)14).setCellValue(simpleDateFormat.format(list.get(i).getStartTime()));
-            rows.createCell((short)15).setCellValue(simpleDateFormat.format(list.get(i).getEndTime()));
-        }
-             FileOutputStream fileOut = null;
-               try{
-                     fileOut = new FileOutputStream(path);
-                     wb.write(fileOut);
-                       //fileOut.close();
-                       System.out.print("OK");
-                }catch(Exception e){
-                     e.printStackTrace();
-                 }
-               finally{
-                      if(fileOut != null){
-                             try {
-                                      fileOut.close();
-                                   } catch (IOException e) {
-                                      // TODO Auto-generated catch block
-                                        e.printStackTrace();
-                                    }
-                            }
-                    }
-
-
-    }
-
-    public void input(FileInputStream inputStream){
-
-        String str = "";
-          try {
-              POIFSFileSystem fs = new POIFSFileSystem(inputStream);
-              HSSFWorkbook wb = new HSSFWorkbook(fs);
-              HSSFSheet sheet = wb.getSheetAt(0);
-              //int rowfirst=sheet.getFirstRowNum();
-               int rowend=sheet.getLastRowNum();
-                    for (int i = 2; i <=rowend; i++) {
-                        HSSFRow row = sheet.getRow(i);
-                        //System.out.println(row.get);
-                        int colNum = row.getPhysicalNumberOfCells();//一行总列数
-                      int j = 0;
-                           while (j < colNum) {
-                                 str += getCellFormatValue(row.getCell((short) j)).trim() + "-";
-                                    j++;
-                                 }
-                                 System.out.println(str);
-                                str="";
-                           }
-                  } catch (Exception e) {
-                        // TODO: handle exception
-                  }
-    }
-
-    private static String getCellFormatValue(HSSFCell cell) {
-                String cellvalue = "";
-                if (cell != null) {
-                       // 判断当前Cell的Type
-                        switch (cell.getCellType()) {
-                                // 如果当前Cell的Type为NUMERIC
-                               case HSSFCell.CELL_TYPE_NUMERIC:
-                                    case HSSFCell.CELL_TYPE_FORMULA: {
-                                         // 判断当前的cell是否为Date
-                                         if (HSSFDateUtil.isCellDateFormatted(cell)) {
-                                                Date date = cell.getDateCellValue();
-                                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                                cellvalue = sdf.format(date);
-                                            }
-                                         // 如果是纯数字
-                                         else {
-                                                 // 取得当前Cell的数值
-                                                 cellvalue = String.valueOf(cell.getNumericCellValue());
-                                            }
-                                        break;
-                                    }
-                                // 如果当前Cell的Type为STRIN
-                                case HSSFCell.CELL_TYPE_STRING:
-                                        // 取得当前的Cell字符串
-                                        cellvalue = cell.getRichStringCellValue().getString();
-                                        break;
-                                 // 默认的Cell值
-                                default:
-                                         cellvalue = " ";
-                                }
-                    } else {
-                        cellvalue = "";
-                    }
-                return cellvalue;
+            CollegeUser collegeUser = userPackaging(list.get(i));
+            HSSFRow rows= sheet.createRow(i + 1);//创建第二列 标题
+            rows.createCell((short)0).setCellValue(collegeUser.getJobNumber());
+            rows.createCell((short)1).setCellValue(collegeUser.getCollegeUserName());
+            rows.createCell((short)2).setCellValue(collegeUser.getIdentityCard());
+            rows.createCell((short)3).setCellValue(simpleDateFormat.format(collegeUser.getBirthday()));
+            rows.createCell((short)4).setCellValue(collegeUser.getSex());
+            rows.createCell((short)5).setCellValue(collegeUser.getTelephone());
+            rows.createCell((short)6).setCellValue(collegeUser.getEducation());
+            rows.createCell((short)7).setCellValue(collegeUser.getJobTitle());
+            rows.createCell((short)8).setCellValue(collegeUser.getCollege());
+            rows.createCell((short)9).setCellValue(collegeUser.getPosition());
+            rows.createCell((short)10).setCellValue(collegeUser.getType());
+            rows.createCell((short)11).setCellValue(collegeUser.getDegree());
+            rows.createCell((short)12).setCellValue(collegeUser.getAddress());
+            rows.createCell((short)13).setCellValue(collegeUser.getGraduateTime());
+            rows.createCell((short)14).setCellValue(simpleDateFormat.format(collegeUser.getStartTime()));
+            if(collegeUser.getEndTime() != null){
+                rows.createCell((short)15).setCellValue(simpleDateFormat.format(collegeUser.getEndTime()));
             }
+        }
+        return wb;
+    }
 
+
+    public College findByCid(Long cid) {
+        College college = collegeMapper.selectByPrimaryKey(cid);
+        if(college == null){
+            throw new PException(Code.COLLEGE_NOT_EXIST,"该部门不存在");
+        }
+        return college;
+    }
+    //对不同的版本excel提供不同的实现类，但实现方式方法相同
+    /**
+     *  大致思路：
+     *      首先根据工号查询，如果存在则该行记录为更新
+     *      如果工号不存在，则进行插入
+     *      已某种约定好的形式进行，具体参照模板
+     * */
+    public void importData(Workbook wb) {
+        Sheet sheet = wb.getSheetAt(0);
+        Row rows = null; //每一行记录
+        int rowNum = sheet.getLastRowNum();
+        //标记 true为更新，false为添加, 默认为添加
+        boolean flag = false;
+        User user = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //跳过第一行，也就是标题,固定格式
+        for (int i = 1; i <= rowNum; i++) {
+            rows = sheet.getRow(i);
+            if(rows != null){
+                user = new User();
+                if(rows.getCell(0) == null){
+                    throw new PException(Code.JOBNUMER_NOT_EXIST,"工号不存在");
+                }
+                String jobNumber = rows.getCell(0).getStringCellValue();//工号
+                User findUser = userService.findByJobNumber(jobNumber);
+                if(findUser != null){
+                    //需要更新操作
+                    flag = true;
+                    user.setUid(findUser.getUid());
+                }
+                user.setJobNumber(jobNumber);
+                if(findUser == null){
+                    String password = MD5Util.md5(jobNumber, jobNumber);
+                    user.setPassword(password);
+                }
+
+                String name = rows.getCell(1).getStringCellValue();//真实姓名
+                if(isNotBlank(name)){
+                    throw new PException(Code.NAME_NOT_EXIST,"工号不存在");
+                }
+                user.setName(name);
+
+                String idCard = rows.getCell(2).getStringCellValue();//身份证号
+                if(isNotBlank(idCard)){
+                    throw new PException(Code.IDCART_NOT_EXIST,"身份证号不存在");
+                }
+                user.setIdentityCard(idCard);
+
+                user.setBirthday(getDate(3,rows.getCell(3).getCellTypeEnum(),rows));
+                if(rows.getCell(4).getStringCellValue().equals("男")){
+                    user.setSex("1");
+                }else{
+                    user.setSex("2");
+                }
+
+                user.setTelephone(rows.getCell(5).getStringCellValue());
+
+                String education = rows.getCell(6).getStringCellValue();//最高学历
+                Base baseEducation = baseService.findByValue(education);
+                user.setEducationId(baseEducation.getBid());
+
+                String jobTitle = rows.getCell(7).getStringCellValue();//最高学历
+                Base baseJob = baseService.findByValue(jobTitle);
+                user.setEducationId(baseJob.getBid());
+
+                String collegeName = rows.getCell(8).getStringCellValue();//所属部门
+                College college = findByCollegeName(collegeName);
+                user.setCid(college.getCid());
+
+                user.setPosition(rows.getCell(9).getStringCellValue());//全部职位
+
+                String type = rows.getCell(10).getStringCellValue();//人员类型
+                Base baseType = baseService.findByValue(type);
+                user.setTypeId(baseType.getBid());
+
+                String degree = rows.getCell(11).getStringCellValue();//最高学位
+                Base baseDegree = baseService.findByDegree(degree);
+                user.setDegreeId(baseDegree.getBid());
+
+                user.setAddress(rows.getCell(12).getStringCellValue());
+                //毕业时间
+                if(rows.getCell(13) != null){
+                    if(rows.getCell(13).getCellTypeEnum() == CellType.NUMERIC){
+                        Date date = rows.getCell(13).getDateCellValue();
+                        user.setGraduateTime(format.format(date));
+                    }else if(rows.getCell(13).getCellTypeEnum() == CellType.STRING){
+                        String date = rows.getCell(13).getStringCellValue();
+                        user.setGraduateTime(date);
+                    }
+                }
+                //入职时间
+                user.setStartTime(getDate(14,rows.getCell(14).getCellTypeEnum(),rows));
+                //离职时间
+                if(rows.getCell(15) != null){
+                    user.setEndTime(getDate(15,rows.getCell(15).getCellTypeEnum(),rows));
+                }
+
+                //是添加还是更新
+                if(flag){//更新
+                    userService.updateByUser(user);
+                }else{//添加
+                    user.setStatus("1");
+                    user.setEntryStatusId(30L);//入职状态，默认
+                    user.setComplete("0");
+                    commonCertificateService.addCommonCertificate(user);
+                    entryCertificateService.addEntryCertificate(user);
+                    stageCertificateService.addStageCertificate(user);
+                    userService.addUser(user,"1");
+                }
+                flag = false;
+            }
+        }
+    }
+
+    private Date getDate(int row, CellType type, Row rows){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if(type == CellType.NUMERIC){
+            Date date = rows.getCell(row).getDateCellValue();//日期格式
+            return date;
+        }else if(type == CellType.STRING){//字符串
+            String birthday = rows.getCell(row).getStringCellValue();
+            try {
+                Date date = format.parse(birthday);
+                return date;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+    private College findByCollegeName(String collegeName) {
+        College college = new College();
+        college.setName(collegeName);
+
+        College selectOne = collegeMapper.selectOne(college);
+        if(selectOne == null){
+            throw new PException(Code.COLLEGE_NOT_EXIST,"部门不存在");
+        }
+        return selectOne;
+    }
+
+    public boolean isNotBlank(String str){
+        return StringUtils.isBlank(str);
+    }
 }

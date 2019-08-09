@@ -1,7 +1,9 @@
  //控制层 
-app.controller('userController' ,function($scope, $controller, userService){
+app.controller('userController' ,function($scope, $location,$controller, userService){
 
     $controller('finalController',{$scope:$scope});
+
+    $scope.entity = {}; //
     //加载初始化
 	$scope.init = function(){
         $scope.degreeSelect();
@@ -95,17 +97,29 @@ app.controller('userController' ,function($scope, $controller, userService){
     }
 
     $scope.addUser = function () {
-        userService.addUser($scope.user).success(
+	    let object = null;
+	    if($scope.entity.uid != null){
+            object = userService.updeteByUser($scope.entity);
+        }else{
+            object = userService.addUser($scope.entity.author,$scope.entity);
+        }
+        object.success(
             function (response) {
-              $scope.user = response.data
+              if($scope.entity.uid != null){
+                  if(response.flag){
+                      alert("更新成功");
+                  }else{
+                      alert("更新失败");
+                  }
+              }else{
+                  $scope.entity = {};
+                  if(response.flag){
+                      alert("添加成功");
+                  }else{
+                      alert("添加失败");
+                  }
+              }
         })
-    }
-
-    $scope.deleteUser = function () {
-        userService.deleteUser($scope.uid).success(
-            function (response) {
-                $scope.user = response.data
-            })
     }
 
     $scope.updeteByUser = function () {
@@ -116,9 +130,11 @@ app.controller('userController' ,function($scope, $controller, userService){
     }
 
     $scope.findByUid = function () {
-        userService.findByUid($scope.uid).success(
+        let selectId = $location.search()['selectIds']; // 获取路径的参数
+        console.log(selectId);
+        userService.findByUid(selectId).success(
             function (response) {
-               $scope.user = response.data
+               $scope.entity = response.data
             }
         )
     }

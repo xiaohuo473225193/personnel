@@ -3,6 +3,7 @@ package manager.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import manager.bo.SelectOptionData;
 import manager.mapper.UserMapper;
 import manager.pojo.College;
 import manager.pojo.User;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 import util.*;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -59,7 +61,7 @@ public class UserService {
         userMapper.updateByPrimaryKeySelective(user);
     }
 
-    public List<User> findByCid(Long cid){
+    public List<User> findByCid(Long cid, SelectOptionData data){
 
         if(cid == null){
             throw new PException(Code.ID_NOT_EXIST,"ID不存在");
@@ -69,6 +71,17 @@ public class UserService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("status","1");
         criteria.andEqualTo("cid" ,cid);
+
+        if(StringUtils.isNotBlank(data.getJobNumber())){
+            criteria.andLike("jobNumber","%"+data.getJobNumber()+"%");
+        }
+        if(StringUtils.isNotBlank(data.getName())){
+            criteria.andLike("name","%"+data.getName()+"%");
+        }
+        if(StringUtils.isNotBlank(data.getIdentityCard())){
+            criteria.andLike("identityCard","%"+data.getIdentityCard()+"%");
+        }
+
         List<User> users = userMapper.selectByExample(example);
         return users;
     }
@@ -83,7 +96,7 @@ public class UserService {
     public void addUser(User user,String author){
         User user1 = new User();
         user1.setJobNumber(user.getJobNumber());
-        if(userMapper.select(user1) != null ){
+        if(userMapper.selectOne(user1) != null ){
             throw new PException(Code.USER_EXIST,"用户已存在");
         }
         user.setAuthor(author);
@@ -97,20 +110,21 @@ public class UserService {
 
     /**
      * @author      2571169797   yang meng bo
-     * @param uid
+     * @param uids
      * @return      void
      * @exception
      * @date        2019/8/2 0002 下午 14:00
      * @description 根据uid删除数据
      */
-    public void deleteUser(Long uid){
-        User user =  userMapper.selectByPrimaryKey(uid);
-        if(user == null){
-            throw new PException(Code.ID_NOT_EXIST,"ID不存在");
+    public void deleteUser(List<Long> uids){
+        for (Long uid : uids) {
+            User user =  userMapper.selectByPrimaryKey(uid);
+            if(user == null){
+                throw new PException(Code.ID_NOT_EXIST,"ID不存在");
+            }
+            user.setStatus("0");
+            updateByUser(user);
         }
-
-        user.setStatus("0");
-        updateByUser(user);
     }
     /**
      * @author      2571169797   yang meng bo
@@ -121,11 +135,10 @@ public class UserService {
      * @description 根据user更新数据
      */
     public void updateByUser(User user){
-
         if(userMapper.selectByPrimaryKey(user) == null ){
             throw new PException(Code.USER_NOT_EXIST,"用户不存在");
         }
-        userMapper.updateByPrimaryKey(user);
+        userMapper.updateByPrimaryKeySelective(user);
     }
     /**
      * @author      2571169797   yang meng bo
@@ -184,9 +197,27 @@ public class UserService {
         User user = new User();
         user.setJobNumber(jobNumber);
         User targetUser = userMapper.selectOne(user);
-        if(targetUser == null){
+        /*if(targetUser == null){
             throw new PException(Code.USER_NOT_EXIST,"用户不存在");
-        }
+        }*/
         return targetUser;
     }
+
+    public List<User> findByCidOrSelectOptionData(Long cid, SelectOptionData data) {
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("cid",cid);
+        if(StringUtils.isNotBlank(data.getJobNumber())){
+            criteria.andLike("jobNumber", "%"+data.getJobNumber()+"%");
+        }
+        if(StringUtils.isNotBlank(data.getIdentityCard())){
+            criteria.andLike("identityCard", "%"+data.getIdentityCard()+"%");
+        }
+        if(StringUtils.isNotBlank(data.getName())){
+            criteria.andLike("name", "%"+data.getName()+"%");
+        }
+        List<User> users = userMapper.selectByExample(example);
+        return users;
+    }
+
 }

@@ -39,6 +39,7 @@ public class EntryCertificateService {
             throw new PException(Code.ID_NOT_EXIST,"id不存在");
         }
         entryCertificate.setUid(user.getUid());
+        entryCertificate.setComplete("0");
         entryCertificateMapper.insert(entryCertificate);
     }
 

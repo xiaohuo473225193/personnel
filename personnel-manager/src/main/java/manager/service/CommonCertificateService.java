@@ -63,6 +63,7 @@ public class CommonCertificateService {
             throw new PException(Code.ID_NOT_EXIST,"id不存在");
         }
         commonCertificate.setUid(user.getUid());
+        commonCertificate.setComplete("0");
         commonCertificateMapper.insert(commonCertificate);
     }
     /**

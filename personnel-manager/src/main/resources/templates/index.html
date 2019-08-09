@@ -10,8 +10,19 @@
 	<link rel="stylesheet" href="css/matrix-style.css" />
 	<link rel="stylesheet" href="css/matrix-media.css" />
 	<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
-	<link rel="stylesheet" href="css/jquery.gritter.css" />
+	<link rel="stylesheet" href="css/jquery.gritter.css"/>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+    <!--upload start-->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+    <script src="js/controller/base.js"></script>
+    <script src="js/controller/finalController.js"></script>
+    <script src="js/service/indexService.js"></script>
+    <script src="js/controller/indexController.js"></script>
+
 	<script type="text/javascript">   
 		 function SetIFrameHeight(){
 		  	  var iframeid=document.getElementById("iframe"); //iframe id
@@ -21,7 +32,7 @@
 		 }
 	</script>  
 </head>
-<body>
+<body ng-app="personnel" ng-controller="indexController" ng-init="getUser();">
 
 <!--Header-part-->
 <div id="header">
@@ -31,13 +42,13 @@
 <!--top-Header-menu-->
 <div id="user-nav" class="navbar navbar-inverse">
   <ul class="nav">
-    <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">欢迎Admin</span><b class="caret"></b></a>
+    <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">欢迎&nbsp;&nbsp;{{user.name}}</span><b class="caret"></b></a>
       <ul class="dropdown-menu">
         <li><a href="#"><i class="icon-user"></i> 我的资料</a></li>
         <li class="divider"></li>
         <li><a href="#"><i class="icon-check"></i> 我的任务</a></li>
         <li class="divider"></li>
-        <li><a href="login.html"><i class="icon-key"></i> 退出</a></li>
+        <li><a href="/logout"><i class="icon-key"></i> 退出</a></li>
       </ul>
     </li>
     <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">消息</span> <span class="label label-important">5</span> <b class="caret"></b></a>
@@ -52,7 +63,7 @@
       </ul>
     </li>
     <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">设置</span></a></li>
-    <li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">退出</span></a></li>
+    <li class=""><a title="" href="/logout"><i class="icon icon-share-alt"></i> <span class="text">退出</span></a></li>
   </ul>
 </div>
 <!--close-top-Header-menu-->
@@ -66,7 +77,14 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 控制台</a>
   <ul>
     <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>首页</span></a> </li>
-    <li class="submenu"> <a href="#"><i class="icon icon-user"></i> <span>个人基本信息</span> </a>
+
+    <li class="submenu" ng-click="openAndClose($event);" ng-repeat="menu in menuList">
+      <a ng-click="openclose($event);" href="#" ><i class="icon icon-user"></i> <span>{{menu.menuName}}</span></a>
+      <ul>
+        <li ng-repeat="ms in menu.menus"><a href="{{ms.url}}" target="iframe">{{ms.text}}</a></li>
+      </ul>
+    </li>
+    <!--<li class="submenu"> <a href="#"><i class="icon icon-user"></i> <span>个人基本信息</span> </a>
       <ul>
         <li><a href="form-common.html" target="iframe">个人信息</a></li>
         <li><a href="form-certificate1.html" target="iframe">常规证件</a></li>
@@ -77,9 +95,9 @@
 	
 	<li class="submenu"> <a href="#"><i class="icon icon-flag"></i> <span>党群机构</span> </a>
       <ul>
-        <li><a href="government-office.html" target="iframe">政党办公室</a></li>
-        <li><a href="organization-department.html" target="iframe">组织部</a></li>
-        <li><a href="propaganda-department.html" target="iframe">宣传部</a></li>
+        <li><a href="partyOrganization/government-office.html" target="iframe">政党办公室</a></li>
+        <li><a href="partyOrganization/organization-department.html" target="iframe">组织部</a></li>
+        <li><a href="partyOrganization/propaganda-department.html" target="iframe">宣传部</a></li>
       </ul>
     </li>
 	
@@ -101,7 +119,7 @@
         <li><a href="error405.html">05错误页面</a></li>
         <li><a href="error500.html">500错误页面</a></li>
       </ul>
-    </li>
+    </li>-->
     <li class="content"> <span>每个月带宽</span>
       <div class="progress progress-mini progress-danger active progress-striped">
         <div style="width: 77%;" class="bar"></div>
@@ -138,7 +156,7 @@
 
 <!--end-Footer-part-->
 
-<script src="js/excanvas.min.js"></script> 
+<script src="js/excanvas.min.js"></script>
 <script src="js/jquery.min.js"></script> 
 <script src="js/jquery.ui.custom.js"></script> 
 <script src="js/bootstrap.min.js"></script> 
@@ -158,7 +176,7 @@
 <script src="js/select2.min.js"></script> 
 <script src="js/matrix.popover.js"></script> 
 <script src="js/jquery.dataTables.min.js"></script> 
-<script src="js/matrix.tables.js"></script> 
+<script src="js/matrix.tables.js"></script>
 
 <script type="text/javascript">
 	$("iframe").mouseover(function(){
@@ -170,6 +188,7 @@
 	   $("body").css("overflow","auto");     
 	   $("iframe").css("overflow","auto");
 	});
+
   // This function is called from the pop-up menus to transfer to
   // a different page. Ignore if the value returned is a null string:
   function goPage (newURL) {

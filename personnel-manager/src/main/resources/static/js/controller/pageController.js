@@ -11,9 +11,7 @@ app.controller('pageController',function($scope){
 			}
 	}
 	$scope.reloadList = function(){
-		console.log("page1");
 		$scope.findUserOfCollegeByCidInit($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
-        console.log("page1");
 	}
 
 	//用户勾选的ID集合

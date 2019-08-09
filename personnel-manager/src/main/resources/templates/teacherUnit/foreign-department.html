@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>数据表格页面</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="../css/bootstrap.min.css" />
+	<link rel="stylesheet" href="../css/bootstrap-responsive.min.css" />
+	<link rel="stylesheet" href="../css/uniform.css" />
+	<link rel="stylesheet" href="../css/matrix-style.css" />
+	<link rel="stylesheet" href="../css/myinput.css" />
+	<link href="../font-awesome/css/font-awesome.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
+
+	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+	<script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+	<!--upload start-->
+	<script type="text/javascript" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" src="../plugins/angularjs/angular.min.js"></script>
+	<script src="../plugins/angularjs/pagination.js"></script>
+	<script src="../js/controller/base_pageination.js"></script>
+	<script src="../js/controller/pageController.js"></script>
+	<script src="../js/controller/finalController.js"></script>
+	<script src="../js/service/commonCollegeService.js"></script>
+	<script src="../js/controller/commonCollegeController.js"></script>
+</head>
+<body ng-app="personnel" ng-controller="commonCollegeController" ng-init="initAttr(college.teacherUnit.foreign)">
+
+<div id="content" style="margin-left: 0px;">
+	<div id="content-header">
+		<div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Tables</a> </div>
+		<h1>教学单位</h1>
+	</div>
+	<div class="container-fluid">
+		<hr>
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="widget-box">
+					<div class="widget-title"> <span class="icon icon-user"></span>
+						<h5>外国语学院</h5>
+					</div>
+					<div style="margin:10px 20px 0 19px;">
+						<div class="hold-show">
+							<input type="text" ng-model="selectOption.jobNumber" placeholder="员工工号"  style="height: 28px;width: 183px;margin-bottom: 3px;"/>
+							<input type="text" ng-model="selectOption.name" placeholder="员工姓名"  style="height: 28px;width: 183px;margin-bottom: 3px;"/>
+							<input type="text" ng-model="selectOption.identityCard" placeholder="身份证号"  style="height: 28px;width: 183px;margin-bottom: 3px;"/>
+							<a class="icon  icon-zoom-out" ng-click="reloadList();" href="javascript:void(0);">查询</a>
+						</div>
+					</div>
+					<hr style="margin-top: 0px;margin-bottom: 0px;">
+					<div style="height:50px;">
+						<a href="../add-person.html"><div style="margin:10px 10px 0 20px;" class="btn btn-success icon icon-plus"> 添加</div></a>
+						<button ng-click="deleteUser();" style="margin:10px 10px 0 0px;" class="btn btn-danger icon icon-minus"> 删除</button>
+						<button ng-click="updateUser();" style="margin:10px 10px 0 0px;" class="btn btn-info icon icon-pencil"> 修改</button>
+						<a href="../import.html"><button style="margin:10px 10px 0 0px;" class="btn btn-success icon icon-chevron-down"> 导入</button></a>
+						<button ng-click="export();" style="margin:10px 10px 0 0px;" class="btn btn-success icon icon-chevron-up"> 导出</button>
+						<button ng-click="reloadList();" style="margin:10px 10px 0 0px;" class="btn btn-info icon icon-repeat"> 刷新</button>
+					</div>
+					<div class="widget-content nopadding" style="width:100%;overflow:auto;">
+						<table class="table table-bordered table-striped with-check" style="width:2100px;">
+							<thead>
+							<tr>
+								<th><i class="icon-resize-vertical"></i></th>
+								<th>工号</th>
+								<th>真实姓名</th>
+								<th>身份证号</th>
+								<th>出生日期</th>
+								<th>性别</th>
+								<th>联系方式</th>
+								<th>最高学历 </th>
+								<th>最高职称</th>
+								<th>所属部门</th>
+								<th>全部职位</th>
+								<th>人员类型</th>
+								<th>最高学位</th>
+								<th>家庭住址</th>
+
+								<th>常规证件</th>
+								<th>常规证件状态</th>
+								<th>入职表单</th>
+								<th>入职表单状态</th>
+								<th>阶段性鉴证材料</th>
+								<th>阶段性鉴证材料状态</th>
+
+								<th>毕业时间</th>
+								<th>入职日期</th>
+								<th>离职日期</th>
+							</tr>
+							</thead>
+							<tbody>
+							<tr ng-repeat="collegeUser in collegeUsers">
+								<td><input type="checkbox" ng-click="updateSelection($event,collegeUser.collegeUserId)"/></td>
+								<td style="text-align: center">{{collegeUser.jobNumber}}</td>
+								<td style="text-align: center">{{collegeUser.collegeUserName}}</td>
+								<td style="text-align: center">{{collegeUser.identityCard}}</td>
+								<td style="text-align: center">{{collegeUser.birthday | date:'yyyy-MM-dd'}}</td>
+								<td style="text-align: center">{{collegeUser.sex}}</td>
+								<td style="text-align: center">{{collegeUser.telephone}}</td>
+								<td style="text-align: center">{{collegeUser.education}}</td>
+								<td style="text-align: center">{{collegeUser.type}}</td>
+								<td style="text-align: center">{{collegeUser.college}}</td>
+								<td style="text-align: center">{{collegeUser.position}}</td>
+								<td style="text-align: center">{{collegeUser.type}}</td>
+								<td style="text-align: center">{{collegeUser.degree}}</td>
+								<td style="text-align: center">{{collegeUser.address}}</td>
+
+								<td style="text-align: center"><a style="color:#1909ef;" href="form-certificate1.html?#jobNumber={{collegeUser.jobNumber}}">查看证书</a></td>
+								<td style="text-align: center">
+					  <span style="color:rgba(255, 0, 0, 0.56);" ng-if="collegeUser.commonComplete != 1">
+						  证书未全部上传
+					  </span>
+									<span style="color:#62c462" ng-if="collegeUser.commonComplete == 1">
+						  证书已全部上传
+					  </span>
+								</td>
+								<td style="text-align: center"><a style="color:#1909ef;" href="form-certificate2.html?#jobNumber={{collegeUser.jobNumber}}">查看证书</a></td>
+								<td style="text-align: center">
+					  <span style="color:rgba(255, 0, 0, 0.56);" ng-if="collegeUser.entryComplete != 1">
+						  证书未全部上传
+					  </span>
+									<span style="color:#62c462" ng-if="collegeUser.entryComplete == 1">
+						  证书已全部上传
+					  </span>
+								</td>
+								<td style="text-align: center"><a style="color:#1909ef;" href="form-certificate3.html?#jobNumber={{collegeUser.jobNumber}}">查看证书</a></td>
+								<td style="text-align: center">
+					  <span style="color:rgba(255, 0, 0, 0.56);" ng-if="collegeUser.stageComplete != 1">
+						  证书未全部上传
+					  </span>
+									<span style="color:#62c462" ng-if="collegeUser.stageComplete == 1">
+						  证书已全部上传
+					  </span>
+								</td>
+								<td style="text-align: center">
+									<span ng-if="collegeUser.graduateTime != ''">{{collegeUser.graduateTime}}</span>
+									<span style="color:rgba(255, 0, 0, 0.56);" ng-if="collegeUser.graduateTime == ''">未填写</span>
+								<td style="text-align: center">{{collegeUser.startTime | date:'yyyy-MM-dd'}}</td>
+								<td style="text-align: center" ng-if="collegeUser.endTime != '' && collegeUser.endTime != null">{{collegeUser.endTime | date:'yyyy-MM-dd'}}</td>
+								<td style="text-align: center" ng-if="collegeUser.endTime == '' || collegeUser.endTime == null">
+									<span style="color:rgba(255, 0, 0, 0.56);">未填写</span>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+					<tm-pagination conf="paginationConf"></tm-pagination>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

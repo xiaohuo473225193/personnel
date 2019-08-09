@@ -6,6 +6,8 @@ import manager.vo.SelectDataList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
+import util.Code;
+import util.PException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,5 +64,26 @@ public class BaseService {
 
     public Base findByBid(long bid){
         return baseMapper.selectByPrimaryKey(bid);
+    }
+
+    public Base findByValue(String education) {
+        Base base = new Base();
+        base.setItemValue(education);
+        Base baseOne = baseMapper.selectOne(base);
+        if(baseOne == null){
+            throw new PException(Code.BASE_VALUE_NOT_EXIST,"该字典值不存在");
+        }
+        return baseOne;
+    }
+
+    public Base findByDegree(String degree) {
+        Base base = new Base();
+        base.setItemType("005");
+        base.setItemValue(degree);
+        Base baseOne = baseMapper.selectOne(base);
+        if(baseOne == null){
+            throw new PException(Code.BASE_VALUE_NOT_EXIST,"该字典值不存在");
+        }
+        return baseOne;
     }
 }
