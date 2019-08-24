@@ -14,7 +14,7 @@ app.controller('commonCollegeController' ,function($scope, $controller,commonCol
         identityCard:""
     }
     //查询实体
-    $scope.findUserOfCollegeByCidInit = function (page,size) {
+    $scope.searchPage = function (page,size) {
         commonCollegeService.findUserOfCollegeByCidInit($scope.collegeCid,$scope.selectOption,page,size).success(
             function (response) {
                 $scope.collegeUsers = response.list;
@@ -48,7 +48,7 @@ app.controller('commonCollegeController' ,function($scope, $controller,commonCol
         }
     }
 
-
+    //客户端用@RequestParam接收
     $scope.export = function () {
         $scope.download('/download/export/'+$scope.adminUser.cid+'/'+$scope.adminUser.author,$scope.selectOption);
     }

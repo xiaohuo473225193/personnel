@@ -48,11 +48,6 @@ public class UserController {
      * @date        2019/8/1 14:48
      * @description 根据登录名称查询出个人信息
      */
-    @GetMapping("findOne")
-    public Result<User> findOne(){
-        User user = userService.findOne();
-        return new Result<>(user);
-    }
     @GetMapping("get")
     public Result<User> getUserInfo(){
         UserInfo userInfo = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

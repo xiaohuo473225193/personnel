@@ -7,6 +7,7 @@ $(document).ready(function(){
 	
 	$('.submenu > a').click(function(e)
 	{
+		console.log("111");
 		e.preventDefault();
 		var submenu = $(this).siblings('ul');
 		var li = $(this).parents('li');
@@ -38,6 +39,7 @@ $(document).ready(function(){
 	
 	$('#sidebar > a').click(function(e)
 	{
+        console.log("222");
 		e.preventDefault();
 		var sidebar = $('#sidebar');
 		if(sidebar.hasClass('open'))

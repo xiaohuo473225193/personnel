@@ -10,7 +10,7 @@ app.service('newsService',function($http){
     this.updateNews = function (news) {
         return $http.put('/news/updateNews',news);
     }
-    this.findAllNews = function () {
-        return $http.get('/news/findAllNews');
+    this.findAllNews = function (page,size) {
+        return $http.get('/news/findAllNews/'+page+'/'+size);
     }
 });

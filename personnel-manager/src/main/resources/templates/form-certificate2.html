@@ -32,6 +32,7 @@
 	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
 	<script src="js/controller/base.js"></script>
 	<script src="js/controller/finalController.js"></script>
+	<script src="js/service/userService.js"></script>
 	<script src="js/service/entryCertificateService.js"></script>
 	<script src="js/controller/entryCertificateController.js"></script>
 </head>
@@ -52,7 +53,7 @@
 	<div class="span12">
       <div class="widget-box">
         <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-          <h5>入职表单</h5>
+          <h5>入职表单({{entryCertificate.name}})</h5>
         </div>
         <div class="widget-content nopadding">
           <form action="#" method="get" class="form-horizontal">

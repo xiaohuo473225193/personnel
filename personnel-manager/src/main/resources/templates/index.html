@@ -78,8 +78,8 @@
   <ul>
     <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>首页</span></a> </li>
 
-    <li class="submenu" ng-click="openAndClose($event);" ng-repeat="menu in menuList">
-      <a ng-click="openclose($event);" href="#" ><i class="icon icon-user"></i> <span>{{menu.menuName}}</span></a>
+    <li class="submenu" ng-repeat="menu in menuList">
+      <a href="#" ng-cloak ng-click="openAndClose($event);"><i class="icon icon-user"></i> {{menu.menuName}}</a>
       <ul>
         <li ng-repeat="ms in menu.menus"><a href="{{ms.url}}" target="iframe">{{ms.text}}</a></li>
       </ul>

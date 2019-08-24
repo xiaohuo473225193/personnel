@@ -39,68 +39,25 @@ app.controller('indexController' ,function($scope, indexService){
         let submenus_parents = $('#sidebar li.submenu');//li
         if(li.hasClass('open'))
         {
+            console.log("open -> " + $(window).width());
             if(($(window).width() > 768) || ($(window).width() < 479)) {
-                submenu.slideDown();
+                submenu.slideUp();//向下滑动
             } else {
-                submenu.fadeOut(250);
+                submenu.fadeOut(250);//淡出
             }
             li.removeClass('open');
         } else
         {
+            console.log("no open -> " + $(window).width());
             if(($(window).width() > 768) || ($(window).width() < 479)) {
-                submenus.slideUp();
-                submenu.slideDown();
+                submenus.slideUp();//向上滑动
+                submenu.slideDown();//向下滑动
             } else {
-                submenus.fadeOut(250);
-                submenu.fadeIn(250);
+                submenus.fadeOut(250);//淡出
+                submenu.fadeIn(250);//淡入
             }
             submenus_parents.removeClass('open');
             li.addClass('open');
         }
-        /*$('.submenu > a').click(function(e)
-        {
-            console.log("1生效了？")
-            e.preventDefault();
-            var submenu = $(this).siblings('ul');
-            var li = $(this).parents('li');
-            var submenus = $('#sidebar li.submenu ul');
-            var submenus_parents = $('#sidebar li.submenu');
-            if(li.hasClass('open'))
-            {
-                if(($(window).width() > 768) || ($(window).width() < 479)) {
-                    submenu.slideUp();
-                } else {
-                    submenu.fadeOut(250);
-                }
-                li.removeClass('open');
-            } else
-            {
-                if(($(window).width() > 768) || ($(window).width() < 479)) {
-                    submenus.slideUp();
-                    submenu.slideDown();
-                } else {
-                    submenus.fadeOut(250);
-                    submenu.fadeIn(250);
-                }
-                submenus_parents.removeClass('open');
-                li.addClass('open');
-            }
-        });
-        var ul = $('#sidebar > ul');
-        $('#sidebar > a').click(function(e)
-        {
-            console.log("2生效了？")
-            e.preventDefault();
-            var sidebar = $('#sidebar');
-            if(sidebar.hasClass('open'))
-            {
-                sidebar.removeClass('open');
-                ul.slideUp(250);
-            } else
-            {
-                sidebar.addClass('open');
-                ul.slideDown(250);
-            }
-        });*/
     }
 });	

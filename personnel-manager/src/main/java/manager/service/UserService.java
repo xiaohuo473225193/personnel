@@ -35,7 +35,6 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-
     public User findOne(){
         return userMapper.selectByPrimaryKey(2);
     }

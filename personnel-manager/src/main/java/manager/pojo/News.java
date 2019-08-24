@@ -2,10 +2,7 @@ package manager.pojo;
 
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -25,4 +22,6 @@ public class News {
     private String status;
     private Date createTime;
     private Date updateTime;
+    @Transient
+    private String authorName;
 }

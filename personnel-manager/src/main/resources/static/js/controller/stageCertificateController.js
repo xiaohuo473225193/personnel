@@ -1,7 +1,8 @@
  //控制层 
-app.controller('stageCertificateController' ,function($scope,stageCertificateService){
+app.controller('stageCertificateController' ,function($scope, $location, userService, stageCertificateService){
     $scope.stageCertificate = {
-        uid:"2",
+        uid:0,
+        name:"",
         honorImage:"",
         postEvaluateImage:"",
         applyImage:"",
@@ -18,15 +19,48 @@ app.controller('stageCertificateController' ,function($scope,stageCertificateSer
         yearInterviewImage:"",
         awardDispositionImage:""
     }
+
+    //根据自身id进行查询
+    $scope.findOne=function(){
+        userService.findOne().success(
+            function(response){
+                $scope.user = response.data;
+                $scope.stageCertificate.uid = $scope.user.uid;
+                $scope.stageCertificate.name = $scope.user.name;
+                $scope.showImg($scope.stageCertificate.uid);
+            }
+        );
+    }
+    //根据传过来的id查询
+    $scope.findByUid = function (uid) {
+        userService.findByUid(uid).success(
+            function (response) {
+                $scope.user = response.data;
+                $scope.stageCertificate.uid = $scope.user.uid;
+                $scope.stageCertificate.name = $scope.user.name;
+                $scope.showImg($scope.stageCertificate.uid);
+            }
+        )
+    }
     //在初始化的时候回显图片信息
     $scope.initShow = function(){
-        stageCertificateService.showStageCertificate($scope.stageCertificate.uid).success(
+        let uid = $location.search()['uid']; // 获取路径的参数
+        if(uid != null && uid != "" && uid != undefined){
+            $scope.findByUid(uid);
+        }else{
+            $scope.findOne();//为空，就是查看自身
+        }
+    }
+
+    $scope.showImg = function(uid){
+        stageCertificateService.showStageCertificate(uid).success(
             function (response) {
                 //获取图片地址，属于哪个图片类型
                 $scope.packageStageCertificate(response.data);
             }
         )
     }
+
     //封装入职表单证书属性，用户图片展示
     $scope.packageStageCertificate = function(data){
         let honor = data.honorImage;

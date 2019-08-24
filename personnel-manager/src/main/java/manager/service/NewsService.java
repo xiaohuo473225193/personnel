@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import manager.mapper.NewsMapper;
 import manager.pojo.News;
+import manager.pojo.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import util.Code;
 import util.PException;
 import util.PageResult;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +32,8 @@ import java.util.List;
 public class NewsService {
     @Autowired
     private NewsMapper newsMapper;
+    @Autowired
+    private UserService userService;
 
     public void addNews(News news){
 
@@ -67,9 +71,19 @@ public class NewsService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("status","1");
         Page<News> newsList = (Page<News>)newsMapper.selectByExample(example);
+        List<News> news = packageUser(newsList.getResult());
+        return new PageResult<News>(newsList.getTotal(), news);
 
-        return new PageResult<News>(newsList.getTotal(),newsList.getResult());
+    }
 
+    private List<News> packageUser(List<News> result) {
+        List<News> targetLists = new ArrayList<>();
+        for (News news : result) {
+            User user = userService.findByUid(news.getUid());
+            news.setAuthorName(user.getName());
+            targetLists.add(news);
+        }
+        return targetLists;
     }
 
 }

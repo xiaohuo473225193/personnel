@@ -131,7 +131,6 @@ app.controller('userController' ,function($scope, $location,$controller, userSer
 
     $scope.findByUid = function () {
         let selectId = $location.search()['selectIds']; // 获取路径的参数
-        console.log(selectId);
         userService.findByUid(selectId).success(
             function (response) {
                $scope.entity = response.data
@@ -145,5 +144,10 @@ app.controller('userController' ,function($scope, $location,$controller, userSer
                 $scope.userList = response.data
             }
         )
+    }
+    //返回列表
+    $scope.returnList = function(){
+        //$scope.selectIds = [];
+        window.location.replace(document.referrer);//返回上一页并刷新
     }
 });	

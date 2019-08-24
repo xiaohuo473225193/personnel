@@ -1,21 +1,56 @@
  //控制层 
-app.controller('entryCertificateController' ,function($scope,entryCertificateService){
+app.controller('entryCertificateController' ,function($scope, $location, userService, entryCertificateService){
     $scope.entryCertificate = {
-        uid:"2",
+        uid:0,
+        name:"",
         entryNoticeImage:"",
         entryAgreeImage:"",
         secrecyImage:"",
         hireImage:""
     }
+
+
+    //根据自身id进行查询
+    $scope.findOne=function(){
+        userService.findOne().success(
+            function(response){
+                $scope.user = response.data;
+                $scope.entryCertificate.uid = $scope.user.uid;
+                $scope.entryCertificate.name = $scope.user.name;
+                $scope.showImg($scope.entryCertificate.uid);
+            }
+        );
+    }
+    //根据传过来的id查询
+    $scope.findByUid = function (uid) {
+        userService.findByUid(uid).success(
+            function (response) {
+                $scope.user = response.data;
+                $scope.entryCertificate.uid = $scope.user.uid;
+                $scope.entryCertificate.name = $scope.user.name;
+                $scope.showImg($scope.entryCertificate.uid);
+            }
+        )
+    }
     //在初始化的时候回显图片信息
     $scope.initShow = function(){
-        entryCertificateService.showEntryCertificate($scope.entryCertificate.uid).success(
+        let uid = $location.search()['uid']; // 获取路径的参数
+        if(uid != null && uid != "" && uid != undefined){
+            $scope.findByUid(uid);
+        }else{
+            $scope.findOne();//为空，就是查看自身
+        }
+    }
+
+    $scope.showImg = function(uid){
+        entryCertificateService.showEntryCertificate(uid).success(
             function (response) {
                 //获取图片地址，属于哪个图片类型
                 $scope.packageEntryCertificate(response.data);
             }
         )
     }
+
     //封装入职表单证书属性，用户图片展示
     $scope.packageEntryCertificate = function(data){
         let entryNotice = data.entryNoticeImage;

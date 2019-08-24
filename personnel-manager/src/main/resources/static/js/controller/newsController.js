@@ -1,5 +1,7 @@
 //控制层
-app.controller('newsController' ,function($scope, newsService) {
+app.controller('newsController' ,function($scope, $controller, newsService) {
+
+    $controller('pageController',{$scope:$scope});
     //查询实体
     $scope.addNews = function () {
         newsService.addNews($scope.news).success(
@@ -25,10 +27,10 @@ app.controller('newsController' ,function($scope, newsService) {
         );
     }
 
-    $scope.findAllNews = function () {
-        newsService.findAllNews().success(
+    $scope.searchPage = function (page,size) {
+        newsService.findAllNews(page,size).success(
             function (response) {
-                $scope.news = response.data
+                $scope.news = response.list;
             }
         )
     }

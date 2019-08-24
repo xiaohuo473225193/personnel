@@ -2,7 +2,7 @@
 app.service('userService',function($http){
 	//读取列表数据绑定到表单中
 	this.findOne = function(){
-		return $http.get('/user/findOne');
+		return $http.get('/user/get');
 	}
 	this.select = function(type){
 		return $http.get('/base/list/' + type);

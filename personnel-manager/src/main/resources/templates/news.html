@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>数据表格页面</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+	<link rel="stylesheet" href="css/uniform.css" />
+	<link rel="stylesheet" href="css/matrix-style.css" />
+	<link rel="stylesheet" href="css/myinput.css" />
+	<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+	<link rel="stylesheet" href="plugins/angularjs/pagination.css">
+
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+	<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+	<!--upload start-->
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+	<script src="plugins/angularjs/pagination.js"></script>
+	<script src="js/controller/base_pageination.js"></script>
+	<script src="js/controller/pageController.js"></script>
+	<script src="js/service/newsService.js"></script>
+	<script src="js/controller/newsController.js"></script>
+</head>
+<body ng-app="personnel" ng-controller="newsController">
+
+<div id="content" style="margin-left: 0px;">
+  <div id="content-header">
+    <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Tables</a> </div>
+    <h1>最新公告</h1>
+  </div>
+  <div class="container-fluid">
+    <hr>
+	  <div class="row-fluid">
+		  <div class="span12">
+			  <div class="widget-box">
+				  <div class="widget-title bg_ly" data-toggle="collapse" href="#collapseG2"><span class="icon"><i class="icon-chevron-down"></i></span>
+					  <h5>最新公告</h5>
+				  </div>
+				  <div class="widget-content nopadding collapse in" id="collapseG2">
+					  <ul class="recent-posts">
+						  <li ng-repeat="new in news">
+							  <div class="user-thumb"> <img width="40" height="40" alt="User" src="img/demo/av1.jpg"> </div>
+							  <div class="article-post"> <span class="user-info"> 发布人: {{new.authorName}} / 发布日期: {{new.createTime | date:'yyyy-MM-dd'}} / 发布时间: {{new.createTime | date:'HH:mm:ss'}}  </span>
+								  <p><a href="newsInfo.html">{{new.title}}</a> </p>
+							  </div>
+						  </li>
+						  <li>
+							  <tm-pagination conf="paginationConf"></tm-pagination>
+						  </li>
+					  </ul>
+				  </div>
+			  </div>
+		  </div>
+	  </div>
+  </div>
+</div>
+</body>
+</html>

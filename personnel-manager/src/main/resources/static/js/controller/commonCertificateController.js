@@ -1,7 +1,8 @@
  //控制层 
-app.controller('commonCertificateController' ,function($scope,commonCertificateService){
+app.controller('commonCertificateController' ,function($scope, $location, commonCertificateService, userService){
     $scope.commonCertificate = {
-        uid:"2",
+        uid:"",
+        name:"",
         employImage:"",
         identityImage:"",
         degreeImage:"",
@@ -9,9 +10,39 @@ app.controller('commonCertificateController' ,function($scope,commonCertificateS
         postImage:"",
         backgroundImage:""
     }
+    //根据自身id进行查询
+    $scope.findOne=function(){
+        userService.findOne().success(
+            function(response){
+                $scope.user = response.data;
+                $scope.commonCertificate.uid = $scope.user.uid;
+                $scope.commonCertificate.name = $scope.user.name;
+                $scope.showImg($scope.commonCertificate.uid);
+            }
+        );
+    }
+    //根据传过来的id查询
+    $scope.findByUid = function (uid) {
+        userService.findByUid(uid).success(
+            function (response) {
+                $scope.user = response.data;
+                $scope.commonCertificate.uid = $scope.user.uid;
+                $scope.commonCertificate.name = $scope.user.name;
+                $scope.showImg($scope.commonCertificate.uid);
+            }
+        )
+    }
     //在初始化的时候回显图片信息
     $scope.initShow = function(){
-        commonCertificateService.showCommonCertificate($scope.commonCertificate.uid).success(
+        let uid = $location.search()['uid']; // 获取路径的参数
+        if(uid != null && uid != "" && uid != undefined){
+            $scope.findByUid(uid);
+        }else{
+            $scope.findOne();//为空，就是查看自身
+        }
+    }
+    $scope.showImg = function(uid){
+        commonCertificateService.showCommonCertificate(uid).success(
             function (response) {
                 //获取图片地址，属于哪个图片类型
                 $scope.packageCommonCertificate(response.data);
@@ -169,10 +200,5 @@ app.controller('commonCertificateController' ,function($scope,commonCertificateS
     }
     $scope.download = function () {
         window.location = 'http://localhost:8085/download/upload/'+$scope.commonCertificate.uid;
-        /*commonCertificateService.download($scope.commonCertificate.uid).success(
-            function (response) {
-                alert(response.data)
-            }
-        )*/
     }
 });	

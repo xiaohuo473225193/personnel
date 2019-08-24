@@ -33,6 +33,7 @@
     <script src="js/controller/base.js"></script>
     <script src="js/controller/finalController.js"></script>
     <script src="js/service/commonCertificateService.js"></script>
+	<script src="js/service/userService.js"></script>
     <script src="js/controller/commonCertificateController.js"></script>
 </head>
 <body ng-app="personnel" ng-controller="commonCertificateController" ng-init="initShow();">
@@ -50,7 +51,7 @@
     <div class="span12">
       <div class="widget-box">
         <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-          <h5>常规证件</h5>
+          <h5>常规证件({{commonCertificate.name}})</h5>
         </div>
         <div class="widget-content nopadding">
           <form action="#" method="get" class="form-horizontal">
