@@ -8,5 +8,8 @@ app.service('commonCollegeService',function($http){
     this.deleteUser = function (uids) {
         return $http.delete('/user/deleteByUids/'+uids);
     }
+    this.findOne = function(){
+        return $http.get('/user/get');
+    }
 
 });

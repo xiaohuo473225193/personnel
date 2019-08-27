@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="css/myAlert.css" />
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/dialog.css">
+    <!-- 日期控件 -->
+    <link rel="stylesheet" type="text/css" href="css/wui.min.css">
+    <link rel="stylesheet" type="text/css" href="css/d_style.css">
 
     <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 
@@ -26,7 +29,10 @@
     <script type="text/javascript" src="js/myAlert.js" ></script>
 
     <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
-    <script src="js/controller/base.js"></script>
+
+    <script type="text/javascript" src="js/wui-date.js" charset="utf-8"></script>
+
+    <script src="js/controller/base_date.js"></script>
     <script src="js/service/userService.js"></script>
     <script src="js/controller/finalController.js"></script>
     <script src="js/controller/userController.js"></script>
@@ -70,9 +76,17 @@
 			
 			<div class="control-group">
               <label class="control-label">出 身 年 月 :</label>
-              <div class="controls">
-                <input type="text" id="form_birthday" data-date="2019-01-01" data-date-format="yyyy-mm-dd" value="{{user.birthday | date:'yyyy-MM-dd'}}" class="datepicker span11">
-				</div>
+              <div class="controls" style="height: 52px;">
+                <!--<input type="text" id="form_birthday" data-date="2019-01-01" data-date-format="yyyy-mm-dd" value="{{user.birthday | date:'yyyy-MM-dd'}}" class="datepicker span11">-->
+                  <wui-date
+                          format="yyyy-mm-dd"
+                          placeholder="请选择或输入日期"
+                          id="date1"
+                          btns="{'ok':'确定','now':'此刻'}"
+                          ng-model="user.birthday"
+                  >
+                  </wui-date>
+              </div>
 			</div>
 			
 			<div class="control-group"  style="height: 50px;">
@@ -136,9 +150,17 @@
 			
 			<div class="control-group">
               <label class="control-label">入 职 日 期 :</label>
-              <div class="controls">
-                <input type="text" id="form_startTime" data-date="2019-01-01" data-date-format="yyyy-mm-dd" value="{{user.startTime | date:'yyyy-MM-dd'}}" class="datepicker span11">
-				</div>
+              <div class="controls" style="height: 52px;">
+               <!-- <input type="text" id="form_startTime" data-date="2019-01-01" data-date-format="yyyy-mm-dd" value="{{user.startTime | date:'yyyy-MM-dd'}}" class="datepicker span11">-->
+                  <wui-date
+                          format="yyyy-mm-dd"
+                          placeholder="请选择或输入日期"
+                          id="date2"
+                          btns="{'ok':'确定','now':'此刻'}"
+                          ng-model="user.startTime"
+                  >
+                  </wui-date>
+              </div>
 			</div>
 			
 			<div class="control-group" style="height: 50px;">
@@ -172,9 +194,17 @@
 			
                 <div class="control-group">
                   <label class="control-label">毕 业 时 间 :</label>
-                  <div class="controls">
-                    <input type="text" id="form_graduateTime" data-date="2019-01" data-date-format="yyyy-mm" value="{{user.graduateTime}}" class="datepicker span11">
-                </div>
+                  <div class="controls" style="height: 52px;">
+                    <!--<input type="text" id="form_graduateTime" data-date="2019-01" data-date-format="yyyy-mm" value="{{user.graduateTime}}" class="datepicker span11">-->
+                      <wui-date
+                              format="yyyy-mm"
+                              placeholder="请选择或输入日期"
+                              id="date3"
+                              btns="{'ok':'确定','now':'此刻','hitherto':true}"
+                              ng-model="user.graduateTime"
+                      >
+                      </wui-date>
+                  </div>
                 <div class="form-actions" style="height: 71px;">
                 </div>
             </div>

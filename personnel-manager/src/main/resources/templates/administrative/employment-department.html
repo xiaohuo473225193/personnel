@@ -58,7 +58,7 @@
 						<button ng-click="reloadList();" style="margin:10px 10px 0 0px;" class="btn btn-info icon icon-repeat"> 刷新</button>
 					</div>
 					<div class="widget-content nopadding" style="width:100%;overflow:auto;">
-						<table class="table table-bordered table-striped with-check" style="width:2100px;">
+						<table class="table table-bordered table-striped with-check" style="width:2300px;">
 							<thead>
 							<tr>
 								<th><i class="icon-resize-vertical"></i></th>
@@ -133,8 +133,8 @@
 					  </span>
 								</td>
 								<td style="text-align: center">
-									<span ng-if="collegeUser.graduateTime != ''">{{collegeUser.graduateTime}}</span>
-									<span style="color:rgba(255, 0, 0, 0.56);" ng-if="collegeUser.graduateTime == ''">未填写</span>
+									<span ng-if="collegeUser.graduateTime != '' && collegeUser.graduateTime != null">{{collegeUser.graduateTime}}</span>
+									<span style="color:rgba(255, 0, 0, 0.56);" ng-if="collegeUser.graduateTime == '' || collegeUser.graduateTime == null">未填写</span>
 								<td style="text-align: center">{{collegeUser.startTime | date:'yyyy-MM-dd'}}</td>
 								<td style="text-align: center" ng-if="collegeUser.endTime != '' && collegeUser.endTime != null">{{collegeUser.endTime | date:'yyyy-MM-dd'}}</td>
 								<td style="text-align: center" ng-if="collegeUser.endTime == '' || collegeUser.endTime == null">

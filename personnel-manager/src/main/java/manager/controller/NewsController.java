@@ -46,4 +46,10 @@ public class NewsController {
         PageResult<News> allNews = newsService.findAllNews(rows, size);
         return allNews;
     }
+
+    @GetMapping("find/{id}")
+    public Result findById(@PathVariable(value = "id") Long id){
+        News news = newsService.findById(id);
+        return new Result(news);
+    }
 }

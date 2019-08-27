@@ -4,17 +4,30 @@
 	<title>数据表格页面</title>
 	<meta charset="UTF-8" />
 	<link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+	<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+
+	<!--upload start-->
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+	<script src="plugins/angularjs/pagination.js"></script>
+	<script src="js/controller/base_pageination.js"></script>
+	<script src="js/controller/pageController.js"></script>
+	<script src="js/service/newsService.js"></script>
+	<script src="js/controller/newsController.js"></script>
 </head>
-<body>
+<body  ng-app="personnel" ng-controller="newsController" ng-init="showNews();">
 <br/><br/>
 <div class="container-fluid">
 
-	<div class="panel panel-default">
+	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h3 class="panel-title">Panel title</h3>
+			<h3 class="panel-title">{{news.title}}</h3>
 		</div>
-		<div class="panel-body">
-			Panel content
+		<div class="panel-body" ng-bind-html="news.content">
 		</div>
 	</div>
 </div>

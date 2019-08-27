@@ -13,4 +13,7 @@ app.service('newsService',function($http){
     this.findAllNews = function (page,size) {
         return $http.get('/news/findAllNews/'+page+'/'+size);
     }
+    this.findById = function (id) {
+        return $http.get('/news/find/'+id);
+    }
 });

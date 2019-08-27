@@ -44,7 +44,7 @@
 						  <li ng-repeat="new in news">
 							  <div class="user-thumb"> <img width="40" height="40" alt="User" src="img/demo/av1.jpg"> </div>
 							  <div class="article-post"> <span class="user-info"> 发布人: {{new.authorName}} / 发布日期: {{new.createTime | date:'yyyy-MM-dd'}} / 发布时间: {{new.createTime | date:'HH:mm:ss'}}  </span>
-								  <p><a href="newsInfo.html">{{new.title}}</a> </p>
+								  <p><a href="newsInfo.html#?id={{new.id}}">{{new.title}}</a> </p>
 							  </div>
 						  </li>
 						  <li>

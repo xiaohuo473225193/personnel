@@ -4,14 +4,6 @@
 //      男女选项
 //      下拉框的固定类型值
 app.controller('finalController',function($scope){
-    //定义一个自己的用户信息，全页面通用
-    $scope.adminUser = {
-        uid:1,
-        author:3,
-        cid:60,
-        name:"小火",
-        jobNumber:"003548"
-    }
     //
     $scope.server_url = "http://localhost:8085/";
     // form-common.html 男女选项

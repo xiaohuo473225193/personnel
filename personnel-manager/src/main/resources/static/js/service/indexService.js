@@ -7,4 +7,7 @@ app.service('indexService',function($http){
 	this.getMenuByAuthor = function (uid) {
         return $http.get('/menu/findMenu/'+uid);
     }
+    this.updatePassword = function (oldPassword, newPassword) {
+        return $http.put('/update/'+oldPassword+'/'+newPassword);
+    }
 });

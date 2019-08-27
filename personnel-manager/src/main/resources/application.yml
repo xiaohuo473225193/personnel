@@ -7,8 +7,8 @@ spring:
     # serverTimezone=UTC 解决时区问题，如果不加回报错
     # useSSL=false 解决SSL验证问题，如果不加会报警告
     url: jdbc:mysql://localhost:3306/manager?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC #
-    username: root
-    password: 1125
+    username: ymb
+    password: 123456
   resources:
     # 添加templates的下页面也可以直接通过浏览器访问，默认templates下的页面是不可以直接访问的
     static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/templates/
@@ -28,3 +28,4 @@ spring:
       suffix: .html
 IMAGE_SERVER_URL_PREFIX: http://localhost:8085 #客户端访问图片的前缀
 LOCAL_DISK_LOCATION: classpath:templates #上传图片存放的位置
+NEWS_UPLOAD_IMAGE_LOCATION: classpath:templates

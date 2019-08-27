@@ -55,9 +55,9 @@ app.controller('entryCertificateController' ,function($scope, $location, userSer
     $scope.packageEntryCertificate = function(data){
         let entryNotice = data.entryNoticeImage;
         if($scope.StringNotBlank(entryNotice)){
-            if(entryNotice.search("[,]")){
+            if(entryNotice.search(",")){
                 //遍历所有关于employ的图片地址
-                let entryNotices = entryNotice.split("[,]");
+                let entryNotices = entryNotice.split(",");
                 for (let i = entryNotices.length - 1; i >= 0; i--) {
                     $scope.setEntryCertificate("entryNotice",entryNotices[i]);
                 }
@@ -68,9 +68,9 @@ app.controller('entryCertificateController' ,function($scope, $location, userSer
 
         let entryAgree = data.entryAgreeImage;
         if($scope.StringNotBlank(entryAgree)){
-            if(entryAgree.search("[,]")){
+            if(entryAgree.search(",")){
                 //遍历所有关于employ的图片地址
-                let entryAgrees = entryAgree.split("[,]");
+                let entryAgrees = entryAgree.split(",");
                 for (let i = entryAgrees.length - 1; i >= 0; i--) {
                     $scope.setEntryCertificate("entryAgree",entryAgrees[i]);
                 }
@@ -81,9 +81,9 @@ app.controller('entryCertificateController' ,function($scope, $location, userSer
 
         let secrecy = data.secrecyImage;
         if($scope.StringNotBlank(secrecy)){
-            if(secrecy.search("[,]")){
+            if(secrecy.search(",")){
                 //遍历所有关于employ的图片地址
-                let secrecys = secrecy.split("[,]");
+                let secrecys = secrecy.split(",");
                 for (let i = secrecys.length - 1; i >= 0; i--) {
                     $scope.setEntryCertificate("secrecy",secrecys[i]);
                 }
@@ -94,9 +94,9 @@ app.controller('entryCertificateController' ,function($scope, $location, userSer
 
         let hire = data.hireImage;
         if($scope.StringNotBlank(hire)){
-            if(hire.search("[,]")){
+            if(hire.search(",")){
                 //遍历所有关于employ的图片地址
-                let hires = hire.split("[,]");
+                let hires = hire.split(",");
                 for (let i = hires.length - 1; i >= 0; i--) {
                     $scope.setEntryCertificate("hire",hires[i]);
                 }
@@ -162,7 +162,7 @@ app.controller('entryCertificateController' ,function($scope, $location, userSer
                 if(j == 0){
                     $scope.entryCertificate[type[i]+"Image"] = $types.eq(j).attr("value");
                 }else{
-                    $scope.entryCertificate[type[i]+"Image"] += "[,]" + $types.eq(j).attr("value");
+                    $scope.entryCertificate[type[i]+"Image"] += "," + $types.eq(j).attr("value");
                 }
             }
         }

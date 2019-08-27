@@ -2,7 +2,7 @@
 .double {
 	line-height: 58px;
 }
-.title .glyphicon{
+.titles .glyphicon{
 	padding: 3px;
 	font-size: 13px;
     border-radius: 8px;
@@ -42,14 +42,13 @@
 	border:1px solid #d4d4d4;
 	border-radius: 2px;
 }
-.data-type .title,
+.data-type .titles,
 .data-type .data {
 	padding: 3px 12px;
 	border-top: 1px solid #d4d4d4;
-	overflow: hidden;
     height: 42px;
 }
-.data-type .title {
+.data-type .titles {
     line-height: 34px;
 	border-right: 1px solid #d4d4d4;
 }
@@ -57,7 +56,7 @@
 .data-type .data:last-child{
 	border-right: 0;
 }
-.data-type .title{
+.data-type .titles{
 	text-align: center;
 	background: #ececec;
 }
@@ -84,21 +83,21 @@
 }
 
 /* 表格双倍高度 */
-.data-type .title.rowHeight2x,
+.data-type .titles.rowHeight2x,
 .data-type .data.rowHeight2x {
 	height:84px;
 }
-.data-type .title.rowHeight2x {
+.data-type .titles.rowHeight2x {
 	line-height:78px;
 }
 /*.data-type .data.rowHeight2x > label {
 	line-height:78px;
 }*/
-.data-type .title.editer,
+.data-type .titles.editer,
 .data-type .data.editer {
-	height:320px;
+	height:410px;
 }
-.data-type .title.editer {
+.data-type .titles.editer {
 	line-height:300px;
 }
 

@@ -1,6 +1,7 @@
 package manager.controller;
 
 import com.github.pagehelper.PageInfo;
+import manager.bo.Keyword;
 import manager.bo.SelectOptionData;
 import manager.pojo.User;
 import manager.service.*;
@@ -50,8 +51,7 @@ public class UserController {
      */
     @GetMapping("get")
     public Result<User> getUserInfo(){
-        UserInfo userInfo = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findByJobNumber(userInfo.getUsername());
+        User user = userService.get();
         return new Result<>(user);
     }
     @PutMapping("save")
@@ -77,6 +77,7 @@ public class UserController {
 
     @PutMapping("updateByUser")
     public Result updateByUser(@RequestBody User user) {
+        System.out.println(user);
         userService.updateByUser(user);
         return new Result<>(null);
     }
@@ -93,5 +94,16 @@ public class UserController {
         PageResult<User> userPageResult = userService.fingByExampie(rows, size, selectOptionData.
                 getJobNumber(),selectOptionData.getName(),selectOptionData.getIdentityCard());
         return userPageResult;
+    }
+    @PostMapping("search/{page}/{size}")
+    public Result searchByKeyword(@PathVariable(value = "page")int page, @PathVariable(value = "size")int size, @RequestBody Keyword keywords){
+        //满足关键字搜索:名称、工号、身份证号、电话
+        PageResult<CollegeUser> users = userService.searchByKeyword(keywords,page,size);
+        return new Result(users);
+    }
+    @GetMapping("total")
+    public Result getUserTotal(){
+        int total = userService.getUserTotal();
+        return new Result(total);
     }
 }

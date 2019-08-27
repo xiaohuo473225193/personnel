@@ -71,7 +71,7 @@ public class CollegeService {
         return new PageResult<>(users.getTotal(),collegeUsers);
     }
 
-    private CollegeUser userPackaging(User user){
+    public CollegeUser userPackaging(User user){
         CollegeUser collegeUser = new CollegeUser();
 
         collegeUser.setCollegeUserId(user.getUid());
@@ -393,4 +393,6 @@ public class CollegeService {
     public boolean isNotBlank(String str){
         return StringUtils.isBlank(str);
     }
+
+
 }

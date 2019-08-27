@@ -3,12 +3,12 @@ package manager.service;
 import manager.mapper.CommonCertificateMapper;
 import manager.pojo.CommonCertificate;
 import manager.pojo.User;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
 import util.Code;
 import util.PException;
 
@@ -51,8 +51,30 @@ public class CommonCertificateService {
             throw new PException(Code.USER_NOT_EXIST,"该用户用户不存在");
         }
         commonCertificateMapper.updateByPrimaryKeySelective(commonCertificate);//选择性更新操作
+        if(isUpdateComplete(commonCertificate.getUid())){
+            commonCertificate.setComplete("1");
+        }else{
+            commonCertificate.setComplete("0");
+        }
+        //再次更新
+        commonCertificateMapper.updateByPrimaryKeySelective(commonCertificate);//选择性更新操作
     }
-
+    //判断文件是否全部上传完成，如果完成更新值
+    public boolean isUpdateComplete(Long id){
+        CommonCertificate certificate = commonCertificateMapper.selectByPrimaryKey(id);
+        if(isBlank(certificate.getBackgroundImage()) ||
+           isBlank(certificate.getDegreeImage()) ||
+           isBlank(certificate.getEducationImage()) ||
+           isBlank(certificate.getEmployImage()) ||
+           isBlank(certificate.getIdentityImage()) ||
+           isBlank(certificate.getPostImage())){
+            return false;
+        }
+        return true;
+    }
+    private boolean isBlank(String val){
+        return StringUtils.isBlank(val);
+    }
     public CommonCertificate findByUser(User user){
         return commonCertificateMapper.selectByPrimaryKey(user);
     }

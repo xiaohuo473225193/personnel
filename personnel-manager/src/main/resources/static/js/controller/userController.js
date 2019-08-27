@@ -15,13 +15,30 @@ app.controller('userController' ,function($scope, $location,$controller, userSer
         $scope.findOne();
 	}
 	//查询实体 
-	$scope.findOne=function(){
+	$scope.findOne = function(){
         userService.findOne().success(
 			function(response){
 				$scope.user = response.data;
+				//对时间进行格式化，方便用于双向绑定
+                $scope.user.birthday = $scope.formatDate($scope.user.birthday);
+                $scope.user.startTime = $scope.formatDate($scope.user.startTime);
 			}
 		);				
 	}
+    $scope.formatDate = function (val) {
+        if (val != null) {
+            let date = new Date(val);
+            let month = date.getMonth();
+            if(date.getMonth() < 10){
+                month = "0" + (date.getMonth() + 1);
+            }
+            let time = date.getDate();
+            if(date.getDate() < 10){
+                time = "0" + date.getDate();
+            }
+            return date.getFullYear() + '-' + month + '-' + time;
+        }
+    }
 	//最高学位查询
 	$scope.degreeSelect = function(){
         userService.select($scope.type.degree).success(
@@ -72,22 +89,12 @@ app.controller('userController' ,function($scope, $location,$controller, userSer
     }
     //保存按钮
 	$scope.save = function() {
-		//获取3个无法双向绑定的时间
-		var birthday = $('#form_birthday').val();
-        var startTime = $('#form_startTime').val();
-        //拼接字符日期
-		var graduateTime = $('#form_graduateTime').val() + "-01";
-
-        $scope.user.birthday = birthday;
-        $scope.user.startTime = startTime;
-        $scope.user.graduateTime = graduateTime;
-        //console.log(birthday + " - " + startTime + " - " + graduateTime);
         //确定提交
         $('body').dailog({
-            type:'danger',
-            title:'错误.',
-            discription:'听说昨晚WE战胜了SKT!!!你知道晚WE战胜了SKT!!!你知道吗?',
-            isInput:true
+            type:'success',
+            maskBg:'rgba(88,11,22,0.5)',
+            title:'保存',
+            discription:'是否确定信息填写正确，并提交?'
         },function(ret) {
             if(ret.index===0) {
                 userService.save($scope.user);
@@ -133,7 +140,13 @@ app.controller('userController' ,function($scope, $location,$controller, userSer
         let selectId = $location.search()['selectIds']; // 获取路径的参数
         userService.findByUid(selectId).success(
             function (response) {
-               $scope.entity = response.data
+               $scope.entity = response.data;
+                //对时间进行格式化，方便用于双向绑定
+                $scope.entity.birthday = $scope.formatDate($scope.entity.birthday);
+                $scope.entity.startTime = $scope.formatDate($scope.entity.startTime);
+                if($scope.entity.endTime != "" && $scope.entity.endTime != null && $scope.entity.endTime != undefined){
+                    $scope.entity.endTime = $scope.formatDate($scope.entity.endTime);
+                }
             }
         )
     }
@@ -150,4 +163,5 @@ app.controller('userController' ,function($scope, $location,$controller, userSer
         //$scope.selectIds = [];
         window.location.replace(document.referrer);//返回上一页并刷新
     }
+
 });	

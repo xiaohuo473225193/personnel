@@ -15,4 +15,12 @@ app.controller('homeController' ,function($scope, userService ,newsService){
             }
         )
     }
+
+    $scope.getUserTotal = function () {
+        userService.getUserTotal().success(
+            function (response) {
+                $scope.userTotal = response.data;
+            }
+        )
+    }
 });	

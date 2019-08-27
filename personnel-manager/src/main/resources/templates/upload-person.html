@@ -1,17 +1,19 @@
-<!DOCTYPE html>
-<html>
-
 <head>
-    <!-- 页面meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
-  
-    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
-    <link rel="stylesheet" href="plugins/adminLTE/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="css/_style.css">
+	<!-- 页面meta -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<titles>添加用户</titles>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
+	<link rel="stylesheet" href="plugins/adminLTE/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="css/_style.css">
+
+	<!-- 日期控件 -->
+	<link rel="stylesheet" type="text/css" href="css/wui.min.css">
+	<link rel="stylesheet" type="text/css" href="css/d_style.css">
 
 	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 
@@ -21,110 +23,149 @@
 	<script type="text/javascript" src="js/myAlert.js" ></script>
 
 	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
-	<script src="js/controller/base.js"></script>
+
+	<script type="text/javascript" src="js/wui-date.js" charset="utf-8"></script>
+
+	<script src="js/controller/base_date.js"></script>
 	<script src="js/service/userService.js"></script>
 	<script src="js/controller/finalController.js"></script>
 	<script src="js/controller/userController.js"></script>
 </head>
 <body class="hold-transition skin-red sidebar-mini"
 	  ng-app="personnel" ng-controller="userController" ng-init="init();findByUid();">
-            <!-- 正文区域 -->
-            <section class="content">
-                <div class="box-body">
-                    <!--tab页-->
-                    <div class="nav-tabs-custom">
-                        <!--tab头-->
-                        <ul class="nav nav-tabs">                       		
-                            <li class="active">
-                                <a href="#home" data-toggle="tab">更新员工信息</a>
-                            </li>
-                        </ul>
-                        <!--tab头/-->
-                        <!--tab内容-->
-                        <div class="tab-content">
-                            <!--表单内容-->
-                            <div class="tab-pane active" id="home">
-                                <div class="row data-type">
-									<div class="col-md-2 title" >员工权限</div>
-									<div class="col-md-10 data">
-										<select class="form-control" ng-model="entity.author" ng-options="author.id as author.name for author in authors" ></select>
-									</div>
-		                           <div class="col-md-2 title" >员工工号</div>
-		                           <div class="col-md-10 data">
-		                               <input type="text" class="form-control"  ng-model="entity.jobNumber" placeholder="员工工号" value="">
-		                           </div>
-									<div class="col-md-2 title" >真实名称</div>
-									<div class="col-md-10 data">
-										<input type="text" class="form-control" ng-model="entity.name" placeholder="真实名称" value="">
-									</div>
-									<div class="col-md-2 title" >身份证号</div>
-									<div class="col-md-10 data">
-										<input type="text" class="form-control" ng-model="entity.identityCard" placeholder="身份证号" value="">
-									</div>
-									<div class="col-md-2 title" >出身年月</div>
-									<div class="col-md-10 data">
-										<input type="text" class="form-control"  ng-model="entity.birthday" placeholder="格式: 2019-08-07" value="{{entity.birthday | date:'yyyy-MM-dd'}}">
-									</div>
-									<div class="col-md-2 title" >性别</div>
-									<div class="col-md-10 data">
-										<select class="form-control" ng-model="entity.sex" ng-options="gender.id as gender.name for gender in genders" ></select>
-									</div>
-									<div class="col-md-2 title" >手机号码</div>
-									<div class="col-md-10 data">
-										<input type="text" class="form-control" ng-model="entity.telephone" placeholder="电话" value="">
-									</div>
+<!-- 正文区域 -->
+<section class="content">
+	<div class="box-body">
+		<!--tab页-->
+		<div class="nav-tabs-custom">
+			<!--tab头-->
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#home" data-toggle="tab">员工基本信息</a>
+				</li>
+			</ul>
+			<!--tab头/-->
+			<!--tab内容-->
+			<div class="tab-content">
+				<!--表单内容-->
+				<div class="tab-pane active" id="home">
+					<div class="row data-type">
+						<div class="col-md-2 titles" >员工权限</div>
+						<div class="col-md-10 data">
+							<select class="form-control" ng-model="entity.author" ng-options="author.id as author.name for author in authors" ></select>
+						</div>
+						<div class="col-md-2 titles" >员工工号</div>
+						<div class="col-md-10 data">
+							<input type="text" class="form-control"  ng-model="entity.jobNumber" placeholder="员工工号" value="">
+						</div>
+						<div class="col-md-2 titles" >真实名称</div>
+						<div class="col-md-10 data">
+							<input type="text" class="form-control" ng-model="entity.name" placeholder="真实名称" value="">
+						</div>
+						<div class="col-md-2 titles" >身份证号</div>
+						<div class="col-md-10 data">
+							<input type="text" class="form-control" ng-model="entity.identityCard" placeholder="身份证号" value="">
+						</div>
+						<div class="col-md-2 titles" >出身年月</div>
+						<div class="col-md-10 data">
+							<wui-date
+									format="yyyy-mm-dd"
+									placeholder="请选择或输入日期"
+									id="date1"
+									btns="{'ok':'确定','now':'此刻'}"
+									ng-model="entity.birthday"
+							>
+							</wui-date>
+							<!--<input type="text" class="form-control"  ng-model="entity.birthday" placeholder="格式: 2019-08-07" value="">-->
+						</div>
+						<div class="col-md-2 titles" >性别</div>
+						<div class="col-md-10 data">
+							<select class="form-control" ng-model="entity.sex" ng-options="gender.id as gender.name for gender in genders" ></select>
+						</div>
+						<div class="col-md-2 titles" >手机号码</div>
+						<div class="col-md-10 data">
+							<input type="text" class="form-control" ng-model="entity.telephone" placeholder="电话" value="">
+						</div>
 
-									<div class="col-md-2 title">最高学历</div>
-									<div class="col-md-10 data">
-										<select class="form-control" ng-model="entity.educationId" ng-options="degree.id as degree.name for degree in degreeList"></select>
-									</div>
-									<div class="col-md-2 title">最高学位</div>
-									<div class="col-md-10 data">
-										<select class="form-control" ng-model="entity.degreeId" ng-options="education.id as education.name for education in educationList"></select>
-									</div>
-									<div class="col-md-2 title" >最高职称</div>
-									<div class="col-md-10 data">
+						<div class="col-md-2 titles">最高学历</div>
+						<div class="col-md-10 data">
+							<select class="form-control" ng-model="entity.educationId" ng-options="education.id as education.name for education in educationList"></select>
+						</div>
+						<div class="col-md-2 titles">最高学位</div>
+						<div class="col-md-10 data">
+							<select class="form-control" ng-model="entity.degreeId" ng-options="degree.id as degree.name for degree in degreeList"></select>
+						</div>
+						<div class="col-md-2 titles" >最高职称</div>
+						<div class="col-md-10 data">
+							<select class="form-control" ng-model="entity.jobTitle" ng-options="title.id as title.name for title in titleList"></select>
+						</div>
+						<div class="col-md-2 titles" >入职日期</div>
+						<div class="col-md-10 data">
+							<wui-date
+									format="yyyy-mm-dd"
+									placeholder="请选择或输入日期"
+									id="date2"
+									btns="{'ok':'确定','now':'此刻'}"
+									ng-model="entity.startTime"
+							>
+							</wui-date>
+							<!--<input type="text" class="form-control" ng-model="entity.startTime" placeholder="格式: 2019-08-07" value="">-->
+						</div>
+						<div class="col-md-2 titles" >毕业时间</div>
+						<div class="col-md-10 data">
+							<wui-date
+									format="yyyy-mm"
+									placeholder="请选择或输入日期"
+									id="date3"
+									btns="{'ok':'确定','now':'此刻','hitherto':true}"
+									ng-model="entity.graduateTime"
+							>
+							</wui-date>
+							<!--<input type="text" class="form-control"  ng-model="entity.graduateTime" placeholder="格式: 2019-08" value="">-->
+						</div>
+						<div class="col-md-2 titles" >*离职日期 (谨慎填写)</div>
+						<div class="col-md-10 data">
+							<wui-date
+									format="yyyy-mm-dd"
+									placeholder="请选择或输入日期"
+									id="date4"
+									btns="{'ok':'确定','now':'此刻','hitherto':true}"
+									ng-model="entity.endTime"
+							>
+							</wui-date>
+							<!--<input type="text" class="form-control"  ng-model="entity.graduateTime" placeholder="格式: 2019-08" value="">-->
+						</div>
+						<div class="col-md-2 titles">所属部门</div>
+						<div class="col-md-10 data">
+							<select class="form-control" ng-model="entity.cid" ng-options="college.cid as college.name for college in collegeList"></select>
+						</div>
+						<div class="col-md-2 titles" >全部职位</div>
+						<div class="col-md-10 data">
+							<input type="text" class="form-control"  ng-model="entity.position" placeholder="全部职位" value="">
+						</div>
+						<div class="col-md-2 titles" >人员类型</div>
+						<div class="col-md-10 data">
 
-										<select class="form-control" ng-model="entity.jobTitle" ng-options="title.id as title.name for title in titleList"></select>
-									</div>
-									<div class="col-md-2 title" >入职日期</div>
-									<div class="col-md-10 data">
-										<input type="text" class="form-control" ng-model="entity.startTime" placeholder="格式: 2019-08-07" value="{{entity.startTime | date:'yyyy-MM-dd'}}">
-									</div>
-									<div class="col-md-2 title" >毕业时间</div>
-									<div class="col-md-10 data">
-										<input type="text" class="form-control"  ng-model="entity.graduateTime" placeholder="格式: 2019-08" value="">
-									</div>
-									<div class="col-md-2 title">所属部门</div>
-									<div class="col-md-10 data">
-										<select class="form-control" ng-model="entity.cid" ng-options="college.cid as college.name for college in collegeList"></select>
-									</div>
-									<div class="col-md-2 title" >全部职位</div>
-									<div class="col-md-10 data">
-										<input type="text" class="form-control"  ng-model="entity.position" placeholder="全部职位" value="">
-									</div>
-									<div class="col-md-2 title" >人员类型</div>
-									<div class="col-md-10 data">
+							<select class="form-control" ng-model="entity.typeId"  ng-options="level.id as level.name for level in levelList"></select>
+						</div>
+						<div class="col-md-2 titles" >入职状态</div>
+						<div class="col-md-10 data">
+							<select class="form-control" ng-model="entity.entryStatusId" ng-options="jobStatus.id as jobStatus.name for jobStatus in jobStatusList" ></select>
+						</div>
+						<div class="col-md-2 titles" >家庭住址</div>
+						<div class="col-md-10 data">
+							<input type="text" class="form-control" ng-model="entity.address" placeholder="家庭住址" value="">
+						</div>
 
-										<select class="form-control" ng-model="entity.typeId"  ng-options="level.id as level.name for level in levelList"></select>
-									</div>
-									<div class="col-md-2 title" >入职状态</div>
-									<div class="col-md-10 data">
-										<select class="form-control" ng-model="entity.entryStatusId" ng-options="jobStatus.id as jobStatus.name for jobStatus in jobStatusList" ></select>
-									</div>
-									<div class="col-md-2 title" >家庭住址</div>
-									<div class="col-md-10 data">
-										<input type="text" class="form-control" ng-model="entity.address" placeholder="家庭住址" value="">
-									</div>
-                                </div>
-                            </div>
+					</div>
+				</div>
 
-                        </div>
-                        <!--tab内容/-->
-						<!--表单内容/-->
-                    </div>
+			</div>
+			<!--tab内容/-->
+			<!--表单内容/-->
+		</div>
 
-                   </div>
+	</div>
                   <div class="btn-toolbar list-toolbar">
 				      <button class="btn btn-primary" ng-click="addUser()"><i class="fa fa-save"></i>保存</button>
 				      <button class="btn btn-default" ng-click="returnList();">返回列表</button>

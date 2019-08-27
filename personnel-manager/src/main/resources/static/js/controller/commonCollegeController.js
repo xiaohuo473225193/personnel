@@ -6,13 +6,14 @@ app.controller('commonCollegeController' ,function($scope, $controller,commonCol
 
     $controller('pageController',{$scope:$scope});
 
-
+    $scope.user = {};
     $scope.collegeCid = 0;
     $scope.selectOption = {
         jobNumber:"",
         name:"",
         identityCard:""
     }
+
     //查询实体
     $scope.searchPage = function (page,size) {
         commonCollegeService.findUserOfCollegeByCidInit($scope.collegeCid,$scope.selectOption,page,size).success(
@@ -50,9 +51,13 @@ app.controller('commonCollegeController' ,function($scope, $controller,commonCol
 
     //客户端用@RequestParam接收
     $scope.export = function () {
-        $scope.download('/download/export/'+$scope.adminUser.cid+'/'+$scope.adminUser.author,$scope.selectOption);
+        commonCollegeService.findOne().success(
+            function(response){
+                $scope.user = response.data;
+                $scope.download('/download/export/'+$scope.collegeCid+'/'+$scope.user.author,$scope.selectOption);
+            }
+        );
     }
-
     $scope.download = function(url,data){
         let inputs = '';
         $.each(data, function(name, value) {
@@ -62,4 +67,6 @@ app.controller('commonCollegeController' ,function($scope, $controller,commonCol
         $('<form action="'+ url +'" method="post">'+inputs+'</form>')
             .appendTo('body').submit().remove();
     }
+
+
 })

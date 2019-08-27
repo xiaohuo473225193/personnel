@@ -19,7 +19,6 @@ app.service('userService',function($http){
 		return $http.post('/user/addUser/'+author,user);
 	}
 
-
     this.updeteByUser=function(user){
         return $http.put('/user/updateByUser',user);
     }
@@ -29,6 +28,15 @@ app.service('userService',function($http){
     }
 
     this.findByExample = function (rows,size,selectOptionData) {
-		return $http.get("/user/findByExample"+ rows + size ,selectOptionData)
+		return $http.get("/user/findByExample/"+ rows +"/"+ size ,selectOptionData)
     }
+
+    this.searchKeyword = function (keywords,page,size) {
+        return $http.post('/user/search/'+page+"/"+size,keywords);
+    }
+
+    this.getUserTotal = function () {
+        return $http.get('/user/total');
+    }
+
 });

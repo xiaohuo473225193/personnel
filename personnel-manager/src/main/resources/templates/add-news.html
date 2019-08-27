@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<!-- 页面meta -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>公告编辑</title>
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+	<link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="plugins/adminLTE/css/AdminLTE.css">
+	<link rel="stylesheet" href="plugins/adminLTE/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="css/_style.css">
+	<script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+	<script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+
+	<!--upload start-->
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+
+	<!-- 富文本编辑器 -->
+	<link rel="stylesheet" href="plugins/kindeditor/themes/default/default.css" />
+	<script charset="utf-8" src="plugins/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="plugins/kindeditor/lang/zh_CN.js"></script>
+
+	<script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+	<script src="plugins/angularjs/pagination.js"></script>
+	<script src="js/controller/base_pageination.js"></script>
+	<script src="js/controller/pageController.js"></script>
+	<script src="js/service/newsService.js"></script>
+	<script src="js/controller/newsController.js"></script>
+</head>
+<body class="hold-transition skin-red sidebar-mini" ng-app="personnel" ng-controller="newsController">
+<!-- 正文区域 -->
+<section class="content">
+
+	<div class="box-body">
+
+		<!--tab页-->
+		<div class="nav-tabs-custom">
+
+			<!--tab头-->
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#home" data-toggle="tab">公告基本信息</a>
+				</li>
+			</ul>
+			<!--tab头/-->
+
+			<!--tab内容-->
+			<div class="tab-content">
+
+				<!--表单内容-->
+				<div class="tab-pane active" id="home">
+					<div class="row data-type">
+
+						<div class="col-md-2 titles" >公告标题</div>
+						<div class="col-md-10 data">
+							<input type="text" class="form-control"  ng-model="entity.title" placeholder="公告标题" value="">
+						</div>
+
+						<div class="col-md-2 titles editer">公告内容</div>
+						<div class="col-md-10 data editer">
+							<textarea name="content" style="width:800px;height:400px;visibility:hidden;" ></textarea>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			<!--tab内容/-->
+			<!--表单内容/-->
+
+		</div>
+
+
+	</div>
+	<div class="btn-toolbar list-toolbar">
+		<button class="btn btn-primary" ng-click="addNews()"><i class="fa fa-save"></i>发布</button>
+	</div>
+
+</section>
+
+<!-- 正文区域 /-->
+<script type="text/javascript">
+
+    var editor;
+    KindEditor.ready(function(K) {
+        editor = K.create('textarea[name="content"]', {
+            allowFileManager : true,
+            //指定上传文件参数名称
+            filePostName  : "uploadFile",
+            //指定上传文件请求的url。
+            uploadJson : '/upload/image',
+            //上传类型，分别为image、flash、media、file
+            dir : "image",
+            allowImageRemote: false,
+            afterUpload: function(url, data, name) {
+                console.log(url);
+                console.log(data);
+                console.log(name);//如果是单张图片，则 name="image"
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

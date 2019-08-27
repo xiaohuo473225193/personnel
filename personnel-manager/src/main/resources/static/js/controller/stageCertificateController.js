@@ -65,9 +65,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
     $scope.packageStageCertificate = function(data){
         let honor = data.honorImage;
         if($scope.StringNotBlank(honor)){
-            if(honor.search("[,]")){
+            if(honor.search(",")){
                 //遍历所有关于employ的图片地址
-                let honors = honor.split("[,]");
+                let honors = honor.split(",");
                 for (let i = honors.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("honor",honors[i]);
                 }
@@ -78,9 +78,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
 
         let postEvaluate = data.postEvaluateImage;
         if($scope.StringNotBlank(postEvaluate)){
-            if(postEvaluate.search("[,]")){
+            if(postEvaluate.search(",")){
                 //遍历所有关于employ的图片地址
-                let postEvaluates = postEvaluate.split("[,]");
+                let postEvaluates = postEvaluate.split(",");
                 for (let i = postEvaluates.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("postEvaluate",postEvaluates[i]);
                 }
@@ -91,9 +91,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
 
         let apply = data.applyImage;
         if($scope.StringNotBlank(apply)){
-            if(apply.search("[,]")){
+            if(apply.search(",")){
                 //遍历所有关于employ的图片地址
-                let applys = apply.split("[,]");
+                let applys = apply.split(",");
                 for (let i = applys.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("apply",applys[i]);
                 }
@@ -104,9 +104,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
 
         let stageEvaluate = data.stageEvaluateImage;
         if($scope.StringNotBlank(stageEvaluate)){
-            if(stageEvaluate.search("[,]")){
+            if(stageEvaluate.search(",")){
                 //遍历所有关于employ的图片地址
-                let stageEvaluates = stageEvaluate.split("[,]");
+                let stageEvaluates = stageEvaluate.split(",");
                 for (let i = stageEvaluates.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("stageEvaluate",stageEvaluates[i]);
                 }
@@ -117,9 +117,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
 
         let workSummary = data.workSummaryImage;
         if($scope.StringNotBlank(workSummary)){
-            if(workSummary.search("[,]")){
+            if(workSummary.search(",")){
                 //遍历所有关于employ的图片地址
-                let workSummarys = workSummary.split("[,]");
+                let workSummarys = workSummary.split(",");
                 for (let i = workSummarys.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("workSummary",workSummarys[i]);
                 }
@@ -129,9 +129,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
         }
         let synthesizeEvalute = data.synthesizeEvaluteImage;
         if($scope.StringNotBlank(synthesizeEvalute)){
-            if(synthesizeEvalute.search("[,]")){
+            if(synthesizeEvalute.search(",")){
                 //遍历所有关于employ的图片地址
-                let synthesizeEvalutes = synthesizeEvalute.split("[,]");
+                let synthesizeEvalutes = synthesizeEvalute.split(",");
                 for (let i = synthesizeEvalutes.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("synthesizeEvalute",synthesizeEvalutes[i]);
                 }
@@ -141,9 +141,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
         }
         let assess = data.assessImage;
         if($scope.StringNotBlank(assess)){
-            if(assess.search("[,]")){
+            if(assess.search(",")){
                 //遍历所有关于employ的图片地址
-                let assesss = assess.split("[,]");
+                let assesss = assess.split(",");
                 for (let i = assesss.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("assess",assesss[i]);
                 }
@@ -153,9 +153,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
         }
         let tarnsferApprover = data.tarnsferApproverImage;
         if($scope.StringNotBlank(tarnsferApprover)){
-            if(tarnsferApprover.search("[,]")){
+            if(tarnsferApprover.search(",")){
                 //遍历所有关于employ的图片地址
-                let tarnsferApprovers = tarnsferApprover.split("[,]");
+                let tarnsferApprovers = tarnsferApprover.split(",");
                 for (let i = tarnsferApprovers.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("tarnsferApprover",tarnsferApprovers[i]);
                 }
@@ -165,9 +165,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
         }
         let changeApprover = data.changeApproverImage;
         if($scope.StringNotBlank(changeApprover)){
-            if(changeApprover.search("[,]")){
+            if(changeApprover.search(",")){
                 //遍历所有关于employ的图片地址
-                let changeApprovers = changeApprover.split("[,]");
+                let changeApprovers = changeApprover.split(",");
                 for (let i = changeApprovers.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("changeApprover",changeApprovers[i]);
                 }
@@ -177,9 +177,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
         }
         let appoint = data.appointImage;
         if($scope.StringNotBlank(appoint)){
-            if(appoint.search("[,]")){
+            if(appoint.search(",")){
                 //遍历所有关于employ的图片地址
-                let appoints = appoint.split("[,]");
+                let appoints = appoint.split(",");
                 for (let i = appoints.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("appoint",appoints[i]);
                 }
@@ -189,9 +189,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
         }
         let leaveReport = data.leaveReportImage;
         if($scope.StringNotBlank(leaveReport)){
-            if(leaveReport.search("[,]")){
+            if(leaveReport.search(",")){
                 //遍历所有关于employ的图片地址
-                let leaveReports = leaveReport.split("[,]");
+                let leaveReports = leaveReport.split(",");
                 for (let i = leaveReports.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("leaveReport",leaveReports[i]);
                 }
@@ -201,9 +201,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
         }
         let trainApply = data.trainApplyImage;
         if($scope.StringNotBlank(trainApply)){
-            if(trainApply.search("[,]")){
+            if(trainApply.search(",")){
                 //遍历所有关于employ的图片地址
-                let trainApplys = trainApply.split("[,]");
+                let trainApplys = trainApply.split(",");
                 for (let i = trainApplys.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("trainApply",trainApplys[i]);
                 }
@@ -212,9 +212,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
             }
         }let trainService = data.trainServiceImage;
         if($scope.StringNotBlank(trainService)){
-            if(trainService.search("[,]")){
+            if(trainService.search(",")){
                 //遍历所有关于employ的图片地址
-                let trainServices = trainService.split("[,]");
+                let trainServices = trainService.split(",");
                 for (let i = trainServices.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("trainService",trainServices[i]);
                 }
@@ -224,9 +224,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
         }
         let yearInterview = data.yearInterviewImage;
         if($scope.StringNotBlank(yearInterview)){
-            if(yearInterview.search("[,]")){
+            if(yearInterview.search(",")){
                 //遍历所有关于employ的图片地址
-                let yearInterviews = yearInterview.split("[,]");
+                let yearInterviews = yearInterview.split(",");
                 for (let i = yearInterviews.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("yearInterview",yearInterviews[i]);
                 }
@@ -237,9 +237,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
 
         let awardDisposition = data.awardDispositionImage;
         if($scope.StringNotBlank(awardDisposition)){
-            if(awardDisposition.search("[,]")){
+            if(awardDisposition.search(",")){
                 //遍历所有关于employ的图片地址
-                let awardDispositions = awardDisposition.split("[,]");
+                let awardDispositions = awardDisposition.split(",");
                 for (let i = awardDispositions.length - 1; i >= 0; i--) {
                     $scope.setStageCertificate("awardDisposition",awardDispositions[i]);
                 }
@@ -307,7 +307,7 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
                 if(j == 0){
                     $scope.stageCertificate[type[i]+"Image"] = $types.eq(j).attr("value");
                 }else{
-                    $scope.stageCertificate[type[i]+"Image"] += "[,]" + $types.eq(j).attr("value");
+                    $scope.stageCertificate[type[i]+"Image"] += "," + $types.eq(j).attr("value");
                 }
             }
         }

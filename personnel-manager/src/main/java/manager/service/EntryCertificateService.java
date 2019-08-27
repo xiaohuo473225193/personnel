@@ -1,8 +1,10 @@
 package manager.service;
 
 import manager.mapper.EntryCertificateMapper;
+import manager.pojo.CommonCertificate;
 import manager.pojo.EntryCertificate;
 import manager.pojo.User;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import util.Code;
@@ -52,8 +54,31 @@ public class EntryCertificateService {
     }
 
     public void updateUploadEntryCertificate(EntryCertificate entryCertificate) {
+        if(entryCertificate.getUid() == null){ //id不能为空
+            throw new PException(Code.ID_NOT_EXIST,"非法操作,存在安全隐患");
+        }
         findByUid(entryCertificate.getUid());//查询该用户是否存在
         entryCertificateMapper.updateByPrimaryKeySelective(entryCertificate);
+        if(isUpdateComplete(entryCertificate.getUid())){
+            entryCertificate.setComplete("1");
+        }else{
+            entryCertificate.setComplete("0");
+        }
+        entryCertificateMapper.updateByPrimaryKeySelective(entryCertificate);
+    }
+    //是否全部上传
+    public boolean isUpdateComplete(Long id){
+        EntryCertificate certificate = findByUid(id);
+        if(isBlank(certificate.getEntryAgreeImage()) ||
+           isBlank(certificate.getEntryNoticeImage()) ||
+           isBlank(certificate.getHireImage()) ||
+           isBlank(certificate.getSecrecyImage())){
+            return false;
+        }
+        return true;
+    }
+    private boolean isBlank(String val){
+        return StringUtils.isBlank(val);
     }
 }
 

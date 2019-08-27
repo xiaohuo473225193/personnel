@@ -37,9 +37,7 @@ public class NewsService {
 
     public void addNews(News news){
 
-        if(newsMapper.selectByPrimaryKey(news) != null){
-            throw new PException(Code.NEWS_EXIST,"新闻信息已存在");
-        }
+        news.setUid(userService.get().getUid());
         news.setCreateTime(new Date());
         news.setStatus("1");
         news.setUpdateTime(new Date());
@@ -86,4 +84,11 @@ public class NewsService {
         return targetLists;
     }
 
+    public News findById(Long id) {
+        News news = newsMapper.selectByPrimaryKey(id);
+        if(news == null){
+            throw new PException(Code.NEWS_NOT_EXIST,"新闻信息不存在");
+        }
+        return news;
+    }
 }

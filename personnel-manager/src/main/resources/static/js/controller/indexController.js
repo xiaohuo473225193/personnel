@@ -7,6 +7,7 @@ app.controller('indexController' ,function($scope, indexService){
             function (response) {
                 $scope.user = response.data;
                 $scope.getMenuByAuthor($scope.user.uid);
+
             }
         )
     }
@@ -18,20 +19,22 @@ app.controller('indexController' ,function($scope, indexService){
             }
         )
     }
-
-    $scope.openclose = function(e){
-        let ul = $('#sidebar > ul');
-        let sidebar = $('#sidebar');
-        if(sidebar.hasClass('open'))
-        {
-            sidebar.removeClass('open');
-            ul.slideUp(250);
-        } else
-        {
-            sidebar.addClass('open');
-            ul.slideDown(250);
+    //修改密码
+    $scope.updatePassword = function(){
+        //判断确认密码和新密码是否一致
+        if($scope.entity.confirmPassword != $scope.entity.newPassword){
+            alert("密码不一致");
+            return;
         }
+        indexService.updatePassword($scope.entity.oldPassword, $scope.entity.newPassword).success(
+            function (response) {
+                alert(response.data);
+                $scope.entity = {};
+                //location.href="/logout";
+            }
+        )
     }
+
     $scope.openAndClose = function (e) {
         let submenu = $(e.target).siblings('ul');//ul
         let li = $(e.target).parents('li'); //li
@@ -60,4 +63,34 @@ app.controller('indexController' ,function($scope, indexService){
             li.addClass('open');
         }
     }
+
+    //全局搜索功能
+    $scope.search = function () {
+       let author = $scope.user.author;
+       let keyword = $scope.keyword;
+
+       console.log(author +"," + keyword);
+
+       if(author == 1){
+           alert("权限不足");
+           return;
+       }
+       if(!$scope.StringNotBlank(keyword)){
+           alert("不能为空");
+           return;
+       }
+       //window.location = "../search.html#?author=" + author +"&keyword=" + keyword;
+       //随机时间，解决只跳转一次问题
+       window.open("../search.html?_t="+new Date().getTime()+"#?author=" + author +"&keyword=" + keyword, "iframe");
+    }
+
+    //判断字符串不能为空
+    $scope.StringNotBlank = function(str){
+        if(str != "" && str != null && str != undefined){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 });	

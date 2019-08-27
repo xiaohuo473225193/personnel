@@ -53,9 +53,9 @@ app.controller('commonCertificateController' ,function($scope, $location, common
     $scope.packageCommonCertificate = function(data){
         let employ = data.employImage;
         if($scope.StringNotBlank(employ)){
-            if(employ.search("[,]")){
+            if(employ.search(",")){
                 //遍历所有关于employ的图片地址
-                let employs = employ.split("[,]");
+                let employs = employ.split(",");
                 for (let i = employs.length - 1; i >= 0; i--) {
                     $scope.setCommonCertificate("employ",employs[i]);
                 }
@@ -66,9 +66,9 @@ app.controller('commonCertificateController' ,function($scope, $location, common
 
         let identity = data.identityImage;
         if($scope.StringNotBlank(identity)){
-            if(identity.search("[,]")){
+            if(identity.search(",")){
                 //遍历所有关于employ的图片地址
-                let identitys = identity.split("[,]");
+                let identitys = identity.split(",");
                 for (let i = identitys.length - 1; i >= 0; i--) {
                     $scope.setCommonCertificate("identity",identitys[i]);
                 }
@@ -79,9 +79,9 @@ app.controller('commonCertificateController' ,function($scope, $location, common
 
         let degree = data.degreeImage;
         if($scope.StringNotBlank(degree)){
-            if(degree.search("[,]")){
+            if(degree.search(",")){
                 //遍历所有关于employ的图片地址
-                let degrees = degree.split("[,]");
+                let degrees = degree.split(",");
                 for (let i = degrees.length - 1; i >= 0; i--) {
                     $scope.setCommonCertificate("degree",degrees[i]);
                 }
@@ -92,9 +92,9 @@ app.controller('commonCertificateController' ,function($scope, $location, common
 
         let education = data.educationImage;
         if($scope.StringNotBlank(education)){
-            if(education.search("[,]")){
+            if(education.search(",")){
                 //遍历所有关于employ的图片地址
-                let educations = education.split("[,]");
+                let educations = education.split(",");
                 for (let i = educations.length - 1; i >= 0; i--) {
                     $scope.setCommonCertificate("education",educations[i]);
                 }
@@ -105,9 +105,9 @@ app.controller('commonCertificateController' ,function($scope, $location, common
 
         let post = data.postImage;
         if($scope.StringNotBlank(post)){
-            if(post.search("[,]")){
+            if(post.search(",")){
                 //遍历所有关于employ的图片地址
-                let posts = post.split("[,]");
+                let posts = post.split(",");
                 for (let i = posts.length - 1; i >= 0; i--) {
                     $scope.setCommonCertificate("post",posts[i]);
                 }
@@ -118,9 +118,9 @@ app.controller('commonCertificateController' ,function($scope, $location, common
 
         let background = data.backgroundImage;
         if($scope.StringNotBlank(background)){
-            if(background.search("[,]")){
+            if(background.search(",")){
                 //遍历所有关于employ的图片地址
-                let backgrounds = background.split("[,]");
+                let backgrounds = background.split(",");
                 for (let i = backgrounds.length - 1; i >= 0; i--) {
                     $scope.setCommonCertificate("background",backgrounds[i]);
                 }
@@ -185,7 +185,7 @@ app.controller('commonCertificateController' ,function($scope, $location, common
                 if(j == 0){
                     $scope.commonCertificate[type[i]+"Image"] = $types.eq(j).attr("value");
                 }else{
-                    $scope.commonCertificate[type[i]+"Image"] += "[,]" + $types.eq(j).attr("value");
+                    $scope.commonCertificate[type[i]+"Image"] += "," + $types.eq(j).attr("value");
                 }
             }
         }
@@ -201,4 +201,5 @@ app.controller('commonCertificateController' ,function($scope, $location, common
     $scope.download = function () {
         window.location = 'http://localhost:8085/download/upload/'+$scope.commonCertificate.uid;
     }
+
 });	

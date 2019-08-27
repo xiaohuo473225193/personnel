@@ -17,12 +17,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     private AuthenticationProvider provider;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.out.println("http生效");
         http.formLogin()//  定义当需要用户登录时候，转到的登录页面
-                .loginPage("/login") // 设置登录页面
-                .loginProcessingUrl("/home/index")
-                .failureUrl("/login-error")
+                .loginPage("/login.html") // 定义当需要登录时候，跳转的页面
+                .loginProcessingUrl("/personnel/login") //用户自定义的结果，在登录页需要填写该url
+                .failureUrl("/error.html") //登录失败跳转的页面
                 .permitAll()  //表单登录，permitAll()表示这个不需要验证 登录页面，登录失败页面
+                .defaultSuccessUrl("/index.html") //登录成功跳转的页面
                 .and()
                 .authorizeRequests()
                 //.antMatchers("/login","/login-error").permitAll()
@@ -34,13 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        System.out.println("provider生效" + provider);
         auth.authenticationProvider(provider); //执行自己的业务
     }
     //解决静态资源被拦截的问题
     @Override
     public void configure(WebSecurity web) throws Exception {
-        System.out.println("静态资源不拦截生效");
         web.ignoring().antMatchers("/css/**",
                 "/font-awesome/**",
                 "/images/**",

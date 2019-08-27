@@ -17,6 +17,7 @@
     <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
 
     <!--upload start-->
+    <script type="text/javascript" src="js/echarts.min.js"></script>
     <script type="text/javascript" src="js/jquery.min.js"></script>
 
     <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
@@ -25,7 +26,7 @@
     <script src="js/service/newsService.js"></script>
     <script src="js/controller/homeController.js"></script>
 </head>
-<body ng-app="personnel" ng-controller="homeController" ng-init="initNews();getUser();">
+<body ng-app="personnel" ng-controller="homeController" ng-init="initNews();getUser();getUserTotal();">
 <!--main-container-part-->
 <div id="content" style="margin-left: 0px;">
 <!--Action boxes-->
@@ -34,7 +35,7 @@
       <ul class="quick-actions">
         <li class="bg_lb"> <a href="home.html"> <i class="icon-dashboard"></i>我的控制台</a> </li>
         <li ng-if="user.author == '3'" class="bg_lg span3"> <a href="#charts_show"> <i class="icon-signal"></i> 图表统计</a> </li>
-        <li ng-if="user.author == '3'" class="bg_lb"> <a href="new.html"> <i class="icon-pencil"></i>发布公告</a> </li>
+        <li ng-if="user.author == '3'" class="bg_lb"> <a href="add-news.html"> <i class="icon-pencil"></i>发布公告</a> </li>
 
         <li ng-if="user.author == '3'" class="bg_lo"> <a href="javascript:void(0);"> <i class="icon-th"></i> 待开放</a> </li>
         <li ng-if="user.author == '3'" class="bg_ls"> <a href="javascript:void(0);"> <i class="icon-fullscreen"></i> 待开放</a> </li>
@@ -46,24 +47,23 @@
 
       </ul>
     </div>
-<!--End-Action boxes-->    
 
-<!--Chart-box-->
-    <div ng-if="user.author == '3'">
+<!--End-Action boxes-->
+<!--Chart-box  ng-if="user.author == '3'" -->
     <div class="row-fluid" id="charts_show">
       <div class="widget-box">
         <div class="widget-title bg_lg"><span class="icon"><i class="icon-signal"></i></span>
           <h5>网站统计</h5>
         </div>
-        <div class="widget-content" >
+        <div class="widget-content">
           <div class="row-fluid">
             <div class="span9">
-              <div class="chart"></div>
+                <div id="pie_charts" style="width: 1200px;height:400px;"></div>
             </div>
             <div class="span3">
               <ul class="site-stats">
-                <li class="bg_lh"><i class="icon-user"></i> <strong>2540</strong> <small>Total Users</small></li>
-                <li class="bg_lh"><i class="icon-plus"></i> <strong>120</strong> <small>New Users </small></li>
+                <li class="bg_lh"><i class="icon-user"></i> <strong>{{userTotal}}</strong> <small>Total Users</small></li>
+                <li class="bg_lh"><i class="icon-plus"></i> <strong>0</strong> <small>New Users </small></li>
                 <li class="bg_lh"><i class="icon-shopping-cart"></i> <strong>656</strong> <small>Total Shop</small></li>
                 <li class="bg_lh"><i class="icon-tag"></i> <strong>9540</strong> <small>Total Orders</small></li>
                 <li class="bg_lh"><i class="icon-repeat"></i> <strong>10</strong> <small>Pending Orders</small></li>
@@ -73,7 +73,6 @@
           </div>
         </div>
       </div>
-    </div>
     </div>
 <!--End-Chart-box--> 
     <hr/>
@@ -88,7 +87,7 @@
               <li ng-repeat="new in news">
                 <div class="user-thumb"> <img width="40" height="40" alt="User" src="img/demo/av1.jpg"> </div>
                 <div class="article-post"> <span class="user-info"> 发布人: {{new.authorName}} / 发布日期: {{new.createTime | date:'yyyy-MM-dd'}} / 发布时间: {{new.createTime | date:'HH:mm:ss'}}  </span>
-                  <p><a href="newsInfo.html">{{new.title}}</a> </p>
+                  <p><a href="newsInfo.html#?id={{new.id}}">{{new.title}}</a> </p>
                 </div>
               </li>
               <li>
@@ -102,7 +101,7 @@
 
 <!--end-main-container-part-->
 
-<script src="js/excanvas.min.js"></script> 
+<!--<script src="js/excanvas.min.js"></script>
 <script src="js/jquery.min.js"></script> 
 <script src="js/jquery.ui.custom.js"></script> 
 <script src="js/bootstrap.min.js"></script> 
@@ -122,11 +121,91 @@
 <script src="js/select2.min.js"></script> 
 <script src="js/matrix.popover.js"></script> 
 <script src="js/jquery.dataTables.min.js"></script> 
-<script src="js/matrix.tables.js"></script> 
+<script src="js/matrix.tables.js"></script>-->
 
 <script type="text/javascript">
-  // This function is called from the pop-up menus to transfer to
-  // a different page. Ignore if the value returned is a null string:
+    let ratioArray = [];
+    function setRatioArray(){
+        $.get('/education/ratio',function(data){
+            ratioArray = data.data;
+            initPieCharts();
+        });
+    }
+    setRatioArray();
+    // 指定图表的配置项和数据
+    function initPieCharts(){
+        // 基于准备好的dom，初始化echarts实例
+        let myChart = echarts.init(document.getElementById('pie_charts'));
+        myChart.showLoading();//显示加载框
+        let option = {
+            title : {
+                text: '职工最高学历人数分析南丁格尔图',
+                subtext: '真实数据',
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                x : 'center',
+                y : 'bottom',
+                data:['初中','中专','高中','大学专科','大学本科','硕士','博士','博士后']
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {
+                        show: true,
+                        type: ['pie', 'funnel']
+                    },
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            series : [
+                {
+                    name:'半径模式',
+                    type:'pie',
+                    radius : [20, 110],
+                    center : ['25%', '50%'],
+                    roseType : 'radius',
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    lableLine: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    data:ratioArray
+                },
+                {
+                    name:'面积模式',
+                    type:'pie',
+                    radius : [30, 110],
+                    center : ['75%', '50%'],
+                    roseType : 'area',
+                    data:ratioArray
+                }
+            ]
+        };
+        myChart.setOption(option);
+        myChart.hideLoading();
+    }
+
+
   function goPage (newURL) {
 
       // if url is empty, skip the menu dividers and reset the menu selection to default

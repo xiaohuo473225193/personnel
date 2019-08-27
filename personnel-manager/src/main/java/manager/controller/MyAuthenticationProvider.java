@@ -26,13 +26,10 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
      */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println("进来了");
         String username = authentication.getName();// 这个获取表单输入的用户名;
         String password = (String) authentication.getCredentials();// 这个获取表单输入的密码;
-        System.out.println("username : " + username + ",password : " + password);
         //加密
         password = MD5Util.md5(password,username);
-        System.out.println("username : " + username + ",password : " + password);
         UserInfo userInfo =  (UserInfo) userDetailsService.loadUserByUsername(username);
         if(userInfo == null){
             throw new BadCredentialsException("用户名不存在");
