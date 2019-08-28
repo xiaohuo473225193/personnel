@@ -1,6 +1,6 @@
 //控制层
 //所有部门通用的控制层，对所有部门功能的提取
-app.controller('searchController' ,function($scope, $location, $controller, userService) {
+app.controller('searchController' ,function($scope, $location, $controller, userService, commonCollegeService) {
 
     $controller('finalController',{$scope:$scope});
 
@@ -35,6 +35,40 @@ app.controller('searchController' ,function($scope, $location, $controller, user
             return true;
         }else{
             return false;
+        }
+    }
+
+    $scope.user = {};
+    $scope.collegeCid = 0;
+    $scope.selectOption = {
+        jobNumber:"",
+        name:"",
+        identityCard:""
+    }
+
+    $scope.initAttr = function (cid) {
+        $scope.collegeCid = cid;
+    }
+
+    $scope.deleteUser = function () {
+        commonCollegeService.deleteUser($scope.selectIds).success(
+            function (response) {
+                if(response.flag){
+                    alert("删除成功");
+                }
+                $scope.reloadList();
+            })
+    }
+    $scope.updateUser = function () {
+        if($scope.selectIds.length == 0){
+            alert("请勾选对应的文本框，最多勾选一个");
+        }
+        if($scope.selectIds.length == 1){
+            console.log($scope.selectIds[0]);
+            window.location = "../upload-person.html#?selectIds=" + $scope.selectIds[0];
+        }
+        if($scope.selectIds.length > 1){
+            alert("最多只能勾选一个");
         }
     }
 })

@@ -29,7 +29,7 @@
         </dependency>
         <!--把项目打成war包部署在tomcat上需要引入的jar包 在该工程目录，
             而不是pom工程，使用命令行界面进行mvn clean package打包 provided-->
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
@@ -45,7 +45,7 @@
             <artifactId>tomcat-servlet-api</artifactId>
             <version>8.0.36</version>
             <scope>provided</scope>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
