@@ -28,6 +28,7 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
                 $scope.stageCertificate.uid = $scope.user.uid;
                 $scope.stageCertificate.name = $scope.user.name;
                 $scope.showImg($scope.stageCertificate.uid);
+                $scope.initImage();
             }
         );
     }
@@ -39,6 +40,7 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
                 $scope.stageCertificate.uid = $scope.user.uid;
                 $scope.stageCertificate.name = $scope.user.name;
                 $scope.showImg($scope.stageCertificate.uid);
+                $scope.initImage();
             }
         )
     }
@@ -269,6 +271,16 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
         //绑定取消事件;
         $fileBox.find('.diysCancel').on('click',function(){
             $(this).parents('.diyUploadHover').remove();
+            //获取名称
+            let values = $(this).parents('.diyUploadHover').find("input:hidden").val();
+            let index = values.lastIndexOf("/");
+            let fileName = values.substring(index + 1);
+            //删除服务器上的图片
+            $.ajax({
+                url:"/common/delete/upload/"+$scope.stageCertificate.uid+"/"+fileName,
+                type:'DELETE',
+                data:{}
+            });
         });
 
         //绑定左移事件;
@@ -319,5 +331,41 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
                 }
             }
         )
+    }
+
+    $scope.download = function () {
+        window.location = 'http://localhost:8085/download/upload/'+$scope.stageCertificate.uid;
+    }
+
+
+    $scope.initImage = function () {
+        for(let i = 1; i <= 15; i++){
+            let $tgaUpload = $('#goodsUpload' + i).diyUpload({
+                url:'http://localhost:8085/common/upload/'+$scope.stageCertificate.uid, //三个证书文件通用的上传文件地址
+                uid:$scope.stageCertificate.uid,
+                success:function(data) {
+                    $("#" + data.file_id).find('input').attr("value",data.data);
+                    if(data.flag){
+                        alert("上传成功");
+                    }
+                },
+                error:function(err) {
+                    alert(err.data);
+                },
+                buttonText : '',
+                accept: {
+                    title: "Images",
+                    extensions: 'gif,jpg,jpeg,bmp,png'
+                },
+                thumb:{
+                    width:120,
+                    height:90,
+                    quality:100,
+                    allowMagnify:true,
+                    crop:true,
+                    type:"image/jpeg"
+                }
+            });
+        }
     }
 });	

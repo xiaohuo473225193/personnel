@@ -2,15 +2,14 @@ package manager.controller;
 
 import manager.bo.SelectOptionData;
 import manager.pojo.College;
-import manager.pojo.User;
 import manager.service.CollegeService;
 import manager.service.DownloadService;
-import manager.service.UserService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import util.Result;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
@@ -38,7 +37,6 @@ public class DownloadController {
         File targetZipFile = downloadService.downloadUploadFileToZip(uid);
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename="+targetZipFile.getName());
-        System.out.println(response);
         FileInputStream inputStream = null;
         OutputStream outputStream = null;
         try {

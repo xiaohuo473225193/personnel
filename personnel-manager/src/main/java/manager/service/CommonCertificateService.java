@@ -3,8 +3,9 @@ package manager.service;
 import manager.mapper.CommonCertificateMapper;
 import manager.pojo.CommonCertificate;
 import manager.pojo.User;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,6 @@ import util.Code;
 import util.PException;
 
 import java.io.*;
-import java.lang.reflect.Field;
 
 /**
 * @Description:    常规证书服务层操作
@@ -90,6 +90,7 @@ public class CommonCertificateService {
     }
     /**
      *@author      473225193    yuanyou
+     * @param jobNumber
      * @param originalFilename
     * @param inputStream
      * @return      void
@@ -97,23 +98,17 @@ public class CommonCertificateService {
      * @date        2019/8/3 14:55
      * @description 图片上传到本地磁盘
      */
-    public String uploadLocalDisk(String originalFilename, InputStream inputStream){
-        User user = userService.findByJobNumber("002751");
+    public String uploadLocalDisk(Long uid, String originalFilename, InputStream inputStream){
+        User user = userService.findByUid(uid);
         FileOutputStream fileOutputStream = null;
         String suffix = null;
         try {
             String path = ResourceUtils.getFile(LOCAL_DISK_LOCATION).getPath();
-            suffix = "/upload" + "/"+user.getJobNumber()+user.getName();
+            suffix = "/upload" + "/"+user.getJobNumber() + user.getName();
             File uploadPath = new File(path + suffix);
             if(!uploadPath.exists()){
                 uploadPath.mkdirs();
             }
-            /*File[] files = uploadPath.listFiles();
-            for (File file : files) {
-                if(originalFilename.equals(file.getName())){
-                    throw new PException(Code.USER_EXIST_FILE,"该文件已存在");
-                }
-            }*/
             String uploadFullName = uploadPath.getPath() + "/" + originalFilename;
             fileOutputStream = new FileOutputStream(uploadFullName);
             //流的拷贝
@@ -143,10 +138,10 @@ public class CommonCertificateService {
         return targetFilePath;
     }
 
-    public void deleteUploadLocalDisk(String fileName) throws Exception {
-        User user = userService.findByJobNumber("002751");
+    public void deleteUploadLocalDisk(Long uid, String fileName) throws Exception {
+        User user = userService.findByUid(uid);
         String path = ResourceUtils.getFile("classpath:templates").getPath();
-        String suffix = "/upload" + "/"+user.getJobNumber() + " " + user.getName();
+        String suffix = "/upload" + "/"+user.getJobNumber() + user.getName();
         File uploadPath = new File(path + suffix + "/" + fileName);
         if(!uploadPath.exists()){
             throw new PException(Code.USER_NOT_FILE,"用户没有该文件");

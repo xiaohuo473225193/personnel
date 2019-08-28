@@ -43,9 +43,9 @@ public class CommonCertificateController {
      * @date        2019/8/3 13:02
      * @description 上传文件到磁盘
      */
-    @PostMapping("/upload")
-    public Result uploadCommonCertificate(@RequestBody MultipartFile file) throws Exception{
-        String localDiskPath = commonCertificateService.uploadLocalDisk(file.getOriginalFilename(), file.getInputStream());
+    @PostMapping("/upload/{uid}")
+    public Result uploadCommonCertificate(@PathVariable(value = "uid") Long uid, @RequestBody MultipartFile file) throws Exception{
+        String localDiskPath = commonCertificateService.uploadLocalDisk(uid, file.getOriginalFilename(), file.getInputStream());
         return new Result(localDiskPath);
     }
     /**
@@ -56,10 +56,10 @@ public class CommonCertificateController {
      * @date        2019/8/3 17:51
      * @description 删除磁盘文件
      */
-    @DeleteMapping("/delete/upload/{fileName}")
-    public Result deleteUploadCommonCertificate(@PathVariable(value = "fileName") String fileName){
+    @DeleteMapping("/delete/upload/{uid}/{fileName}")
+    public Result deleteUploadCommonCertificate(@PathVariable(value = "uid") Long uid, @PathVariable(value = "fileName") String fileName){
         try {
-            commonCertificateService.deleteUploadLocalDisk(fileName);
+            commonCertificateService.deleteUploadLocalDisk(uid, fileName);
         } catch (Exception e) {
             e.printStackTrace();
         }

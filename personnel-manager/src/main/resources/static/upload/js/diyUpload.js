@@ -192,11 +192,12 @@
 
     //取消事件;
     function removeLi ( $li ,file ,webUploader) {
+        let uid = webUploader.options.uid;//传递过来的参数
         webUploader.removeFile( file.id );
         $li.remove();
-        //删除图片
+        //删除服务器上的图片
         $.ajax({
-            url:"/common/delete/upload/"+file.name,
+            url:"/common/delete/upload/"+uid+"/"+file.name,
             type:'DELETE',
             data:{}
         });
@@ -260,6 +261,7 @@
                 $fileBox.find('.viewThumb').append('<img src="'+dataSrc+'" >');
             }
         });
+        //上传
         webUploader.upload();
     }
 

@@ -82,6 +82,8 @@ app.controller('indexController' ,function($scope, indexService){
        //window.location = "../search.html#?author=" + author +"&keyword=" + keyword;
        //随机时间，解决只跳转一次问题
        window.open("../search.html?_t="+new Date().getTime()+"#?author=" + author +"&keyword=" + keyword, "iframe");
+
+       $scope.keyword = "";
     }
 
     //判断字符串不能为空
