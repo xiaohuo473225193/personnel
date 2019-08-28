@@ -1,5 +1,7 @@
  //控制层 
-app.controller('stageCertificateController' ,function($scope, $location, userService, stageCertificateService){
+app.controller('stageCertificateController' ,function($scope, $location, $controller, userService, stageCertificateService){
+    $controller('finalController',{$scope:$scope});
+
     $scope.stageCertificate = {
         uid:0,
         name:"",
@@ -262,7 +264,9 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
                             <div class="diysProgress">0%</div> \
                         </div> \
                         <p class="diysControl"><span class="diysLeft"><i></i></span><span class="diysCancel"><i></i></span><span class="diysRight"><i></i></span></p>\
-                        <img src='+v+'> \
+                        <a href='+v+' target="_blank"> \
+						<img src='+v+'> \
+                        </a> \
                     </div> \
                 </li>';
         $("#"+k).find(".upload-ul").prepend($lis);
@@ -334,14 +338,14 @@ app.controller('stageCertificateController' ,function($scope, $location, userSer
     }
 
     $scope.download = function () {
-        window.location = 'http://localhost:8085/download/upload/'+$scope.stageCertificate.uid;
+        window.location = $scope.server_url + 'download/upload/'+$scope.stageCertificate.uid;
     }
 
 
     $scope.initImage = function () {
         for(let i = 1; i <= 15; i++){
             let $tgaUpload = $('#goodsUpload' + i).diyUpload({
-                url:'http://localhost:8085/common/upload/'+$scope.stageCertificate.uid, //三个证书文件通用的上传文件地址
+                url:$scope.server_url + 'common/upload/'+$scope.stageCertificate.uid, //三个证书文件通用的上传文件地址
                 uid:$scope.stageCertificate.uid,
                 success:function(data) {
                     $("#" + data.file_id).find('input').attr("value",data.data);

@@ -26,6 +26,6 @@ spring:
     view:
       prefix: classpath:/templates/  #用户视图解析器
       suffix: .html
-IMAGE_SERVER_URL_PREFIX: http://localhost:8085 #客户端访问图片的前缀
-LOCAL_DISK_LOCATION: classpath:templates #上传图片存放的位置
-NEWS_UPLOAD_IMAGE_LOCATION: classpath:templates
+IMAGE_SERVER_URL_PREFIX: http://localhost:8085 #客户端进行回显图片的前缀
+LOCAL_DISK_LOCATION: classpath:templates #上传图片存放的位置 后添加的是 /upload/工号名称/所有图片
+NEWS_UPLOAD_IMAGE_LOCATION: classpath:templates #新闻展示图片存放的位置 后加固定格式 /notice/新闻图片

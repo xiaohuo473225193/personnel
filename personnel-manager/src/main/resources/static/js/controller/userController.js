@@ -28,12 +28,12 @@ app.controller('userController' ,function($scope, $location,$controller, userSer
     $scope.formatDate = function (val) {
         if (val != null) {
             let date = new Date(val);
-            let month = date.getMonth();
-            if(date.getMonth() < 10){
-                month = "0" + (date.getMonth() + 1);
+            let month = date.getMonth() + 1;
+            if(month < 10){
+                month = "0" + date.getMonth();
             }
             let time = date.getDate();
-            if(date.getDate() < 10){
+            if(time < 10){
                 time = "0" + date.getDate();
             }
             return date.getFullYear() + '-' + month + '-' + time;

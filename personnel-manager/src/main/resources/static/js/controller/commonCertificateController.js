@@ -1,5 +1,8 @@
  //控制层 
-app.controller('commonCertificateController' ,function($scope, $location, commonCertificateService, userService){
+app.controller('commonCertificateController' ,function($scope, $location, $controller, commonCertificateService, userService){
+
+    $controller('finalController',{$scope:$scope});
+
     $scope.commonCertificate = {
         uid:"",
         name:"",
@@ -142,7 +145,9 @@ app.controller('commonCertificateController' ,function($scope, $location, common
                             <div class="diysProgress">0%</div> \
                         </div> \
                         <p class="diysControl"><span class="diysLeft"><i></i></span><span class="diysCancel"><i></i></span><span class="diysRight"><i></i></span></p>\
-                        <img src='+v+'> \
+                        <a href='+v+' target="_blank"> \
+						<img src='+v+'> \
+                        </a> \
                     </div> \
                 </li>';
         $("#"+k).find(".upload-ul").prepend($lis);
@@ -211,13 +216,13 @@ app.controller('commonCertificateController' ,function($scope, $location, common
         )
     }
     $scope.download = function () {
-        window.location = 'http://localhost:8085/download/upload/'+$scope.commonCertificate.uid;
+        window.location = $scope.server_url + 'download/upload/' + $scope.commonCertificate.uid;
     }
 
     $scope.initImage = function () {
         for(var i = 1; i <= 6; i++){
             var $tgaUpload = $('#goodsUpload' + i).diyUpload({
-                url:'http://localhost:8085/common/upload/'+$scope.commonCertificate.uid,
+                url:$scope.server_url + 'common/upload/' + $scope.commonCertificate.uid,
                 uid:+$scope.commonCertificate.uid,
                 success:function(data) {
                     $("#" + data.file_id).find('input').attr("value",data.data);

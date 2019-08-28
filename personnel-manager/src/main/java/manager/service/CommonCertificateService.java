@@ -90,7 +90,7 @@ public class CommonCertificateService {
     }
     /**
      *@author      473225193    yuanyou
-     * @param jobNumber
+     * @param uid
      * @param originalFilename
     * @param inputStream
      * @return      void
@@ -140,7 +140,7 @@ public class CommonCertificateService {
 
     public void deleteUploadLocalDisk(Long uid, String fileName) throws Exception {
         User user = userService.findByUid(uid);
-        String path = ResourceUtils.getFile("classpath:templates").getPath();
+        String path = ResourceUtils.getFile(LOCAL_DISK_LOCATION).getPath();
         String suffix = "/upload" + "/"+user.getJobNumber() + user.getName();
         File uploadPath = new File(path + suffix + "/" + fileName);
         if(!uploadPath.exists()){

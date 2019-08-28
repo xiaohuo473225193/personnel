@@ -4,7 +4,7 @@
 //      男女选项
 //      下拉框的固定类型值
 app.controller('finalController',function($scope){
-    //
+    //所有服务器的地址 , 注意一个地方需要修改  import.html 有个固定的地址，当地址发送变化的时候注意修改
     $scope.server_url = "http://localhost:8085/";
     // form-common.html 男女选项
     $scope.genders = [

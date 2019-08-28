@@ -50,7 +50,7 @@
 
 <!--End-Action boxes-->
 <!--Chart-box  ng-if="user.author == '3'" -->
-    <div class="row-fluid" id="charts_show">
+    <div class="row-fluid" style="display:{{user.author == '3' ? 'block' : 'none'}}" id="charts_show">
       <div class="widget-box">
         <div class="widget-title bg_lg"><span class="icon"><i class="icon-signal"></i></span>
           <h5>网站统计</h5>
