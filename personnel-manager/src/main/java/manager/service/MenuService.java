@@ -2,21 +2,22 @@ package manager.service;
 
 import manager.mapper.MenuMapper;
 
+import manager.pojo.College;
 import manager.pojo.Menu;
 
 import manager.pojo.User;
 import manager.vo.MenuList;
+import manager.vo.TreeNode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 import util.Code;
 import util.PException;
 import util.PageResult;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Administrator on 2019/8/3 0003.
@@ -24,11 +25,14 @@ import java.util.List;
 
 @Service
 public class MenuService {
-
+    @Value("${TREENODE_PAGE_PATH}")
+    private String TREENODE_PAGE_PATH;
     @Autowired
     private MenuMapper menuMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CollegeService collegeService;
 
     public void addMenu(Menu menu){
 
@@ -59,6 +63,7 @@ public class MenuService {
         Example example = new Example(Menu.class);
         example.setOrderByClause("sort");
         Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("status","1");//状态
         criteria.andEqualTo("pid",0);
         if(user.getAuthor().equals("1")){
             criteria.andEqualTo("author",1);
@@ -90,7 +95,7 @@ public class MenuService {
             Example.Criteria criteria = example.createCriteria();
             //进行模糊查询
             criteria.andLike("pid","%"+menu.getId()+"%");
-
+            criteria.andEqualTo("status","1");//状态
             //如果是二级权限的话，还需要对部门id进行判断,一级和三级不需要
             if(menu.getAuthor().equals(user.getAuthor()) && "2".equals(user.getAuthor())){
                 criteria.andEqualTo("cid",user.getCid());
@@ -127,5 +132,110 @@ public class MenuService {
         return successMenu;
     }
 
+    public List<TreeNode> loadParentTreeMenu() {
+        //判断当前用户是否符合权限
+        checkUserAuthor();
+        Menu menu = new Menu();
+        menu.setPid("0");
+        menu.setStatus("1");
+        menu.setAuthor("3");
+        List<Menu> menus = menuMapper.select(menu);
+        List<TreeNode> treeNodes = getTreeNodesByMenu(menus);
+        return treeNodes;
+    }
+    private List<TreeNode> getTreeNodesByMenu(List<Menu> menus){
+        List<TreeNode> targetNodes = new ArrayList<>();
+        TreeNode node = null;
+        for (Menu menu : menus) {
+            node = new TreeNode();
+            node.setId(menu.getId().toString());
+            //是否为父节点，0为父节点
+            if("1".equals(menu.getIsParent())){
+                node.setIsParent("true");
+            }else{
+                node.setIsParent("false");
+            }
+            node.setName(menu.getText());
+            node.setOpen("false");
+            node.setPid(menu.getPid());
+            targetNodes.add(node);
+        }
+        return targetNodes;
+    }
+    private void checkUserAuthor(){
+        User user = userService.get();
+        if(!"3".equals(user.getAuthor())){
+            throw new PException(Code.AUTHOR_ERROR,"权限不足");
+        }
+    }
+    public List<TreeNode> loadTreeNodeById(String id) {
+        checkUserAuthor();
+        Example example = new Example(Menu.class);
+        Example.Criteria criteria = example.createCriteria();
+        //模糊查询
+        criteria.andLike("pid","%,"+id+"%");
+        criteria.andEqualTo("status","1");
+        List<Menu> menuList = menuMapper.selectByExample(example);
+        List<TreeNode> treeNodes = getTreeNodesByMenu(menuList);
+        for (TreeNode treeNode : treeNodes) {
+            treeNode.setPid(id);
+        }
+        return treeNodes;
+    }
+    private Menu getMenuAndCheckUserAuthor(Long id){
+        checkUserAuthor();
+        //菜单和部门之间是一一对应的，每一个部门对应一个菜单
+        Menu menu = menuMapper.selectByPrimaryKey(id);
+        if(menu == null){
+            throw new PException(Code.MENU_NOT_EXIST,"该菜单不存在");
+        }
+        return menu;
+    }
+    public void removeMenu(Long id) {
+        Menu menu = getMenuAndCheckUserAuthor(id);
+        menu.setStatus("0");
+        menuMapper.updateByPrimaryKeySelective(menu);
+        collegeService.deleteCollege(menu.getCid());
+    }
 
+    public void renameMenu(Long id, String name) {
+        Menu menu = getMenuAndCheckUserAuthor(id);
+        menu.setText(name);
+        menuMapper.updateByPrimaryKeySelective(menu);
+        //在更新名称的时候，也修改该部门的名称
+        College college = new College();
+        college.setCid(menu.getCid());
+        college.setName(name);
+        collegeService.updateCollege(college);
+    }
+
+    public void dropMenu(Long sourceId, Long targetId) {
+        Menu menu = getMenuAndCheckUserAuthor(sourceId);
+        String pid = menu.getPid();
+        pid = pid.substring(0,pid.indexOf(",") + 1);
+        menu.setPid(pid + targetId);
+        menuMapper.updateByPrimaryKeySelective(menu);
+    }
+    //添加节点
+    public Map<String, Object> addMenuNode(Long pid, Long id, String name) {
+        Map<String, Object> map = new HashMap<>();
+        Menu menu = new Menu();
+        menu.setPid("6,"+pid);
+        menu.setText(name);
+        menu.setStatus("1");
+        menu.setAuthor("2,3");//只要是添加部门的权限都为 2,3 固定格式
+
+        College college = new College();//生成新的部门
+        college.setName(name);
+        College newCollege = collegeService.addCollege(college);
+
+        menu.setCid(newCollege.getCid());//新添加的部门id
+        menu.setUrl(TREENODE_PAGE_PATH + "#?collegeId=" + newCollege.getCid());
+        menu.setIsParent("0");
+        menuMapper.insert(menu);
+
+        map.put("id",menu.getId());//依靠数据库生成唯一的id
+        map.put("name",menu.getText());
+        return map;
+    }
 }

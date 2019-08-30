@@ -3,11 +3,12 @@ package manager.controller;
 import manager.pojo.Menu;
 import manager.service.MenuService;
 import manager.vo.MenuList;
+import manager.vo.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import util.Result;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Administrator on 2019/8/3 0003.
@@ -41,5 +42,36 @@ public class MenuController {
         List<MenuList> menus = menuService.findMenu(uid);
         return new Result(menus);
     }
-
+    //异步加载部门的菜单,首先加载父节点
+    @GetMapping("load/parent")
+    public Result<List<TreeNode>> loadParentTreeMenu(){
+        List<TreeNode> nodes = menuService.loadParentTreeMenu();
+        return new Result<>(nodes);
+    }
+    //根据父id加载子节点
+    @PostMapping("load/node")
+    public Result loadTreeNodeById(String id){
+        List<TreeNode> nodes = menuService.loadTreeNodeById(id);
+        return new Result<>(nodes);
+    }
+    @DeleteMapping("delete/{id}")
+    public Result removeMenu(@PathVariable(value = "id") Long id){
+        menuService.removeMenu(id);
+        return new Result("删除成功");
+    }
+    @PutMapping("rename/{id}/{name}")
+    public Result renameMenu(@PathVariable(value = "id") Long id, @PathVariable(value = "name") String name){
+        menuService.renameMenu(id,name);
+        return new Result("修改成功");
+    }
+    @PutMapping("drop/{sourceId}/{targetId}")
+    public Result dropMenu(@PathVariable(value = "sourceId") Long sourceId, @PathVariable(value = "targetId") Long targetId){
+        menuService.dropMenu(sourceId,targetId);
+        return new Result("移动成功");
+    }
+    @PostMapping("add/{pid}/{id}/{name}")
+    public Result addMenuNode(@PathVariable(value = "pid") Long pid, @PathVariable(value = "id") Long id, @PathVariable(value = "name") String name){
+        Map<String,Object> map = menuService.addMenuNode(pid,id,name);
+        return new Result(map);
+    }
 }

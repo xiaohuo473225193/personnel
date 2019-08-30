@@ -135,12 +135,13 @@ public class CollegeService {
         }
     }
 
-    public void addCollege(College college){
+    public College addCollege(College college){
         if(collegeMapper.selectByPrimaryKey(college) != null){
             throw new PException(Code.COLLEGE_EXIST,"部门信息已存在");
         }
         college.setStatus("1");
         collegeMapper.insert(college);
+        return college;
     }
 
     public void deleteCollege(Long cid){
@@ -149,15 +150,14 @@ public class CollegeService {
             throw new PException(Code.COLLEGE_NOT_EXIST,"部门信息不存在");
         }
         college.setStatus("0");
-        collegeMapper.updateByPrimaryKey(college);
+        collegeMapper.updateByPrimaryKeySelective(college);
     }
 
     public void updateCollege(College college){
-
-        if(collegeMapper.selectByPrimaryKey(college) == null){
+        if(collegeMapper.selectByPrimaryKey(college.getCid()) == null){
             throw new PException(Code.COLLEGE_NOT_EXIST,"部门信息不存在");
         }
-        collegeMapper.updateByPrimaryKey(college);
+        collegeMapper.updateByPrimaryKeySelective(college);
     }
 
     public List<College> findCollege(){

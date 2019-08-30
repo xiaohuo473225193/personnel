@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>人事档案管理系统</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="css/menu.css"/>
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/bootstrapStyle/bootstrapStyle.css" type="text/css">
+    <script src="plugins/jquery.min.js"></script>
+
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+    <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="js/jquery.ztree.excheck.js"></script>
+    <script type="text/javascript" src="js/jquery.ztree.exedit.js"></script>
+
+    <script src="js/controller/base.js"></script>
+    <script src="js/service/menuService.js"></script>
+    <script src="js/controller/menuController.js"></script>
+</head>
+<body ng-app="personnel" ng-controller="menuController" ng-init="loadTreeMenu();">
+<!--main-container-part-->
+<div id="content" style="margin-left: 0px;">
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Grid Layout</a> </div>
+        <h1>菜单管理</h1>
+    </div>
+    <div class="container-fluid">
+        <hr>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
+                        <h5>菜单结构<code>(功能：增加、删除、修改、拖动)</code></h5>
+                    </div>
+                    <div class="widget-content">
+                        <ul id="treeDemo" class="ztree"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

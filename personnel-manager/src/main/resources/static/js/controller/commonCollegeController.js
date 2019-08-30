@@ -1,6 +1,6 @@
 //控制层
 //所有部门通用的控制层，对所有部门功能的提取
-app.controller('commonCollegeController' ,function($scope, $controller,commonCollegeService) {
+app.controller('commonCollegeController' ,function($scope, $controller, $location, commonCollegeService) {
 
     $controller('finalController',{$scope:$scope});
 
@@ -26,7 +26,10 @@ app.controller('commonCollegeController' ,function($scope, $controller,commonCol
     $scope.initAttr = function (cid) {
         $scope.collegeCid = cid;
     }
-
+    $scope.initCid = function(){
+        let collegeId = $location.search()['collegeId'];
+        $scope.collegeCid = collegeId;
+    }
     $scope.deleteUser = function () {
         commonCollegeService.deleteUser($scope.selectIds).success(
             function (response) {

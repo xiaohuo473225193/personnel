@@ -24,4 +24,5 @@ public class Menu {
     private String author;
     private Long cid;
     private Integer sort;
+    private String isParent;
 }

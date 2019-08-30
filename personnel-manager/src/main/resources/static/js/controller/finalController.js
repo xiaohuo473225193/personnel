@@ -78,6 +78,6 @@ app.controller('finalController',function($scope){
             modern:58//现代教育技术中心
         },
         //教学评建办公室
-        teachingEvaluation:64
+        teachingEvaluation:64 //没有该部门
     }
 });
