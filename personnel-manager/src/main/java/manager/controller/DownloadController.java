@@ -31,7 +31,7 @@ public class DownloadController {
     private CollegeService collegeService;
     //下载文件 .zip
     @GetMapping("upload/{uid}")
-    public Result downloadUploadFileToZip(@PathVariable(value = "uid")Long uid, HttpServletResponse response){
+    public void downloadUploadFileToZip(@PathVariable(value = "uid")Long uid, HttpServletResponse response){
         //在下载的时候先删除以前生成的zip文件，防止过渡积压
         downloadService.deleteUploadZipFile();
         File targetZipFile = downloadService.downloadUploadFileToZip(uid);
@@ -67,7 +67,7 @@ public class DownloadController {
                 }
             }
         }
-        return new Result("下载成功");
+        //return new Result("下载成功");
     }
 
     //导出数据 下载文件 .xlsx

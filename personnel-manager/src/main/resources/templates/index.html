@@ -11,7 +11,9 @@
 	<link rel="stylesheet" href="css/matrix-media.css" />
 	<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 	<link rel="stylesheet" href="css/jquery.gritter.css"/>
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/menu-style.css" type="text/css" />
+
     <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
 
     <script src="plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -30,7 +32,14 @@
 		  		iframeid.height =document.documentElement.clientHeight;			   	   
 			  }
 		 }
-	</script>  
+	</script>
+    <style>
+        ul,
+        ol {
+            list-style: none;
+            list-style-image: none;
+        }
+    </style>
 </head>
 <body ng-app="personnel" ng-controller="indexController" ng-init="getUser();">
 
@@ -75,11 +84,11 @@
 <!--close-top-serch-->
 <!--sidebar-menu-->
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> 控制台</a>
-  <ul>
+  <ul class="mcd-menu">
     <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>首页</span></a> </li>
 
-    <li class="submenu" ng-repeat="menu in menuList">
-      <a href="#" ng-cloak ng-click="openAndClose($event);"><i class="icon icon-user"></i> {{menu.menuName}}</a>
+    <li class="submenu open" ng-repeat="menu in menuList">
+      <a href="#" ng-cloak><i class="icon icon-user"></i> {{menu.menuName}}</a>
       <ul>
         <li ng-repeat="ms in menu.menus"><a href="{{ms.url}}" target="iframe">{{ms.text}}</a></li>
       </ul>
