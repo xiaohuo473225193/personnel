@@ -11,5 +11,7 @@ app.service('commonCollegeService',function($http){
     this.findOne = function(){
         return $http.get('/user/get');
     }
-
+    this.loadCollegeName = function(id){
+        return $http.get('/college/getName/'+id);
+    }
 });

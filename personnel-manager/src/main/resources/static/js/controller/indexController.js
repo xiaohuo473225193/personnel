@@ -1,5 +1,5 @@
  //控制层 
-app.controller('indexController' ,function($scope, indexService){
+app.controller('indexController' ,function($scope, $compile, indexService, menuService){
     $scope.user = {};
     //获取当前的用户信息
     $scope.getUser = function () {
@@ -94,5 +94,34 @@ app.controller('indexController' ,function($scope, indexService){
             return false;
         }
     }
-
+    $scope.loadMenuNode = function (id,isParent) {
+        if(isParent == 0){//这个节点父节点
+            return;
+        }
+        menuService.loadMenuById(id).success(
+            function (response) {
+                //封装页面
+                $scope.menus = response.data;
+                if($scope.menus != null && $scope.menus.length > 0){
+                    console.log($scope.menus);
+                    let $lis_prefix = "<ul>";
+                    let $lis_content = "";
+                    let $lis_suffix = "</ul>";
+                    for(let i = 0; i < $scope.menus.length; i++){
+                        let id = $scope.menus[i].id;
+                        let isParentId = ($scope.menus.isParent == "true" ? "1" : "0");
+                        let name = $scope.menus[i].name;
+                        let url = ($scope.menus[i].isParent == 'true' ? 'javascript:void(0);' : $scope.menus[i].url);
+                        console.log(id + ", " + name + ", " + url);
+                        $lis_content += '<li id="menu_' + id + '" ng-mouseenter="loadMenuNode(' + id + ',' + isParentId + ')"> \
+                                     <a href="' + url + '" target="iframe">' + name + '</a> \
+                                     </li>';
+                    }
+                    let menuContent = $lis_prefix + $lis_content + $lis_suffix;
+                    let compiles = $compile(menuContent)($scope);
+                    $('#menu_'+id).append(compiles);
+                }
+           }
+        )
+    }
 });	

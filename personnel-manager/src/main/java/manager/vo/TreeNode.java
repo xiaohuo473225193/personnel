@@ -21,5 +21,6 @@ public class TreeNode {
     private String pid;
     private String name;
     private String open;
+    private String url;
     private String isParent;
 }

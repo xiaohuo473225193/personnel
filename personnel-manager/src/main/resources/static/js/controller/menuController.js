@@ -150,10 +150,10 @@ app.controller('menuController' ,function($scope, menuService) {
             sObj.after(addStr);
             let btn = $("#addBtn_"+treeNode.tId);
             if (btn) btn.bind("click", function(){//添加节点会监听到，调用该方法
-                if(treeNode.level != 0){
+                /*if(treeNode.level != 0){
                     alert("最多只能出现二级目录，不能存在三级目录");
                     return;
-                }
+                }*/
                 let zTree = $.fn.zTree.getZTreeObj("treeDemo");
                 let newNodes = {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)};
                 //添加节点,从数据库中取到唯一的id，再次进行渲染
@@ -204,33 +204,52 @@ app.controller('menuController' ,function($scope, menuService) {
             )
         }
         function zTreeOnDrop(event, treeId, treeNodes, targetNode, moveType){//用于捕获节点拖拽操作结束的事件回调函数
-            if(treeNodes[0].level >= 2){
+            /*if(treeNodes[0].level >= 2){
                 alert("最多只能出现二级目录，不能存在三级目录");
                 $scope.initZtree();
                 return;
-            }else{
-                menuService.dropToMenu(treeNodes[0].id,targetNode.id).success(
-                    function (response) {
-                        if(response.flag){
-                            alert("移动成功");
-                            $scope.initZtree();
-                        }else{
-                            alert("移动失败");
-                        }
+            }else{*/
+            menuService.dropToMenu(treeNodes[0].id,targetNode.id).success(
+                function (response) {
+                    if(response.flag){
+                        alert("移动成功");
+                        $scope.initZtree();
+                    }else{
+                        alert("移动失败");
                     }
-                )
-            }
+                }
+            );
         }
     }
+    let rootCount = 1;
+    //添加一个新的根节点
+    $scope.addRootNode = function(){
+        let zTree = $.fn.zTree.getZTreeObj("treeDemo");
+        //为父节点
+        let newNodes = {id:(300 + rootCount), pId:0, name:"new node" + (rootCount++), open:"false", isParent:"true"};
+        //添加父节点,从数据库中取到唯一的id，再次进行渲染
+        menuService.addRootMenuNode(newNodes.name).success(
+            function (response) {
+                if(response.flag){
+                    newNodes.id = response.data.id;
+                    newNodes.name = response.data.name;
+                    zTree.addNodes(null, newNodes);
+                }else{
+                    return;
+                }
+            }
+        );
+    }
+
     //初始化树
     $scope.initZtree = function(){
         menuService.initZtree().success(
             function (response) {
                 console.log(response.data);
                 let zTreeObj = $.fn.zTree.init($("#treeDemo"),setting, response.data);
-                //让第一个父节点展开
+                //让所有的父节点关闭
                 let rootNode_0 = zTreeObj.getNodeByParam('pid',0,null);
-                zTreeObj.expandNode(rootNode_0, true, false, false, false);
+                zTreeObj.expandNode(rootNode_0, false, false, false, false);
             }
         );
     }

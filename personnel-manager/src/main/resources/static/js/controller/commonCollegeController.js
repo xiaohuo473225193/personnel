@@ -29,6 +29,12 @@ app.controller('commonCollegeController' ,function($scope, $controller, $locatio
     $scope.initCid = function(){
         let collegeId = $location.search()['collegeId'];
         $scope.collegeCid = collegeId;
+        //获得部门的名称，以及最顶级部门的名称
+        commonCollegeService.loadCollegeName($scope.collegeCid).success(
+            function (response) {
+                $scope.entity = response.data;
+            }
+        )
     }
     $scope.deleteUser = function () {
         commonCollegeService.deleteUser($scope.selectIds).success(

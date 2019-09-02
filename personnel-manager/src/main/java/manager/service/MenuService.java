@@ -7,11 +7,13 @@ import manager.pojo.Menu;
 
 import manager.pojo.User;
 import manager.vo.MenuList;
+import manager.vo.MenuNodeData;
 import manager.vo.TreeNode;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 import util.Code;
 import util.PException;
@@ -75,7 +77,6 @@ public class MenuService {
         //得到需要的菜单类型
         List<Menu> menus = menuMapper.selectByExample(example);
         List<MenuList> menuLists = packageUserMenu(menus,user);
-
         return menuLists;
     }
     /***
@@ -90,7 +91,7 @@ public class MenuService {
         List<Menu> menuList = null;
         //根据父级菜单，查询子菜单
         Menu option = null;
-        for (Menu menu : menus) {
+        for (Menu menu : menus) {//查询对应的第二级菜单
             Example example = new Example(Menu.class);
             Example.Criteria criteria = example.createCriteria();
             //进行模糊查询
@@ -111,9 +112,11 @@ public class MenuService {
         return menuLists;
     }
 
+
+
     private List<Menu> cancelErrorResult(List<Menu> menuList, Long id) {
         List<Menu> successMenu = new ArrayList<>();
-        for (Menu menu : menuList) {
+        for (Menu menu : menuList) {//遍历每一个list节点的数据
             String pid = menu.getPid();
             //是否包含逗号
             if(pid.contains(",")){
@@ -131,7 +134,6 @@ public class MenuService {
         }
         return successMenu;
     }
-
     public List<TreeNode> loadParentTreeMenu() {
         //判断当前用户是否符合权限
         checkUserAuthor();
@@ -155,6 +157,7 @@ public class MenuService {
             }else{
                 node.setIsParent("false");
             }
+            node.setUrl(menu.getUrl());
             node.setName(menu.getText());
             node.setOpen("false");
             node.setPid(menu.getPid());
@@ -173,14 +176,21 @@ public class MenuService {
         Example example = new Example(Menu.class);
         Example.Criteria criteria = example.createCriteria();
         //模糊查询
-        criteria.andLike("pid","%,"+id+"%");
+        criteria.andLike("pid","%"+id+"%");
         criteria.andEqualTo("status","1");
         List<Menu> menuList = menuMapper.selectByExample(example);
-        List<TreeNode> treeNodes = getTreeNodesByMenu(menuList);
-        for (TreeNode treeNode : treeNodes) {
-            treeNode.setPid(id);
+        //也可能为空
+        if(!CollectionUtils.isEmpty(menuList)){
+            //去掉可能出错的模糊查询
+            packageUserMenu(menuList,userService.get());
+            menuList = cancelErrorResult(menuList,Long.valueOf(id));
+            List<TreeNode> treeNodes = getTreeNodesByMenu(menuList);
+            for (TreeNode treeNode : treeNodes) {
+                treeNode.setPid(id);
+            }
+            return treeNodes;
         }
-        return treeNodes;
+        return null;
     }
     private Menu getMenuAndCheckUserAuthor(Long id){
         checkUserAuthor();
@@ -202,22 +212,37 @@ public class MenuService {
         Menu menu = getMenuAndCheckUserAuthor(id);
         menu.setText(name);
         menuMapper.updateByPrimaryKeySelective(menu);
-        //在更新名称的时候，也修改该部门的名称
-        College college = new College();
-        college.setCid(menu.getCid());
-        college.setName(name);
-        collegeService.updateCollege(college);
+        //该菜单是否在部门中有对应的
+        if(collegeService.isExistCid(menu.getCid())){
+            //在更新名称的时候，也修改该部门的名称
+            College college = new College();
+            college.setCid(menu.getCid());
+            college.setName(name);
+            collegeService.updateCollege(college);
+        }
     }
 
     public void dropMenu(Long sourceId, Long targetId) {
         Menu menu = getMenuAndCheckUserAuthor(sourceId);
+        //查询父类是否是 父节点，如果不是更新为父节点
+        setIsParentNode(targetId);
         String pid = menu.getPid();
         pid = pid.substring(0,pid.indexOf(",") + 1);
         menu.setPid(pid + targetId);
         menuMapper.updateByPrimaryKeySelective(menu);
     }
+    private void setIsParentNode(Long id){
+        Menu parentMenu = menuMapper.selectByPrimaryKey(id);
+        if(!"1".equals(parentMenu.getIsParent())){
+            parentMenu.setIsParent("1");
+            menuMapper.updateByPrimaryKeySelective(parentMenu);
+        }
+    }
     //添加节点
     public Map<String, Object> addMenuNode(Long pid, Long id, String name) {
+        checkUserAuthor();
+        //查询父类是否是 父节点，如果不是更新为父节点
+        setIsParentNode(pid);
         Map<String, Object> map = new HashMap<>();
         Menu menu = new Menu();
         menu.setPid("6,"+pid);
@@ -230,12 +255,38 @@ public class MenuService {
         College newCollege = collegeService.addCollege(college);
 
         menu.setCid(newCollege.getCid());//新添加的部门id
-        menu.setUrl(TREENODE_PAGE_PATH + "#?collegeId=" + newCollege.getCid());
+        //添加时间戳，防止请求缓存
+        Date timetamp = new Date();
+        menu.setUrl(TREENODE_PAGE_PATH + "?_t=" + timetamp.getTime() + "#?collegeId=" + newCollege.getCid());
         menu.setIsParent("0");
         menuMapper.insert(menu);
 
         map.put("id",menu.getId());//依靠数据库生成唯一的id
         map.put("name",menu.getText());
         return map;
+    }
+    //只是个新目录，无需创建对应部门
+    public Map<String, Object> addRootMenuNode(String name) {
+        checkUserAuthor();
+        Map<String, Object> map = new HashMap<>();
+        Menu menu = new Menu();
+        menu.setPid("0");
+        menu.setText(name);
+        menu.setStatus("1");
+        menu.setAuthor("3");//只要是添加部门的权限都为 2,3 固定格式
+        menu.setIsParent("1");
+
+        menuMapper.insert(menu);
+        map.put("id",menu.getId());//依靠数据库生成唯一的id
+        map.put("name",menu.getText());
+        return map;
+    }
+    //查询出上一级的父类
+    public Menu findParentById(Long cid) {
+        Menu menu = menuMapper.selectByPrimaryKey(cid);
+        if(menu == null){
+            throw new PException(Code.MENU_NOT_EXIST,"菜单不存在");
+        }
+        return menu;
     }
 }

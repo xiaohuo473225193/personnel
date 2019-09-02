@@ -25,7 +25,16 @@ app.service('menuService',function($http){
     this.dropToMenu = function(sourceId,targetId){
         return $http.put('/menu/drop/'+sourceId+'/'+targetId);
     }
+    //添加一个新的具体部门
     this.addMenuNode = function (pid, id, name) {
         return $http.post('/menu/add/'+pid+'/'+id+'/'+name);
+    }
+    //添加一个新的目录
+    this.addRootMenuNode = function(name){
+        return $http.post('/menu/root/'+name);
+    }
+    //根据所给菜单id，查询下一级菜单
+    this.loadMenuById = function (id) {
+        return $http.get('/menu/loadMenu/'+id);
     }
 });

@@ -20,9 +20,7 @@ import util.PageResult;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -38,11 +36,10 @@ import java.util.List;
 public class CollegeService {
     @Autowired
     private CollegeMapper collegeMapper;
-
-
+    @Autowired
+    private MenuService menuService;
     @Autowired
     private BaseService baseService;
-
     @Autowired
     private UserService userService;
     @Autowired
@@ -394,5 +391,19 @@ public class CollegeService {
         return StringUtils.isBlank(str);
     }
 
+    //该部门是否存在
+    public boolean isExistCid(Long cid) {
+        College college = collegeMapper.selectByPrimaryKey(cid);
+        return college != null;
+    }
 
+    public Map<String, String> getCollegeName(Long cid) {
+        Map<String, String> map = new HashMap<>();
+        College college = collegeMapper.selectByPrimaryKey(cid);
+        map.put("collegeName",college.getName());
+        //根据cid，找到他的顶级父类
+        /*Menu menu = menuService.findParentById(cid);
+        map.put("menuName",menu.getText());*/
+        return map;
+    }
 }

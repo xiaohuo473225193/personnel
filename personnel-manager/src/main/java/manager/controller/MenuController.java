@@ -36,11 +36,17 @@ public class MenuController {
         menuService.updateMenu(menu);
         return new Result(null);
     }
-
+    //根据id加载出二级菜单
     @GetMapping("findMenu/{uid}")
     public Result<MenuList> findMenu(@PathVariable(value = "uid") Long uid){
         List<MenuList> menus = menuService.findMenu(uid);
         return new Result(menus);
+    }
+    //根据所给菜单id，查询下一级菜单
+    @GetMapping("loadMenu/{id}")
+    public Result<List<TreeNode>> loadMenuById(@PathVariable(value = "id") Long id){
+        List<TreeNode> nodes = menuService.loadTreeNodeById(id.toString());
+        return new Result<>(nodes);
     }
     //异步加载部门的菜单,首先加载父节点
     @GetMapping("load/parent")
@@ -72,6 +78,12 @@ public class MenuController {
     @PostMapping("add/{pid}/{id}/{name}")
     public Result addMenuNode(@PathVariable(value = "pid") Long pid, @PathVariable(value = "id") Long id, @PathVariable(value = "name") String name){
         Map<String,Object> map = menuService.addMenuNode(pid,id,name);
+        return new Result(map);
+    }
+    //新目录的名称，以及几级权限可见
+    @PostMapping("root/{name}")
+    public Result addRootMenuNode(@PathVariable(value = "name") String name){
+        Map<String,Object> map = menuService.addRootMenuNode(name);
         return new Result(map);
     }
 }

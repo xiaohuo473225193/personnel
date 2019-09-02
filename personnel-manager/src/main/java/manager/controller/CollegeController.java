@@ -18,6 +18,7 @@ import util.Result;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
 * @Description:    部门基本信息的管理
@@ -90,7 +91,11 @@ public class CollegeController {
         collegeService.updateCollege(College);
         return new Result(null);
     }
-
+    @GetMapping("getName/{cid}")
+    public Result getCollegeName(@PathVariable(value = "cid")Long cid){
+        Map<String,String> map = collegeService.getCollegeName(cid);
+        return new Result(map);
+    }
 
     @PutMapping("findCollege")
     public Result<List<College>> findCollege(){
@@ -128,4 +133,5 @@ public class CollegeController {
         }
         return new Result("导入成功");
     }
+
 }
